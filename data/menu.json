@@ -1,0 +1,41 @@
+[
+    {
+        "title": "TCD — Training & Competency Development",
+        "children": [
+            {
+                "title": "Home",
+                "page": "pages/home.html"
+            },
+            {
+                "title": "Installation",
+                "page": "pages/installation.html"
+            }
+        ]
+    },
+    {
+        "title": "ACS — Alternate Career Services",
+        "children": [
+            {
+                "title": "MVC Integration",
+                "page": "pages/mvc.html"
+            },
+            {
+                "title": "General Integration",
+                "page": "pages/integration.html"
+            }
+        ]
+    },
+    {
+        "title": "CCM — Career Counselling & Mentoring",
+        "children": [
+            {
+                "title": "Web.Config",
+                "page": "pages/home.html"
+            },
+            {
+                "title": "Data Binding",
+                "page": "pages/home.html"
+            }
+        ]
+    }
+]
