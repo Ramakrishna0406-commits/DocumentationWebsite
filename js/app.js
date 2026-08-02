@@ -1,23 +1,19 @@
-window.onload=function(){
-
+window.onload = function () {
     loadTree();
+};
 
-}
+function loadPage(page) {
 
-async function loadPage(page,element){
-
-    document.querySelectorAll(".page").forEach(p=>{
-
-        p.classList.remove("active");
-
-    });
-
-    element.classList.add("active");
-
-    const response=await fetch(page);
-
-    const html=await response.text();
-
-    document.getElementById("contentArea").innerHTML=html;
+    document.getElementById("contentArea").innerHTML = `
+        <iframe
+            src="${page}"
+            style="
+                width:100%;
+                height:900px;
+                border:none;
+                background:white;
+            ">
+        </iframe>
+    `;
 
 }

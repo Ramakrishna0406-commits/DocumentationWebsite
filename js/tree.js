@@ -14,17 +14,17 @@ async function loadTree() {
         });
 
     } catch (error) {
+
         console.error("Error loading menu:", error);
+
     }
 
 }
-
 
 // Create Tree Nodes
 function createNode(item) {
 
     const li = document.createElement("li");
-
 
     // Folder
     if (item.children) {
@@ -33,21 +33,15 @@ function createNode(item) {
         folder.className = "folder";
         folder.textContent = item.title;
 
-
         const childList = document.createElement("ul");
         childList.className = "children";
 
-
-        // Create child nodes
         item.children.forEach(child => {
             childList.appendChild(createNode(child));
         });
 
-
-        // Open folder on mouse hover
         folder.addEventListener("mouseenter", function () {
 
-            // Close all other folders
             document.querySelectorAll("#treeMenu > li > .children").forEach(list => {
                 list.classList.remove("show");
             });
@@ -56,14 +50,11 @@ function createNode(item) {
                 f.classList.remove("open");
             });
 
-            // Open selected folder
             childList.classList.add("show");
             folder.classList.add("open");
 
         });
 
-
-        // Keep submenu open while mouse is inside child items
         childList.addEventListener("mouseenter", function () {
 
             childList.classList.add("show");
@@ -71,8 +62,6 @@ function createNode(item) {
 
         });
 
-
-        // Close folder when mouse leaves completely
         li.addEventListener("mouseleave", function () {
 
             childList.classList.remove("show");
@@ -80,12 +69,10 @@ function createNode(item) {
 
         });
 
-
         li.appendChild(folder);
         li.appendChild(childList);
 
     }
-
 
     // Page
     else {
@@ -93,22 +80,18 @@ function createNode(item) {
         const page = document.createElement("div");
         page.className = "page";
 
-        // Change all subpage names to "Testing Page"
-        page.textContent = "Testing Page";
+        page.textContent = item.title;
 
         page.addEventListener("click", function (e) {
 
             e.stopPropagation();
 
-            // Remove previous selection
             document.querySelectorAll(".page").forEach(p => {
                 p.classList.remove("active");
             });
 
-            // Highlight selected page
             page.classList.add("active");
 
-            // Load HTML page
             loadPage(item.page);
 
         });
@@ -120,3 +103,6 @@ function createNode(item) {
     return li;
 
 }
+
+// Load tree when page opens
+loadTree();
