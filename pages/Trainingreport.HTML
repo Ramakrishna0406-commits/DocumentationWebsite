@@ -17,12 +17,10 @@ body{
     background:#fff;
 }
 
-/* Align image to left */
 .image-box{
     text-align:left;
 }
 
-/* Image style */
 .image-box img{
     width:400px;
     height:300px;
@@ -34,40 +32,58 @@ body{
 
 </head>
 
+
 <body>
+
 
 <div class="image-box">
 
-<a href="pages/2027.HTML">
 
 <img
 id="img12"
 src="../images/img12off.jpg"
 alt="Training Report">
 
-</a>
 
 </div>
 
+
+
 <script>
 
-const img=document.getElementById("img12");
 
-// Mouse enters image
-img.addEventListener("mouseenter",function(){
+const img = document.getElementById("img12");
+
+
+// Open 2027 page inside the same DATA PULSE content area
+
+img.addEventListener("click", function(){
+
+    window.parent.loadPage("pages/2027.HTML");
+
+});
+
+
+// Mouse hover ON
+
+img.addEventListener("mouseenter", function(){
 
     img.src="../images/img12on.jpg";
 
 });
 
-// Mouse leaves image
-img.addEventListener("mouseleave",function(){
+
+// Mouse hover OFF
+
+img.addEventListener("mouseleave", function(){
 
     img.src="../images/img12off.jpg";
 
 });
 
+
 </script>
+
 
 </body>
 
