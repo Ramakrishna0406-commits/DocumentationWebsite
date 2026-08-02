@@ -4,7 +4,7 @@
         "children": [
             {
                 "title": "Training Report",
-                "page": "pages/Trainingreport.HTML"
+                "page": "pages/Trainingreport.html"
             }
         ]
     },
