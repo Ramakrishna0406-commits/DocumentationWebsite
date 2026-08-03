@@ -1,19 +1,29 @@
+// ===============================
+// app.js
+// ===============================
+
+// Load tree menu when page opens
 window.onload = function () {
     loadTree();
 };
 
+// Load page inside the content area
 function loadPage(page) {
 
-    document.getElementById("contentArea").innerHTML = `
+    console.log("Loading page:", page);
+
+    const contentArea = document.getElementById("contentArea");
+
+    contentArea.innerHTML = `
         <iframe
             src="${page}"
+            width="100%"
+            height="900"
             style="
-                width:100%;
-                height:900px;
                 border:none;
-                background:white;
+                background:#ffffff;
+                overflow:auto;
             ">
         </iframe>
     `;
-
 }
