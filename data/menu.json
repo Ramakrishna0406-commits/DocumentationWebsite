@@ -3,8 +3,20 @@
         "title": "TCD — Training & Competency Development",
         "children": [
             {
-                "title": "Training Report",
-                "page": "pages/Trainingreport.HTML"
+                "title": "Training Reports",
+                "page": "pages/Trainingreport.html"
+            },
+            {
+                "title": "Presentation Repository",
+                "page": "pages/PresentationRepository.html"
+            },
+            {
+                "title": "GCGC Classes Feedback Reports",
+                "page": "pages/GCGCFeedbackReports.html"
+            },
+            {
+                "title": "Monthly Forecast Reports",
+                "page": "pages/MonthlyForecastReports.html"
             }
         ]
     },

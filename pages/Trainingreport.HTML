@@ -17,6 +17,12 @@ body{
     background:#fff;
 }
 
+/* Display images side by side */
+.image-container{
+    display:flex;
+    gap:30px;
+}
+
 .image-box{
     text-align:left;
 }
@@ -32,59 +38,62 @@ body{
 
 </head>
 
-
 <body>
 
+<div class="image-container">
 
-<div class="image-box">
+    <!-- 2027 -->
+    <div class="image-box">
+        <img
+            id="img2027"
+            src="../images/img12off.jpg"
+            alt="Training Report 2027">
+    </div>
 
-
-<img
-id="img12"
-src="../images/img12off.jpg"
-alt="Training Report">
-
+    <!-- 2028 -->
+    <div class="image-box">
+        <img
+            id="img2028"
+            src="../images/img13off.jpg"
+            alt="Training Report 2028">
+    </div>
 
 </div>
 
-
-
 <script>
 
+// ---------- 2027 ----------
+const img2027 = document.getElementById("img2027");
 
-const img = document.getElementById("img12");
-
-
-// Open 2027 page inside the same DATA PULSE content area
-
-img.addEventListener("click", function(){
-
+img2027.addEventListener("click", function () {
     window.parent.loadPage("pages/2027.HTML");
+});
 
+img2027.addEventListener("mouseenter", function () {
+    img2027.src = "../images/img12on.jpg";
+});
+
+img2027.addEventListener("mouseleave", function () {
+    img2027.src = "../images/img12off.jpg";
 });
 
 
-// Mouse hover ON
+// ---------- 2028 ----------
+const img2028 = document.getElementById("img2028");
 
-img.addEventListener("mouseenter", function(){
-
-    img.src="../images/img12on.jpg";
-
+img2028.addEventListener("click", function () {
+    window.parent.loadPage("pages/2028.HTML");
 });
 
-
-// Mouse hover OFF
-
-img.addEventListener("mouseleave", function(){
-
-    img.src="../images/img12off.jpg";
-
+img2028.addEventListener("mouseenter", function () {
+    img2028.src = "../images/img13on.jpg";
 });
 
+img2028.addEventListener("mouseleave", function () {
+    img2028.src = "../images/img13off.jpg";
+});
 
 </script>
 
-
 </body>
-
 </html>
