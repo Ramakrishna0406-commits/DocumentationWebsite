@@ -1,228 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leadership Engineering Dashboard</title>
 
-    <!-- Dashboard CSS -->
-    <link rel="stylesheet" href="../css/dashboard.css">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Leadership Engineering - DATA PULSE</title>
+
+<link rel="stylesheet" href="../css/dashboard.css">
+
+
+<style>
+
+body{
+    background:#f5f5f5;
+}
+
+
+.access-section{
+
+    text-align:center;
+    margin:40px auto;
+    max-width:1000px;
+
+}
+
+
+.access-container{
+
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+
+}
+
+
+
+.access-card{
+
+    background:white;
+    width:350px;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+
+}
+
+
+
+.access-card h2{
+
+    color:#007367;
+
+}
+
+
+
+.access-card p{
+
+    font-size:16px;
+    line-height:1.6;
+
+}
+
+
+
+.access-btn{
+
+    background:#007367;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+
+}
+
+
+
+.access-btn:hover{
+
+    background:#005c52;
+
+}
+
+
+
+.info-box{
+
+    background:white;
+    width:80%;
+    margin:30px auto;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+
+}
+
+
+
+.info-box h2{
+
+    color:#007367;
+
+}
+
+
+</style>
+
+
 </head>
+
 
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <h1>DATA PULSE</h1>
-        <h2>Monthly Forecast Dashboard</h2>
-        <h3>Leadership View - Engineering</h3>
-    </header>
 
-    <!-- Summary Cards -->
-    <section class="summary-cards">
 
-        <div class="card">
-            <h2>36</h2>
-            <p>Total Companies</p>
-        </div>
+<header class="header">
 
-        <div class="card">
-            <h2>8</h2>
-            <p>Upcoming</p>
-        </div>
 
-        <div class="card">
-            <h2>7</h2>
-            <p>Ongoing</p>
-        </div>
+<h1>
+DATA PULSE
+</h1>
 
-        <div class="card">
-            <h2>4</h2>
-            <p>Completed</p>
-        </div>
 
-        <div class="card">
-            <h2>3</h2>
-            <p>Total Selections</p>
-        </div>
+<h2>
+Monthly Forecast Dashboard
+</h2>
 
-        <div class="card">
-            <h2>9.8 LPA</h2>
-            <p>Average CTC</p>
-        </div>
 
-    </section>
+<h3>
+Leadership Engineering
+</h3>
 
-    <!-- Search -->
-    <section class="search-section">
 
-        <h2>Monthly Forecast</h2>
+</header>
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="🔍 Search Company, Campus or Status">
 
-    </section>
 
-    <!-- Monthly Forecast Table -->
-    <section class="table-section">
 
-        <h2>Monthly Forecast</h2>
 
-        <div class="table-container">
+<section class="access-section">
 
-            <table id="forecastTable">
 
-                <thead>
+<h2>
+Select Access Type
+</h2>
 
-                    <tr>
-                        <th>Sl No</th>
-                        <th>Campus</th>
-                        <th>Company Name</th>
-                        <th>CTC (LPA)</th>
-                        <th>Job Role</th>
-                        <th>Company Visit Status</th>
-                        <th>Status</th>
-                        <th>Total Eligible Students</th>
-                        <th>No of Selections</th>
-                        <th>Point of Contact</th>
-                        <th>Next Step & Target Date</th>
-                        <th>Remarks</th>
-                        <th>PrepKit Link</th>
-                    </tr>
 
-                </thead>
 
-                <tbody>
+<div class="access-container">
 
-                    <tr>
-                        <td>1</td>
-                        <td>Bangalore</td>
-                        <td>OpenText</td>
-                        <td>15 LPA</td>
-                        <td>Graduate Engineer Trainee</td>
-                        <td>Repeat - Regular</td>
-                        <td class="ongoing">Ongoing</td>
-                        <td>513</td>
-                        <td>-</td>
-                        <td>S Anita Sherine</td>
-                        <td>Assessment - 08 Aug 2026</td>
-                        <td>-</td>
-                        <td>
-                            <a href="https://docs.google.com/document/d/1KGy3tjoXH_unKfb4G5x4YiT6if9yLEMUniVd1lZlq3k/edit?usp=sharing" target="_blank">
-                                📄 View
-                            </a>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td>2</td>
-                        <td>Hyderabad</td>
-                        <td>ZopSmart</td>
-                        <td>10.34 LPA</td>
-                        <td>SDE-I</td>
-                        <td>First Time</td>
-                        <td class="completed">Completed</td>
-                        <td>54</td>
-                        <td>-</td>
-                        <td>Vamsi Krishna Lokavarapu</td>
-                        <td>Offer Released - 06 Aug 2026</td>
-                        <td>Need to improve coding skills</td>
-                        <td>
-                            <a href="https://docs.google.com/document/d/12hnu_nnmdeQGqDtFlfVrVQmmwTtqL2m9epCi7f1oAXo/edit?usp=sharing" target="_blank">
-                                📄 View
-                            </a>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td>3</td>
-                        <td>Visakhapatnam</td>
-                        <td>ZopSmart</td>
-                        <td>10.34 LPA</td>
-                        <td>SDE-I</td>
-                        <td>Repeat - Returning</td>
-                        <td class="completed">Completed</td>
-                        <td>853</td>
-                        <td>-</td>
-                        <td>Nagendra Prasad Poolla</td>
-                        <td>Process Closed</td>
-                        <td>NA</td>
-                        <td>
-                            <a href="https://docs.google.com/document/d/12hnu_nnmdeQGqDtFlfVrVQmmwTtqL2m9epCi7f1oAXo/edit?usp=sharing" target="_blank">
-                                📄 View
-                            </a>
-                        </td>
-                    </tr>
+<!-- Leadership View -->
 
-                </tbody>
 
-            </table>
+<div class="access-card">
 
-        </div>
 
-    </section>
+<h2>
+👔 Leadership View
+</h2>
 
-    <!-- Secure Edit -->
-    <section class="edit-section">
 
-        <button id="secureEditBtn" class="edit-btn">
-            🔒 Secure Edit Dashboard
-        </button>
+<p>
+Read Only Dashboard
+</p>
 
-    </section>
 
-    <!-- Last Updated -->
-    <section class="last-updated">
+<p>
+Leadership can view Monthly Forecast,
+company progress, status and reports.
+</p>
 
-        <div class="update-card">
 
-            <h3>Dashboard Information</h3>
+<a href="leadership-view.html">
 
-            <p>
-                <strong>Last Updated By :</strong>
-                <span id="updatedBy">System Admin</span>
-            </p>
 
-            <p>
-                <strong>Last Updated :</strong>
-                <span id="updatedDate">04-Aug-2026 10:30 AM</span>
-            </p>
+<button class="access-btn">
 
-            <p>
-                <strong>Version :</strong> 1.0
-            </p>
+Open Leadership View
 
-        </div>
-
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>
-            DATA PULSE | Monthly Forecast Management System | Version 1.0
-        </p>
-    </footer>
-
-    <!-- Dashboard JS -->
-    <script src="../js/dashboard.js"></script>
-
-</body>
-</html>
-<div style="text-align:center;margin:20px;">
-
-<a href="MonthlyForecastReports.html">
-<button>
-View Monthly Forecast Reports
 </button>
+
+
 </a>
+
+
+</div>
+
+
+
+
+
+
+<!-- Team Dashboard -->
+
+
+<div class="access-card">
+
+
+<h2>
+👥 Team Dashboard
+</h2>
+
+
+<p>
+Team / Admin Access
+</p>
+
+
+<p>
+Authorized team members can login,
+update and manage forecast information.
+</p>
 
 
 <a href="team-dashboard.html">
-<button>
-Open Team Dashboard
+
+
+<button class="access-btn">
+
+Open Team Login
+
 </button>
+
+
 </a>
 
+
 </div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<section class="info-box">
+
+
+<h2>
+Monthly Forecast Module Overview
+</h2>
+
+
+<p>
+DATA PULSE Monthly Forecast module provides
+centralized visibility for leadership and
+controlled access for operational teams.
+</p>
+
+
+<ul>
+
+<li>Leadership: View Only Access</li>
+
+<li>Team/Admin: Login Based Access</li>
+
+<li>Future Scope: OTP Authentication and Data Updates</li>
+
+</ul>
+
+
+</section>
+
+
+
+
+
+
+<footer>
+
+<p>
+DATA PULSE | Monthly Forecast Management System | Version 1.0
+</p>
+
+</footer>
+
+
+
+</body>
+
+</html>
