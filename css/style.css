@@ -268,3 +268,33 @@ body{
     color:#444;
 
 }
+/* ================= Moving TMCG Logo ================= */
+
+.tmcg-marquee {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.tmcg-logo-scroll {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: tmcgMove 8s linear infinite;
+}
+
+.tmcg-logo-scroll img {
+    width: 150px;      /* Logo size */
+    height: auto;
+}
+
+@keyframes tmcgMove {
+    0% {
+        top: -60px;
+    }
+
+    100% {
+        top: 180px;
+    }
+}
