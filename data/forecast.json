@@ -1,0 +1,47 @@
+[
+  {
+    "slNo": 1,
+    "campus": "Bangalore",
+    "company": "OpenText",
+    "ctc": "15 LPA",
+    "jobRole": "Graduate Engineer Trainee",
+    "visitStatus": "Repeat - Regular",
+    "status": "Ongoing",
+    "eligible": 513,
+    "selections": "-",
+    "poc": "S Anita Sherine",
+    "nextStep": "Assessment - 08 Aug 2026",
+    "remarks": "-",
+    "prepkit": "https://docs.google.com/document/d/1KGy3tjoXH_unKfb4G5x4YiT6if9yLEMUniVd1lZlq3k/edit?usp=sharing"
+  },
+  {
+    "slNo": 2,
+    "campus": "Hyderabad",
+    "company": "ZopSmart",
+    "ctc": "10.34 LPA",
+    "jobRole": "SDE-I",
+    "visitStatus": "First Time",
+    "status": "Completed",
+    "eligible": 54,
+    "selections": "-",
+    "poc": "Vamsi Krishna Lokavarapu",
+    "nextStep": "Offer Released - 06 Aug 2026",
+    "remarks": "Need to improve coding skills",
+    "prepkit": "https://docs.google.com/document/d/12hnu_nnmdeQGqDtFlfVrVQmmwTtqL2m9epCi7f1oAXo/edit?usp=sharing"
+  },
+  {
+    "slNo": 3,
+    "campus": "Visakhapatnam",
+    "company": "ZopSmart",
+    "ctc": "10.34 LPA",
+    "jobRole": "SDE-I",
+    "visitStatus": "Repeat - Returning",
+    "status": "Completed",
+    "eligible": 853,
+    "selections": "-",
+    "poc": "Nagendra Prasad Poolla",
+    "nextStep": "Process Closed",
+    "remarks": "NA",
+    "prepkit": "https://docs.google.com/document/d/12hnu_nnmdeQGqDtFlfVrVQmmwTtqL2m9epCi7f1oAXo/edit?usp=sharing"
+  }
+]
