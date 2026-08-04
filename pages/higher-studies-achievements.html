@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Higher Studies Achievements</title>
+
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+    padding:0;
+    background:#fff;
+}
+
+
+.image-container{
+    display:flex;
+    gap:30px;
+}
+
+
+.image-box{
+    text-align:left;
+}
+
+
+.image-box img{
+    width:400px;
+    height:300px;
+    cursor:pointer;
+    display:block;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="image-container">
+
+
+    <!-- 2026 -->
+
+    <div class="image-box">
+
+        <img
+            id="img2026"
+            src="../images/img14off.jpg"
+            alt="Higher Studies Achievements 2026">
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ---------- 2026 ----------
+
+const img2026 = document.getElementById("img2026");
+
+
+// Click - Open Google Sheet
+
+img2026.addEventListener("click", function () {
+
+    window.open(
+        "https://docs.google.com/spreadsheets/d/1pxHOzUjqlObXqWdzw6YK1jTHF6s9BeRe/edit?usp=drive_link&ouid=102127505874932138201&rtpof=true&sd=true",
+        "_blank"
+    );
+
+});
+
+
+// Mouse ON
+
+img2026.addEventListener("mouseenter", function () {
+
+    img2026.src = "../images/img14on.jpg";
+
+});
+
+
+// Mouse OFF
+
+img2026.addEventListener("mouseleave", function () {
+
+    img2026.src = "../images/img14off.jpg";
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

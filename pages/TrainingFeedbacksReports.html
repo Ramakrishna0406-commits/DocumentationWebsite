@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Training Feedback Reports</title>
+
+<style>
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+    margin:20px;
+    background:#fff;
+
+}
+
+h1{
+
+    color:#007367;
+    border-bottom:3px solid #007367;
+    padding-bottom:10px;
+    margin-bottom:35px;
+
+}
+
+.image-container{
+
+    display:flex;
+    gap:30px;
+
+}
+
+.image-box{
+
+    text-align:left;
+
+}
+
+.image-box img{
+
+    width:400px;
+    height:300px;
+    cursor:pointer;
+    display:block;
+
+}
+
+
+/* Phase Buttons */
+
+.phase-container{
+
+    display:none;
+
+    margin-top:40px;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.phase-btn{
+
+    background:#007367;
+
+    color:white;
+
+    padding:14px 35px;
+
+    border-radius:8px;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+
+.phase-btn:hover{
+
+    background:#00584f;
+
+    transform:translateY(-3px);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Training Feedback Reports</h1>
+
+<div class="image-container">
+
+    <div class="image-box">
+
+        <img
+            id="img2027"
+            src="../images/img12off.jpg"
+            alt="Training Feedback Reports 2027">
+
+    </div>
+
+</div>
+
+
+<div
+class="phase-container"
+id="phaseContainer">
+
+<a
+class="phase-btn"
+href="https://drive.google.com/drive/folders/1BpgBUx7xAhi5ekrCrTvPoCTO7ty1pKEV?usp=drive_link"
+target="_blank">
+
+Phase 1
+
+</a>
+
+
+<a
+class="phase-btn"
+href="https://drive.google.com/drive/folders/1vZkRz86cgcgP2yRnPjDTUoSZhjHaGp5x?usp=drive_link"
+target="_blank">
+
+Phase 2
+
+</a>
+
+
+<a
+class="phase-btn"
+href="https://drive.google.com/drive/folders/1OhLGZ55MxzGEiI772WVGdME-NKE7roth?usp=drive_link"
+target="_blank">
+
+Phase 3
+
+</a>
+
+</div>
+
+
+<script>
+
+const img2027=document.getElementById("img2027");
+
+const phaseContainer=document.getElementById("phaseContainer");
+
+
+// Mouse ON
+
+img2027.addEventListener("mouseenter",function(){
+
+    img2027.src="../images/img12on.jpg";
+
+});
+
+
+// Mouse OFF
+
+img2027.addEventListener("mouseleave",function(){
+
+    img2027.src="../images/img12off.jpg";
+
+});
+
+
+// Click 2027
+
+img2027.addEventListener("click",function(){
+
+    phaseContainer.style.display="flex";
+
+});
+
+</script>
+
+</body>
+
+</html>

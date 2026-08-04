@@ -17,6 +17,18 @@
             {
                 "title": "Monthly Forecast Reports",
                 "page": "pages/MonthlyForecastReports.html"
+            },
+            {
+                "title": "GCGC Courses Calendar",
+                "page": "pages/GCGC_Courses_calendar.html"
+            },
+            {
+                "title": "Cocubes Data",
+                "page": "pages/CocubesData.html"
+            },
+            {
+                "title": "Training Feedbacks Reports",
+                "page": "pages/TrainingFeedbacksReports.html"
             }
         ]
     },
@@ -24,12 +36,8 @@
         "title": "ACS — Alternate Career Services",
         "children": [
             {
-                "title": "Testing1",
-                "page": "pages/mvc.html"
-            },
-            {
-                "title": "Testing2",
-                "page": "pages/integration.html"
+                "title": "Higher Studies Achievements",
+                "page": "pages/higher-studies-achievements.html"
             }
         ]
     },
@@ -37,12 +45,8 @@
         "title": "CCM — Career Counselling & Mentoring",
         "children": [
             {
-                "title": "Testing3",
-                "page": "pages/home.html"
-            },
-            {
-                "title": "Testing4",
-                "page": "pages/home.html"
+                "title": "Reports",
+                "page": "pages/reports.html"
             }
         ]
     }
