@@ -1,21 +1,15 @@
 // js/login.js
 
-
 function handleCredentialResponse(response) {
 
-
     console.log("Google Credential Received");
-
 
     const idToken = response.credential;
 
 
-
-    fetch("http://127.0.0.1:3000/verify-token", {
-
+    fetch("https://data-pulse-backend.onrender.com/verify-token", {
 
         method: "POST",
-
 
         headers: {
 
@@ -23,24 +17,25 @@ function handleCredentialResponse(response) {
 
         },
 
-
         body: JSON.stringify({
 
             token: idToken
 
         })
 
+    })
+
+    .then(response => {
+
+        console.log("Backend Response Status:", response.status);
+
+        return response.json();
 
     })
 
-    .then(response => response.json())
-
-
     .then(data => {
 
-
         console.log("Authentication Response:", data);
-
 
 
         if (data.success) {
@@ -49,8 +44,7 @@ function handleCredentialResponse(response) {
             console.log("Login Successful");
 
 
-
-            // Store user details
+            // Save user information
 
             localStorage.setItem(
 
@@ -69,16 +63,12 @@ function handleCredentialResponse(response) {
             );
 
 
+            // Redirect to editable dashboard
 
-            // Redirect to dashboard
-
-            window.location.href = "editableDashboard.html";
-
+            window.location.href = "EditableDashboard.html";
 
 
-        }
-
-        else {
+        } else {
 
 
             alert(data.message || "Login failed");
@@ -87,9 +77,7 @@ function handleCredentialResponse(response) {
         }
 
 
-
     })
-
 
     .catch(error => {
 
@@ -111,10 +99,7 @@ function handleCredentialResponse(response) {
 
 
 
-
-
 window.onload = function () {
-
 
 
     google.accounts.id.initialize({
@@ -132,7 +117,6 @@ window.onload = function () {
 
 
 
-
     google.accounts.id.renderButton(
 
 
@@ -144,9 +128,7 @@ window.onload = function () {
 
             theme: "outline",
 
-
             size: "large",
-
 
             width: 300
 
