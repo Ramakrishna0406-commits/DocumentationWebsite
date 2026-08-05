@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Monthly Forecast - Team Dashboard</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- ===============================
+         Dashboard Header
+    ================================ -->
+
+    <div class="dashboard-header">
+
+
+<h1 style="color:red;">
+MONTHLY FORECAST DASHBOARD
+</h1>
+
+        <div class="action-buttons">
+
+
+            <button id="addBtn">
+                ➕ Add Company
+            </button>
+
+
+            <button id="editBtn">
+                ✏️ Edit
+            </button>
+
+
+            <button id="saveBtn">
+                💾 Save
+            </button>
+
+
+            <button id="cancelBtn">
+                ❌ Cancel
+            </button>
+
+
+            <button id="deleteBtn">
+                🗑 Delete
+            </button>
+
+
+            <button id="exportBtn">
+                📥 Export Excel
+            </button>
+
+
+            <button id="logoutBtn">
+                🚪 Logout
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- ===============================
+         Search & Filters
+    ================================ -->
+
+
+    <div class="filter-section">
+
+
+        <input
+            type="text"
+            id="searchCompany"
+            placeholder="Search Company Name">
+
+
+
+        <select id="campusFilter">
+
+
+            <option value="">
+                All Campus
+            </option>
+
+
+            <option>
+                Bengaluru
+            </option>
+
+
+            <option>
+                Hyderabad
+            </option>
+
+
+            <option>
+                Visakhapatnam
+            </option>
+
+
+        </select>
+
+
+
+        <select id="statusFilter">
+
+
+            <option value="">
+                All Status
+            </option>
+
+
+            <option>
+                Open
+            </option>
+
+
+            <option>
+                In Progress
+            </option>
+
+
+            <option>
+                Closed
+            </option>
+
+
+        </select>
+
+
+    </div>
+
+
+
+
+    <!-<!-- ===============================
+     Summary Cards
+================================ -->
+
+
+<div class="summary-cards">
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Total Companies
+        </h3>
+
+        <h2 id="totalCompanies">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Open
+        </h3>
+
+        <h2 id="openCompanies">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            In Progress
+        </h3>
+
+        <h2 id="progressCompanies">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Closed
+        </h3>
+
+        <h2 id="closedCompanies">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Total Eligible Students
+        </h3>
+
+        <h2 id="totalEligibleStudents">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Total Selections
+        </h3>
+
+        <h2 id="totalSelections">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Selection Percentage
+        </h3>
+
+        <h2 id="selectionPercentage">
+            0%
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Completed Company Visits
+        </h3>
+
+        <h2 id="completedVisits">
+            0
+        </h2>
+
+    </div>
+
+
+
+
+
+    <div class="summary-card">
+
+        <h3>
+            Last Updated
+        </h3>
+
+        <h2 id="lastUpdated">
+            --
+        </h2>
+
+    </div>
+
+
+
+</div>
+
+
+
+    <!-- ===============================
+         Data Table
+    ================================ -->
+
+
+    <div class="table-container">
+
+
+
+        <table id="forecastTable">
+
+
+            <thead>
+
+
+                <tr>
+
+
+                    <th>
+                        Select
+                    </th>
+
+
+                    <th>
+                        Sl No
+                    </th>
+
+
+                    <th>
+                        Campus
+                    </th>
+
+
+                    <th>
+                        Company Name
+                    </th>
+
+
+                    <th>
+                        CTC (LPA)
+                    </th>
+
+
+                    <th>
+                        Job Role
+                    </th>
+
+
+                    <th>
+                        Company Visit Status
+                    </th>
+
+
+                    <th>
+                        Status
+                    </th>
+
+
+                    <th>
+                        Total Eligible Students
+                    </th>
+
+
+                    <th>
+                        No of Selections
+                    </th>
+
+
+                    <th>
+                        Point of Contact
+                    </th>
+
+
+                    <th>
+                        Next Step & Target Date
+                    </th>
+
+
+                    <th>
+                        Remarks
+                    </th>
+
+
+                    <th>
+                        PrepKit Link
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <tbody id="tableBody">
+
+
+                <!-- JavaScript loads data here -->
+
+
+            </tbody>
+
+
+
+        </table>
+
+
+    </div>
+</div>
+
+
+<!-- ======================================
+     Add / Edit Company Modal
+====================================== -->
+
+
+<div id="companyModal" class="modal">
+
+
+    <div class="modal-content">
+
+
+
+        <div class="modal-header">
+
+
+            <h2 id="modalTitle">
+
+                Add Company
+
+            </h2>
+
+
+
+            <span
+                class="close"
+                id="closeModal">
+
+                &times;
+
+            </span>
+
+
+        </div>
+
+
+
+
+
+        <div class="modal-body">
+
+
+            <div class="form-grid">
+
+
+
+                <input
+                    type="text"
+                    id="companyName"
+                    placeholder="Company Name">
+
+
+
+                <select id="campus">
+
+
+                    <option value="">
+                        Select Campus
+                    </option>
+
+
+                    <option>
+                        Bengaluru
+                    </option>
+
+
+                    <option>
+                        Hyderabad
+                    </option>
+
+
+                    <option>
+                        Visakhapatnam
+                    </option>
+
+
+                </select>
+
+
+
+
+                <input
+                    type="text"
+                    id="ctc"
+                    placeholder="CTC (LPA)">
+
+
+
+                <input
+                    type="text"
+                    id="jobRole"
+                    placeholder="Job Role">
+
+
+
+
+
+                <select id="visitStatus">
+
+
+                    <option>
+                        Planned
+                    </option>
+
+
+                    <option>
+                        Confirmed
+                    </option>
+
+
+                    <option>
+                        Completed
+                    </option>
+
+
+                    <option>
+                        Cancelled
+                    </option>
+
+
+                </select>
+
+
+
+
+
+                <select id="status">
+
+
+                    <option>
+                        Open
+                    </option>
+
+
+                    <option>
+                        In Progress
+                    </option>
+
+
+                    <option>
+                        Closed
+                    </option>
+
+
+                </select>
+
+
+
+
+
+                <input
+                    type="number"
+                    id="eligible"
+                    placeholder="Eligible Students">
+
+
+
+
+
+                <input
+                    type="number"
+                    id="selections"
+                    placeholder="No of Selections">
+
+
+
+
+
+                <input
+                    type="text"
+                    id="poc"
+                    placeholder="Point of Contact">
+
+
+
+
+
+                <input
+                    type="text"
+                    id="nextStep"
+                    placeholder="Next Step & Target Date">
+
+
+
+
+
+                <textarea
+                    id="remarks"
+                    placeholder="Remarks"></textarea>
+
+
+
+
+
+                <input
+                    type="url"
+                    id="prepKit"
+                    placeholder="PrepKit Link">
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="modal-footer">
+
+
+            <button id="modalSaveBtn">
+
+                Save
+
+            </button>
+
+
+
+
+
+            <button id="modalCancelBtn">
+
+                Cancel
+
+            </button>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- ======================================
+     JavaScript
+====================================== -->
+
+
+<script src="../js/editableDashboard.js"></script>
+
+
+
+</body>
+
+
+</html>

@@ -1,53 +1,53 @@
-[
-    {
-        "title": "TCD — Training & Competency Development",
-        "children": [
-            {
-                "title": "Training Reports",
-                "page": "pages/Trainingreport.HTML"
-            },
-            {
-                "title": "Presentation Repository",
-                "page": "pages/PresentationRepository.html"
-            },
-            {
-                "title": "GCGC Classes Feedback Reports",
-                "page": "pages/GCGCFeedbackReports.html"
-            },
-            {
-                "title": "Monthly Forecast Reports",
-                "page": "pages/MonthlyForecastReports.html"
-            },
-            {
-                "title": "GCGC Courses Calendar",
-                "page": "pages/GCGC_Courses_calendar.html"
-            },
-            {
-                "title": "Cocubes Data",
-                "page": "pages/CocubesData.html"
-            },
-            {
-                "title": "Training Feedbacks Reports",
-                "page": "pages/TrainingFeedbacksReports.html"
-            }
-        ]
-    },
-    {
-        "title": "ACS — Alternate Career Services",
-        "children": [
-            {
-                "title": "Higher Studies Achievements",
-                "page": "pages/higher-studies-achievements.html"
-            }
-        ]
-    },
-    {
-        "title": "CCM — Career Counselling & Mentoring",
-        "children": [
-            {
-                "title": "Reports",
-                "page": "pages/reports.html"
-            }
-        ]
-    }
-]
+    [
+        {
+            "title": "TCD — Training & Competency Development",
+            "children": [
+                {
+                    "title": "Training Reports",
+                    "page": "pages/Trainingreport.HTML"
+                },
+                {
+                    "title": "Presentation Repository",
+                    "page": "pages/PresentationRepository.html"
+                },
+                {
+                    "title": "GCGC Classes Feedback Reports",
+                    "page": "pages/GCGCFeedbackReports.html"
+                },
+                {
+                    "title": "Monthly Forecast Reports",
+                    "page": "pages/MonthlyForecastReports.html"
+                },
+                {
+                    "title": "GCGC Courses Calendar",
+                    "page": "pages/GCGC_Courses_calendar.html"
+                },
+                {
+                    "title": "Cocubes Data",
+                    "page": "pages/CocubesData.html"
+                },
+                {
+                    "title": "Training Feedbacks Reports",
+                    "page": "pages/TrainingFeedbacksReports.html"
+                }
+            ]
+        },
+        {
+            "title": "ACS — Alternate Career Services",
+            "children": [
+                {
+                    "title": "Higher Studies Achievements",
+                    "page": "pages/higher-studies-achievements.html"
+                }
+            ]
+        },
+        {
+            "title": "CCM — Career Counselling & Mentoring",
+            "children": [
+                {
+                    "title": "Reports",
+                    "page": "pages/reports.html"
+                }
+            ]
+        }
+    ]

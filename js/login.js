@@ -1,21 +1,160 @@
-document.addEventListener("DOMContentLoaded", () => {
+// js/login.js
 
-    const sendOtpBtn = document.getElementById("sendOtpBtn");
 
-    sendOtpBtn.addEventListener("click", () => {
+function handleCredentialResponse(response) {
 
-        const username = document.getElementById("username").value.trim();
-        const email = document.getElementById("email").value.trim();
 
-        if(username === "" || email === ""){
+    console.log("Google Credential Received");
 
-            alert("Please enter User Name and GITAM Email.");
 
-            return;
+    const idToken = response.credential;
+
+
+
+    fetch("http://127.0.0.1:3000/verify-token", {
+
+
+        method: "POST",
+
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+
+        body: JSON.stringify({
+
+            token: idToken
+
+        })
+
+
+    })
+
+    .then(response => response.json())
+
+
+    .then(data => {
+
+
+        console.log("Authentication Response:", data);
+
+
+
+        if (data.success) {
+
+
+            console.log("Login Successful");
+
+
+
+            // Store user details
+
+            localStorage.setItem(
+
+                "loggedInUser",
+
+                JSON.stringify({
+
+                    name: data.name,
+
+                    email: data.email,
+
+                    picture: data.picture
+
+                })
+
+            );
+
+
+
+            // Redirect to dashboard
+
+            window.location.href = "editableDashboard.html";
+
+
+
         }
 
-        alert("OTP functionality will be implemented in the next step.");
+        else {
+
+
+            alert(data.message || "Login failed");
+
+
+        }
+
+
+
+    })
+
+
+    .catch(error => {
+
+
+        console.error("Login Error:", error);
+
+
+        alert(
+
+            "Login failed. Backend server is not responding."
+
+        );
+
 
     });
 
-});
+
+}
+
+
+
+
+
+window.onload = function () {
+
+
+
+    google.accounts.id.initialize({
+
+
+        client_id:
+
+        "550281488247-1c34ml0lg80i9agki949fop3lj9avm2d.apps.googleusercontent.com",
+
+
+        callback: handleCredentialResponse
+
+
+    });
+
+
+
+
+    google.accounts.id.renderButton(
+
+
+        document.getElementById("google-signin-button"),
+
+
+        {
+
+
+            theme: "outline",
+
+
+            size: "large",
+
+
+            width: 300
+
+
+        }
+
+
+    );
+
+
+};
