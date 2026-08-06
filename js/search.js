@@ -1,18 +1,22 @@
 const searchBox = document.getElementById("searchBox");
 
-searchBox.addEventListener("keyup", function () {
+if (searchBox) {
 
-    let value = this.value.toLowerCase();
+    searchBox.addEventListener("keyup", function () {
 
-    let pages = document.querySelectorAll(".page");
+        let value = this.value.toLowerCase();
 
-    pages.forEach(page => {
+        let pages = document.querySelectorAll(".page");
 
-        if (page.innerText.toLowerCase().includes(value))
-            page.style.display = "flex";
-        else
-            page.style.display = "none";
+        pages.forEach(page => {
+
+            if (page.innerText.toLowerCase().includes(value))
+                page.style.display = "flex";
+            else
+                page.style.display = "none";
+
+        });
 
     });
 
-});
+}
