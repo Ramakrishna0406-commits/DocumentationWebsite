@@ -1,0 +1,350 @@
+<div class="ccm-dashboard">
+
+    <!-- PAGE TITLE -->
+    <div class="dashboard-header">
+
+        <div>
+
+            <h2>CCM Analytics Dashboard</h2>
+
+            <p>
+                Comprehensive Mentor-Mentee Analytics
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER SECTION -->
+
+    <div class="filter-section">
+
+
+        <div class="filter-card">
+
+            <label>Campus</label>
+
+            <select id="campusFilter">
+
+                <option value="">
+                    All Campuses
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-card">
+
+            <label>School</label>
+
+            <select id="schoolFilter">
+
+                <option value="">
+                    All Schools
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-card">
+
+            <label>Department</label>
+
+            <select id="departmentFilter">
+
+                <option value="">
+                    All Departments
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-card">
+
+            <label>Mentor</label>
+
+            <select id="mentorFilter">
+
+                <option value="">
+                    All Mentors
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-card">
+
+            <label>Status</label>
+
+            <select id="statusFilter">
+
+                <option value="">
+                    All Status
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-card">
+
+            <button id="resetFilters">
+                Reset Filters
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- KPI CARDS -->
+
+    <div class="kpi-grid">
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Total Students
+            </div>
+
+            <div class="kpi-value" id="totalStudents">
+                0
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Total Mentors
+            </div>
+
+            <div class="kpi-value" id="totalMentors">
+                0
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Completed
+            </div>
+
+            <div class="kpi-value success" id="completedCount">
+                0
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Interim
+            </div>
+
+            <div class="kpi-value warning" id="interimCount">
+                0
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- CHART SECTION -->
+
+
+    <div class="chart-grid">
+
+
+        <div class="chart-card">
+
+            <h3>
+                Status Distribution
+            </h3>
+
+            <canvas id="statusChart"></canvas>
+
+        </div>
+
+
+
+        <div class="chart-card">
+
+            <h3>
+                Mentor-wise Students
+            </h3>
+
+            <canvas id="mentorChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="chart-grid">
+
+
+        <div class="chart-card">
+
+            <h3>
+                Campus Distribution
+            </h3>
+
+            <canvas id="campusChart"></canvas>
+
+        </div>
+
+
+
+        <div class="chart-card">
+
+            <h3>
+                School Distribution
+            </h3>
+
+            <canvas id="schoolChart"></canvas>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- MENTOR SUMMARY TABLE -->
+
+
+    <div class="table-card">
+
+
+        <div class="table-header">
+
+
+            <h3>
+                Mentor Summary
+            </h3>
+
+
+
+            <input
+                type="text"
+                id="searchMentor"
+                placeholder="Search Mentor..."
+            >
+
+
+        </div>
+
+
+
+
+        <div class="table-responsive">
+
+
+            <table id="mentorTable">
+
+
+                <thead>
+
+
+                    <tr>
+
+                        <th>
+                            Mentor
+                        </th>
+
+
+                        <th>
+                            Department
+                        </th>
+
+
+                        <th>
+                            Campus
+                        </th>
+
+
+                        <th>
+                            Students
+                        </th>
+
+
+                        <th>
+                            Completed
+                        </th>
+
+
+                        <th>
+                            Interim
+                        </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody>
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+<!-- Chart.js Library -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<!-- CCM Dashboard Script -->
+
+<script src="../js/ccm.js"></script>

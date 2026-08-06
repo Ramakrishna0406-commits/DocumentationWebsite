@@ -13,9 +13,9 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
     margin:20px;
-    padding:0;
     background:#fff;
 }
+
 
 h1{
     color:#007367;
@@ -24,74 +24,189 @@ h1{
     margin-bottom:35px;
 }
 
+
 .image-container{
     display:flex;
     gap:30px;
 }
 
+
 .image-box{
     text-align:left;
 }
+
 
 .image-box img{
     width:400px;
     height:300px;
     cursor:pointer;
-    display:block;
 }
+
+
+.result-container{
+
+    display:none;
+    margin-top:40px;
+
+}
+
+
+.result-title{
+
+    color:#007367;
+    font-size:24px;
+    margin-bottom:20px;
+
+}
+
+
+.result-btn{
+
+    display:inline-block;
+    margin:10px;
+    padding:15px 25px;
+    background:#007367;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+
+.result-btn:hover{
+
+    background:#005c52;
+
+}
+
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <h1>Cocubes Data</h1>
 
+
 <div class="image-container">
 
-    <div class="image-box">
 
-        <img
-            id="img2027"
-            src="../images/img12off.jpg"
-            alt="Cocubes Data 2027">
+<div class="image-box">
 
-    </div>
+
+<img
+id="img2027"
+src="../images/img12off.jpg"
+alt="Cocubes Data 2027">
+
 
 </div>
 
+
+</div>
+
+
+
+<div id="assessmentResults" class="result-container">
+
+
+<div class="result-title">
+
+Cocubes 2027 Assessment Results
+
+</div>
+
+
+<a class="result-btn"
+href="https://drive.google.com/drive/folders/1vz0SQqgcd7D3HjnBAiDzXE1u5rPBakB7?usp=drive_link"
+target="_blank">
+
+Hyderabad
+
+</a>
+
+
+<a class="result-btn"
+href="https://drive.google.com/drive/folders/1NBOidoA1FFBXlh8VR_7BP7JR_GULhFjf?usp=drive_link"
+target="_blank">
+
+Bengaluru
+
+</a>
+
+
+
+<a class="result-btn"
+href="https://drive.google.com/drive/folders/10p5FxfT8J-ALfL6UvRRy2I4qXtNNisYV?usp=drive_link"
+target="_blank">
+
+Visakhapatnam
+
+</a>
+
+
+
+<a class="result-btn"
+href="https://drive.google.com/drive/folders/1UfrSj8ZksHe0J_qQDMR2vLrYRG3LN__Z?usp=drive_link"
+target="_blank">
+
+POST Assessment Results
+
+</a>
+
+
+</div>
+
+
+
 <script>
 
-// ---------- 2027 ----------
 
 const img2027 = document.getElementById("img2027");
 
-// Mouse Hover ON
-img2027.addEventListener("mouseenter", function () {
+const assessmentResults =
+document.getElementById("assessmentResults");
 
-    img2027.src = "../images/img12on.jpg";
+
+
+// Hover ON
+
+img2027.addEventListener("mouseenter",function(){
+
+    img2027.src="../images/img12on.jpg";
+
+});
+
+
+
+// Hover OFF
+
+img2027.addEventListener("mouseleave",function(){
+
+    img2027.src="../images/img12off.jpg";
 
 });
 
-// Mouse Hover OFF
-img2027.addEventListener("mouseleave", function () {
 
-    img2027.src = "../images/img12off.jpg";
 
-});
+// Click 2027
 
-// Click - Open Google Drive Folder
-img2027.addEventListener("click", function () {
+img2027.addEventListener("click",function(){
 
-    window.open(
-        "https://drive.google.com/drive/folders/1PYzLsoIecroSh3BzpFZyyPO5lHEBv9xQ?usp=drive_link",
-        "_blank"
-    );
+
+    assessmentResults.style.display="block";
+
 
 });
+
 
 </script>
+
+
 
 </body>
 
