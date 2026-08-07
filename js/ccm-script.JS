@@ -6,24 +6,92 @@ let allData = [];
 let filteredData = [];
 let selectedMentor = "";
 
-// ========================================
+//// ========================================
 // Page Load
 // ========================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    allData = students;
+    showCampusSelection();
+
+});
+
+
+// ========================================
+// Campus Selection
+// ========================================
+
+function showCampusSelection(){
+
+    const buttons = document.querySelectorAll(".campus-btn");
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener("click", function(){
+
+            const campus = this.getAttribute("data-campus");
+
+            loadCampusData(campus);
+
+        });
+
+    });
+
+}
+
+
+
+// ========================================
+// Load Campus Data
+// ========================================
+
+function loadCampusData(campus){
+
+    document.getElementById("campusSelection").style.display = "none";
+
+    document.getElementById("ccmDashboard").style.display = "block";
+
+
+    let selectedCampus = "";
+
+
+    if(campus === "Bangalore"){
+
+        selectedCampus = "BLR";
+
+    }
+
+    else if(campus === "Hyderabad"){
+
+        selectedCampus = "HYD";
+
+    }
+
+    else if(campus === "Vizag"){
+
+        selectedCampus = "VSP";
+
+    }
+
+
+    allData = students.filter(student =>
+
+        student.Campus === selectedCampus
+
+    );
+
+
     filteredData = [...allData];
+
 
     loadFilters();
 
     attachEvents();
 
-    document.getElementById("resetBtn").addEventListener("click", resetFilters);
-
     updateDashboard();
 
-});
+}
 
 // ========================================
 // Load Filter Dropdowns

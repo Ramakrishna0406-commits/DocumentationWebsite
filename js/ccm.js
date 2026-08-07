@@ -13,95 +13,81 @@ let campusChart;
 let schoolChart;
 
 
-
 // ===============================
-// LOAD DATA
+// CAMPUS SELECTION
 // ===============================
 
-document.addEventListener("DOMContentLoaded", function () {
+function showCampusSelection(){
 
-    loadCCMData();
-
-});
+    let container = document.getElementById("ccmDashboard");
 
 
+    if(!container){
 
-async function loadCCMData() {
-
-    try {
-
-        const response = await fetch("../data/mentor-data.json");
-
-
-        if (!response.ok) {
-
-            throw new Error("mentor-data.json not found");
-
-        }
-
-
-        allData = await response.json();
-
-
-        filteredData = [...allData];
-
-
-        initializeFilters();
-
-
-        updateDashboard();
-
-
-
-        document.querySelectorAll(
-            ".filter-card select"
-        )
-        .forEach(filter => {
-
-            filter.addEventListener(
-                "change",
-                applyFilters
-            );
-
-        });
-
-
-
-        document.getElementById(
-            "searchMentor"
-        )
-        .addEventListener(
-            "keyup",
-            applyFilters
+        console.error(
+            "ccmDashboard container not found"
         );
 
-
-
-        document.getElementById(
-            "resetFilters"
-        )
-        .addEventListener(
-            "click",
-            resetFilters
-        );
-
-
+        return;
 
     }
 
-    catch(error){
 
-        console.error(error);
+    container.innerHTML = `
 
-        alert(
-            "Unable to load CCM dashboard data"
-        );
+        <div class="campus-selection text-center">
 
-    }
+            <h2>Select Campus</h2>
+
+
+            <button 
+            class="btn btn-primary m-2"
+            onclick="loadCampusData('Bangalore')">
+
+                Bangalore
+
+            </button>
+
+
+            <button 
+            class="btn btn-primary m-2"
+            onclick="loadCampusData('Hyderabad')">
+
+                Hyderabad
+
+            </button>
+
+
+            <button 
+            class="btn btn-primary m-2"
+            onclick="loadCampusData('vizag')">
+
+                Vizag
+
+            </button>
+
+
+        </div>
+
+    `;
+
 
 }
 
 
+
+// ===============================
+// PAGE LOAD
+// ===============================
+
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+    showCampusSelection();
+
+});
 
 // ===============================
 // FILTER INITIALIZATION
