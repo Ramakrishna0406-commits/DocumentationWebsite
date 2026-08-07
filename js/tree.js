@@ -164,7 +164,7 @@ function createNode(item) {
 
 
 
-            loadPage(item.page);
+            window.loadPage(item.page);
 
 
 
@@ -189,7 +189,7 @@ function createNode(item) {
 
 // Load page + run page specific functions
 
-function loadPage(page) {
+function loadPageOld(page) {
 
 
     fetch(page)
