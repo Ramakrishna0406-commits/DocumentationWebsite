@@ -660,120 +660,77 @@ data:Object.values(data)
 // MENTOR SUMMARY TABLE
 // ===============================
 
-
 function createMentorTable(){
 
+    let tbody =
+        document.querySelector(
+            "#mentorTable tbody"
+        );
 
-let tbody =
-document.querySelector(
-"#mentorTable tbody"
-);
+    if (!tbody) {
+        console.error("Mentor table body not found");
+        return;
+    }
 
+    tbody.innerHTML = "";
 
+    let summary = {};
 
-tbody.innerHTML="";
+    filteredData.forEach(row => {
 
+        let mentor =
+            (row["Mentor Name"] || "Unknown").toString().trim();
 
+        if (!summary[mentor]) {
 
-let summary={};
+            summary[mentor] = {
+                students: 0,
+                completed: 0,
+                interim: 0
+            };
 
+        }
 
+        summary[mentor].students++;
 
-filteredData.forEach(row=>{
+        if (
+            String(row["Completed"])
+                .toLowerCase() == "yes"
+        ) {
+            summary[mentor].completed++;
+        }
 
+        if (
+            String(row["Interim"])
+                .toLowerCase() == "yes"
+        ) {
+            summary[mentor].interim++;
+        }
 
-let mentor =
-row["Mentor Name"]
-||
-"Unknown";
+    });
 
+    Object.keys(summary)
+        .sort()
+        .forEach(mentor => {
 
+            let s = summary[mentor];
 
-if(!summary[mentor]){
+            tbody.innerHTML += `
+                <tr>
+                    <td>
+                        <a href="CCM-Students.html?mentor=${encodeURIComponent(mentor)}" target="_blank">
+                            ${mentor}
+                        </a>
+                    </td>
+                    <td>${s.students}</td>
+                    <td>${s.interim}</td>
+                    <td>${s.completed}</td>
+                </tr>
+            `;
 
-
-summary[mentor]={
-
-dept:row["Mentor Dept"]||"",
-campus:row["Campus"]||"",
-students:0,
-completed:0,
-interim:0
-
-};
-
-
-}
-
-
-
-summary[mentor].students++;
-
-
-
-if(
-String(row["Completed"])
-.toLowerCase()=="yes"
-)
-
-summary[mentor].completed++;
-
-
-
-if(
-String(row["Interim"])
-.toLowerCase()=="yes"
-)
-
-summary[mentor].interim++;
-
-
-
-});
-
-
-
-Object.keys(summary)
-.sort()
-.forEach(mentor=>{
-
-
-let s=summary[mentor];
-
-
-tbody.innerHTML +=
-
-`
-
-<tr>
-
-<td>${mentor}</td>
-
-<td>${s.dept}</td>
-
-<td>${s.campus}</td>
-
-<td>${s.students}</td>
-
-<td>${s.completed}</td>
-
-<td>${s.interim}</td>
-
-
-</tr>
-
-`;
-
-
-
-});
-
-
+        });
 
 }
-
-
-
 // ===============================
 // RESET FILTERS
 // ===============================

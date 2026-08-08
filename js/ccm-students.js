@@ -87,9 +87,9 @@ function loadTable() {
 
     filteredStudents.forEach((student, index) => {
 
-        const completedCount = Number(student.Completed) || 0;
-        const interimCount = Number(student.Interim) || 0;
-        const groupCount = Number(student.Group) || 0;
+        const completedCount = Number(student["Completed"]) || 0;
+        const interimCount = Number(student["Interim"]) || 0;
+        const groupCount = Number(student["Group"]) || 0;
 
         let status = "";
         let badge = "";
@@ -123,22 +123,33 @@ function loadTable() {
 
         tbody.innerHTML += `
             <tr>
+
                 <td>${index + 1}</td>
-                <td>${student.Name}</td>
-                <td>${student["Pass out Year"]}</td>
-                <td>${student.Degree}</td>
+
+                <td>${student["Name"] || ""}</td>
+
+                <td>${student["School"] || ""}</td>
+
+                <td>${student["Course"] || ""}</td>
+
+                <td>${student["Department"] || ""}</td>
+
+                <td>${student["Pass out Year"] || ""}</td>
+
+                <td>${student["Degree"] || ""}</td>
+
                 <td>
                     <span class="badge bg-${badge}">
                         ${status}
                     </span>
                 </td>
+
             </tr>
         `;
 
     });
 
 }
-
 // ========================================
 // Search Student
 // ========================================
@@ -162,3 +173,99 @@ document.getElementById("searchStudent").addEventListener("keyup", function () {
 
 updateCards();
 loadTable();
+
+// ========================================
+// Export Students to Excel
+// ========================================
+
+document.getElementById("exportStudentsBtn").addEventListener("click", function () {
+
+    if (filteredStudents.length === 0) {
+
+        alert("No student data available to export.");
+        return;
+
+    }
+
+    const exportData = filteredStudents.map((student, index) => {
+
+        const completedCount = Number(student["Completed"]) || 0;
+        const interimCount = Number(student["Interim"]) || 0;
+        const groupCount = Number(student["Group"]) || 0;
+
+        let status = "";
+
+        if (
+            completedCount >= 1 &&
+            interimCount >= 2 &&
+            groupCount >= 1
+        ) {
+
+            status = "Completed";
+
+        }
+        else if (
+            completedCount === 0 &&
+            interimCount === 0 &&
+            groupCount === 0
+        ) {
+
+            status = "Yet To Start";
+
+        }
+        else {
+
+            status = "Started";
+
+        }
+
+        return {
+
+            "S.No": index + 1,
+
+            "Student Name": student["Name"] || "",
+
+            "School": student["School"] || "",
+
+            "Course": student["Course"] || "",
+
+            "Department": student["Department"] || "",
+
+            "Pass Out Year": student["Pass out Year"] || "",
+
+            "Degree": student["Degree"] || "",
+
+            "Status": status
+
+        };
+
+    });
+
+
+    const worksheet =
+        XLSX.utils.json_to_sheet(exportData);
+
+
+    const workbook =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "Students"
+    );
+
+
+    const fileName =
+        "Students_" +
+        (mentorName || "All") +
+        ".xlsx";
+
+
+    XLSX.writeFile(
+        workbook,
+        fileName
+    );
+
+});

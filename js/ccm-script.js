@@ -99,13 +99,10 @@ function loadCampusData(campus){
 
 function loadFilters() {
 
-    fillDropdown("universityFilter", "University");
-    fillDropdown("campusFilter", "Campus");
     fillDropdown("schoolFilter", "School");
     fillDropdown("courseFilter", "Course");
     fillDropdown("departmentFilter", "Department");
     fillDropdown("yearFilter", "Pass out Year");
-    fillDropdown("mentorFilter", "Mentor Name");
 
 }
 
@@ -135,31 +132,26 @@ function fillDropdown(id, column) {
 
 }
 
+
 // ========================================
 // Apply Filters
 // ========================================
 
 function applyFilters() {
 
-    const university = document.getElementById("universityFilter").value;
-    const campus = document.getElementById("campusFilter").value;
     const school = document.getElementById("schoolFilter").value;
     const course = document.getElementById("courseFilter").value;
     const department = document.getElementById("departmentFilter").value;
     const year = document.getElementById("yearFilter").value;
-    const mentor = document.getElementById("mentorFilter").value;
 
     filteredData = allData.filter(student => {
 
         return (
 
-            (university === "" || student["University"] == university) &&
-            (campus === "" || student["Campus"] == campus) &&
             (school === "" || student["School"] == school) &&
             (course === "" || student["Course"] == course) &&
             (department === "" || student["Department"] == department) &&
-            (year === "" || student["Pass out Year"] == year) &&
-            (mentor === "" || student["Mentor Name"] == mentor)
+            (year === "" || student["Pass out Year"] == year)
 
         );
 
@@ -168,43 +160,41 @@ function applyFilters() {
     updateDashboard();
 
 }
-
 // ========================================
 // Attach Events
 // ========================================
 
 function attachEvents() {
 
-    document.getElementById("universityFilter").addEventListener("change", applyFilters);
-    document.getElementById("campusFilter").addEventListener("change", applyFilters);
-    document.getElementById("schoolFilter").addEventListener("change", applyFilters);
-    document.getElementById("courseFilter").addEventListener("change", applyFilters);
-    document.getElementById("departmentFilter").addEventListener("change", applyFilters);
-    document.getElementById("yearFilter").addEventListener("change", applyFilters);
-    document.getElementById("mentorFilter").addEventListener("change", applyFilters);
+    document.getElementById("schoolFilter")
+        .addEventListener("change", applyFilters);
+
+    document.getElementById("courseFilter")
+        .addEventListener("change", applyFilters);
+
+    document.getElementById("departmentFilter")
+        .addEventListener("change", applyFilters);
+
+    document.getElementById("yearFilter")
+        .addEventListener("change", applyFilters);
 
 }
-
 // ========================================
 // Reset Filters
 // ========================================
 
 function resetFilters() {
 
-    document.getElementById("universityFilter").value = "";
-    document.getElementById("campusFilter").value = "";
     document.getElementById("schoolFilter").value = "";
     document.getElementById("courseFilter").value = "";
     document.getElementById("departmentFilter").value = "";
     document.getElementById("yearFilter").value = "";
-    document.getElementById("mentorFilter").value = "";
 
     filteredData = [...allData];
 
     updateDashboard();
 
 }
-
 // ========================================
 // Update Dashboard
 // ========================================
@@ -340,9 +330,11 @@ function loadMentorSummary() {
 
             tbody.innerHTML += `
                 <tr>
-                    <td><a href="CCM-Students.html?mentor=${encodeURIComponent(mentor)}" target="_blank">
-        ${mentor}
-    </a></td>
+                    <td><a href="CCM-Students.html?mentor=${encodeURIComponent(mentor)}&campus=${encodeURIComponent(allData[0]?.Campus || '')}" target="_blank">
+            ${mentor}
+        </a>
+    
+    </td>
                     <td>${mentors[mentor].total}</td>
                     <td>${mentors[mentor].started}</td>
                     <td>${mentors[mentor].yet}</td>
@@ -364,13 +356,20 @@ function loadStudentTable() {
 
     const tbody = document.getElementById("studentTableBody");
 
+    if (!tbody) {
+        return;
+    }
+
     tbody.innerHTML = "";
 
-   const studentsToShow = selectedMentor === ""
-    ? filteredData
-    : filteredData.filter(student => student["Mentor Name"] === selectedMentor);
+    const studentsToShow = selectedMentor === ""
+        ? filteredData
+        : filteredData.filter(
+            student => student["Mentor Name"] === selectedMentor
+        );
 
-studentsToShow.forEach((student, index) => {
+
+    studentsToShow.forEach((student, index) => {
 
         let status = "";
 
@@ -378,7 +377,9 @@ studentsToShow.forEach((student, index) => {
         const interimValue = Number(student["Interim"]);
         const groupValue = Number(student["Group"]);
 
+
         // Completed
+
         if (
             completedValue >= 1 &&
             interimValue >= 2 &&
@@ -389,7 +390,9 @@ studentsToShow.forEach((student, index) => {
 
         }
 
+
         // Yet To Start
+
         else if (
             completedValue === 0 &&
             interimValue === 0 &&
@@ -400,26 +403,35 @@ studentsToShow.forEach((student, index) => {
 
         }
 
+
         // Started
+
         else {
 
             status = "Started";
 
         }
 
+
         tbody.innerHTML += `
             <tr>
+
                 <td>${index + 1}</td>
-                <td>${student["Name"]}</td>
-                <td>${student["Pass out Year"]}</td>
-                <td>${student["Degree"]}</td>
-                <td>${student["University"]}</td>
-                <td>${student["Campus"]}</td>
-                <td>${student["School"]}</td>
-                <td>${student["Course"]}</td>
-                <td>${student["Department"]}</td>
-                <td>${student["Mentor Name"]}</td>
+
+                <td>${student["Name"] || ""}</td>
+
+                <td>${student["School"] || ""}</td>
+
+                <td>${student["Course"] || ""}</td>
+
+                <td>${student["Department"] || ""}</td>
+
+                <td>${student["Pass out Year"] || ""}</td>
+
+                <td>${student["Degree"] || ""}</td>
+
                 <td>${status}</td>
+
             </tr>
         `;
 
