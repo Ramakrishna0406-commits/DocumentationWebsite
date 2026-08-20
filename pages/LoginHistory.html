@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DATA PULSE - Login History</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 25px;
+
+            font-family: Arial, sans-serif;
+
+            background: #f5f7f7;
+
+            color: #333;
+
+        }
+
+
+        .header {
+
+            background: #007367;
+
+            color: white;
+
+            padding: 20px 25px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 26px;
+
+        }
+
+
+        .header p {
+
+            margin: 5px 0 0;
+
+            opacity: 0.9;
+
+        }
+
+
+        .admin-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            background: white;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+
+        }
+
+
+        .admin-photo {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+        }
+
+
+        .admin-name {
+
+            font-weight: bold;
+
+            color: #007367;
+
+        }
+
+
+        .admin-email {
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+
+        }
+
+
+        .stat-number {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: #007367;
+
+        }
+
+
+        .stat-label {
+
+            margin-top: 5px;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        .table-container {
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+
+        }
+
+
+        .table-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .table-header h2 {
+
+            margin: 0;
+
+            color: #007367;
+
+            font-size: 20px;
+
+        }
+
+
+        #searchBox {
+
+            padding: 10px 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            min-width: 250px;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+
+        }
+
+
+        th {
+
+            background: #007367;
+
+            color: white;
+
+            padding: 12px;
+
+            text-align: left;
+
+            font-size: 14px;
+
+        }
+
+
+        td {
+
+            padding: 11px;
+
+            border-bottom: 1px solid #e5e5e5;
+
+            font-size: 14px;
+
+        }
+
+
+        tr:hover {
+
+            background: #f5faf9;
+
+        }
+
+
+        .user-photo {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+        }
+
+
+        .status {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #666;
+
+        }
+
+
+        .error {
+
+            color: #c62828;
+
+        }
+
+
+        .back-button {
+
+            margin-top: 20px;
+
+            padding: 10px 18px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #007367;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .back-button:hover {
+
+            background: #005f56;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="header">
+
+        <h1>
+            🔐 DATA PULSE - Login History
+        </h1>
+
+        <p>
+            Administrator Login Activity
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADMIN INFORMATION
+         ===================================================== -->
+
+    <div
+        class="admin-info"
+        id="adminInfo"
+    >
+
+        Loading administrator information...
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="totalLogins"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Total Logins
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="uniqueUsers"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Unique Users
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGIN HISTORY TABLE
+         ===================================================== -->
+
+    <div class="table-container">
+
+
+        <div class="table-header">
+
+            <h2>
+                Login Activity
+            </h2>
+
+
+            <input
+                type="text"
+                id="searchBox"
+                placeholder="Search name or email..."
+            >
+
+        </div>
+
+
+        <div
+            id="tableStatus"
+            class="status"
+        >
+            Loading login history...
+        </div>
+
+
+        <table
+            id="loginTable"
+            style="display:none;"
+        >
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        S.No
+                    </th>
+
+                    <th>
+                        Photo
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Login Date & Time
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="loginTableBody">
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+
+    <button
+        class="back-button"
+        onclick="window.location.href='../index.html'"
+    >
+        ← Back to DATA PULSE
+    </button>
+
+
+    <!-- =====================================================
+         FIREBASE SCRIPT
+         ===================================================== -->
+
+    <script type="module">
+
+
+        // =====================================================
+        // FIREBASE CONFIG
+        // =====================================================
+
+        import {
+
+            auth,
+            db
+
+        } from "../js/firebase-config.js";
+
+
+        // =====================================================
+        // FIREBASE AUTH
+        // =====================================================
+
+        import {
+
+            onAuthStateChanged,
+            signOut
+
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+        // =====================================================
+        // FIRESTORE
+        // =====================================================
+
+        import {
+
+            collection,
+            query,
+            orderBy,
+            getDocs
+
+        } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+        // =====================================================
+        // ELEMENTS
+        // =====================================================
+
+        const adminInfo =
+            document.getElementById("adminInfo");
+
+        const tableStatus =
+            document.getElementById("tableStatus");
+
+        const loginTable =
+            document.getElementById("loginTable");
+
+        const loginTableBody =
+            document.getElementById("loginTableBody");
+
+        const totalLogins =
+            document.getElementById("totalLogins");
+
+        const uniqueUsers =
+            document.getElementById("uniqueUsers");
+
+        const searchBox =
+            document.getElementById("searchBox");
+
+
+        // =====================================================
+        // ADMIN EMAIL
+        // =====================================================
+
+        const ADMIN_EMAIL =
+            "rkolluri@gitam.edu";
+
+
+        // =====================================================
+        // FORMAT DATE
+        // =====================================================
+
+        function formatDate(timestamp) {
+
+            if (!timestamp) {
+
+                return "Not available";
+
+            }
+
+
+            const date =
+                timestamp.toDate();
+
+
+            return date.toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                }
+            );
+
+        }
+
+
+        // =====================================================
+        // LOAD LOGIN HISTORY
+        // =====================================================
+
+        async function loadLoginHistory() {
+
+            try {
+
+                const loginQuery = query(
+
+                    collection(
+                        db,
+                        "loginHistory"
+                    ),
+
+                    orderBy(
+                        "loginTime",
+                        "desc"
+                    )
+
+                );
+
+
+                const snapshot =
+                    await getDocs(
+                        loginQuery
+                    );
+
+
+                const users = new Set();
+
+
+                loginTableBody.innerHTML = "";
+
+
+                let serialNumber = 1;
+
+
+                snapshot.forEach(
+
+                    function (documentSnapshot) {
+
+
+                        const data =
+                            documentSnapshot.data();
+
+
+                        users.add(
+                            data.email || ""
+                        );
+
+
+                        const row =
+                            document.createElement("tr");
+
+
+                        row.dataset.name =
+                            (
+                                data.name || ""
+                            ).toLowerCase();
+
+
+                        row.dataset.email =
+                            (
+                                data.email || ""
+                            ).toLowerCase();
+
+
+                        row.innerHTML = `
+
+                            <td>
+                                ${serialNumber}
+                            </td>
+
+
+                            <td>
+
+                                ${
+                                    data.photoURL
+                                    ?
+
+                                    `
+                                    <img
+                                        src="${data.photoURL}"
+                                        class="user-photo"
+                                        alt="User"
+                                    >
+                                    `
+
+                                    :
+
+                                    "—"
+                                }
+
+                            </td>
+
+
+                            <td>
+                                ${data.name || "—"}
+                            </td>
+
+
+                            <td>
+                                ${data.email || "—"}
+                            </td>
+
+
+                            <td>
+                                ${formatDate(data.loginTime)}
+                            </td>
+
+                        `;
+
+
+                        loginTableBody.appendChild(
+                            row
+                        );
+
+
+                        serialNumber++;
+
+                    }
+
+                );
+
+
+                totalLogins.textContent =
+                    snapshot.size;
+
+
+                uniqueUsers.textContent =
+                    users.size;
+
+
+                if (snapshot.empty) {
+
+                    tableStatus.textContent =
+                        "No login history found.";
+
+                    return;
+
+                }
+
+
+                tableStatus.style.display =
+                    "none";
+
+
+                loginTable.style.display =
+                    "table";
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    "Login history error:",
+                    error
+                );
+
+
+                tableStatus.className =
+                    "status error";
+
+
+                tableStatus.innerHTML = `
+
+                    Unable to load login history.
+
+                    <br><br>
+
+                    ${error.message}
+
+                `;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // SEARCH
+        // =====================================================
+
+        searchBox.addEventListener(
+
+            "input",
+
+            function () {
+
+
+                const searchText =
+
+                    searchBox.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const rows =
+                    loginTableBody.querySelectorAll("tr");
+
+
+                rows.forEach(
+
+                    function (row) {
+
+
+                        const name =
+                            row.dataset.name || "";
+
+
+                        const email =
+                            row.dataset.email || "";
+
+
+                        if (
+
+                            name.includes(
+                                searchText
+                            )
+
+                            ||
+
+                            email.includes(
+                                searchText
+                            )
+
+                        ) {
+
+                            row.style.display =
+                                "";
+
+                        }
+
+                        else {
+
+                            row.style.display =
+                                "none";
+
+                        }
+
+                    }
+
+                );
+
+            }
+
+        );
+
+
+        // =====================================================
+        // AUTHENTICATION CHECK
+        // =====================================================
+
+        onAuthStateChanged(
+
+            auth,
+
+            async function (user) {
+
+
+                // -------------------------------------------------
+                // NO USER
+                // -------------------------------------------------
+
+                if (!user) {
+
+                    window.location.replace(
+                        "./FirebaseLoginTest.html"
+                    );
+
+                    return;
+
+                }
+
+
+                const email =
+
+                    (
+                        user.email || ""
+                    )
+                        .trim()
+                        .toLowerCase();
+
+
+                // -------------------------------------------------
+                // ADMIN CHECK
+                // -------------------------------------------------
+
+                if (
+                    email !== ADMIN_EMAIL
+                ) {
+
+
+                    console.log(
+                        "Unauthorized Login History access:",
+                        email
+                    );
+
+
+                    await signOut(
+                        auth
+                    );
+
+
+                    window.location.replace(
+                        "./FirebaseLoginTest.html"
+                    );
+
+
+                    return;
+
+                }
+
+
+                // -------------------------------------------------
+                // SHOW ADMIN INFORMATION
+                // -------------------------------------------------
+
+                adminInfo.innerHTML = `
+
+                    ${
+                        user.photoURL
+                        ?
+
+                        `
+                        <img
+                            src="${user.photoURL}"
+                            class="admin-photo"
+                            alt="Admin"
+                        >
+                        `
+
+                        :
+
+                        ""
+                    }
+
+
+                    <div>
+
+                        <div class="admin-name">
+
+                            ${
+                                user.displayName ||
+                                "DATA PULSE Administrator"
+                            }
+
+                        </div>
+
+
+                        <div class="admin-email">
+
+                            ${email}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                // -------------------------------------------------
+                // LOAD HISTORY
+                // -------------------------------------------------
+
+                await loadLoginHistory();
+
+            }
+
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

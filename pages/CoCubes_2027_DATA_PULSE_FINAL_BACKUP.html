@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoCubes 2027 - DATA PULSE</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f6;color:#222}
+.header{background:#007367;color:#fff;padding:16px 24px}
+.header h1{margin:0;font-size:22px}
+.header p{margin:4px 0 0;font-size:12px;opacity:.9}
+.container{width:100%;padding:18px 24px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px}
+.kpi-card{background:#fff;border-radius:8px;padding:14px 16px;box-shadow:0 2px 6px rgba(0,0,0,.08);border-left:5px solid #007367}
+.kpi-card:nth-child(2){border-left-color:#357abd}
+.kpi-title{font-size:11px;font-weight:bold;color:#666;text-transform:uppercase;margin-bottom:7px}
+.kpi-value{font-size:22px;font-weight:bold;color:#007367}
+.kpi-card:nth-child(2) .kpi-value{color:#357abd}
+.kpi-subtitle{font-size:11px;color:#666;margin-top:4px}
+
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{border:0;background:#dfe8e7;color:#007367;padding:10px 18px;border-radius:6px;font-weight:bold;cursor:pointer}
+.tab-btn.active{background:#007367;color:#fff}
+
+.section{background:#fff;border-radius:8px;box-shadow:0 2px 7px rgba(0,0,0,.08);padding:18px;margin-bottom:18px}
+.section-title{font-size:17px;font-weight:bold;color:#007367;margin-bottom:5px}
+.section-subtitle{font-size:12px;color:#666;margin-bottom:14px}
+
+.info-box{background:#eef8f6;border-left:4px solid #007367;padding:12px 14px;font-size:12px;line-height:1.6;margin-bottom:15px}
+.info-box strong{color:#007367}
+
+.filter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
+.filter-item label{display:block;font-size:11px;font-weight:bold;color:#666;margin-bottom:5px}
+.filter-item select,.filter-item input{width:100%;padding:9px;border:1px solid #d6dddd;border-radius:5px;background:#fff;font-size:12px}
+.filter-actions{display:flex;gap:8px;align-items:end}
+.btn{border:0;border-radius:5px;padding:9px 14px;font-weight:bold;cursor:pointer;font-size:12px}
+.btn-primary{background:#007367;color:#fff}
+.btn-secondary{background:#e8eeee;color:#007367}
+.btn-excel{background:#2e8b57;color:#fff}
+
+.table-container{background:#fff;border-radius:8px;overflow:auto;box-shadow:0 2px 7px rgba(0,0,0,.08)}
+.exam-table,.degree-table,.student-table{width:100%;border-collapse:collapse;min-width:900px}
+.exam-table th,.degree-table th{color:#fff;background:#007367;font-size:11px;padding:10px 7px;text-align:center;border-right:1px solid rgba(255,255,255,.3)}
+.exam-table th:nth-child(3){background:#357abd}
+.exam-table th:nth-child(4){background:#8e44ad}
+.exam-table th:nth-child(5){background:#e67e22}
+.exam-table th:nth-child(6){background:#2e8b57}
+.exam-table th:nth-child(7){background:#c94f6d}
+.exam-table th:nth-child(8){background:#5b5fc7}
+.exam-table th:last-child{background:#34495e}
+.exam-table td,.degree-table td,.student-table td{padding:9px 7px;text-align:center;font-size:12px;font-weight:bold;border:1px solid #e2e5e5}
+.exam-table .status-cell{text-align:left;padding-left:13px}
+.good-row td{background:#f2faf5}
+.training-row td{background:#fff9ed}
+.practice-row td{background:#fff3f6}
+.total-row td{background:#edf1f1;font-weight:bold}
+.total-col{background:#edf1f1!important}
+
+.explanation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.explain-card{padding:13px;border-radius:7px;border:1px solid #e1e5e5}
+.explain-card.good{border-left:4px solid #2e8b57}
+.explain-card.training{border-left:4px solid #e67e22}
+.explain-card.practice{border-left:4px solid #c94f6d}
+.explain-label{font-size:11px;font-weight:bold;color:#666}
+.explain-count{font-size:20px;font-weight:bold;margin:5px 0}
+.explain-percent{font-size:13px;color:#007367;font-weight:bold}
+
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{background:#fff;border:1px solid #e1e5e5;border-radius:8px;padding:14px}
+.chart-card.full{grid-column:1/-1}
+.chart-title{font-size:13px;font-weight:bold;color:#007367;margin-bottom:12px}
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:grid;grid-template-columns:145px 1fr 55px;gap:8px;align-items:center}
+.bar-label{font-size:10px;font-weight:bold;color:#555}
+.bar-track{height:22px;background:#edf1f1;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;color:#fff;font-size:10px;font-weight:bold;min-width:2px}
+.bar-good{background:#2e8b57}
+.bar-training{background:#e67e22}
+.bar-practice{background:#c94f6d}
+.bar-value{text-align:right;font-size:11px;font-weight:bold;color:#333}
+
+.degree-table th{background:#007367}
+.degree-table td:first-child{text-align:left;font-weight:bold}
+.degree-table .good{color:#177245}
+.degree-table .training{color:#b36b00}
+.degree-table .practice{color:#b52d45}
+
+.student-count{font-size:12px;color:#666;margin-bottom:10px}
+.student-table{min-width:1400px}
+.student-table th{background:#007367;color:#fff;padding:9px;font-size:11px;white-space:nowrap}
+.student-table td{font-weight:normal;text-align:left;white-space:nowrap}
+.student-table tr:nth-child(even) td{background:#fafcfc}
+
+.hidden{display:none!important}
+.loading{text-align:center;padding:40px;color:#666}
+.error{background:#fff0f0;color:#a00;padding:20px;border-radius:8px}
+.small-note{font-size:11px;color:#777;margin-top:8px}
+
+@media(max-width:900px){
+.kpi-grid,.filter-grid,.explanation-grid,.chart-grid{grid-template-columns:1fr}
+.chart-card.full{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>CoCubes 2027 Assessment Dashboard</h1>
+<p>DATA PULSE | Comprehensive Student Performance Analysis</p>
+</div>
+
+<div class="container">
+
+<div class="kpi-grid">
+<div class="kpi-card">
+<div class="kpi-title">Total Students</div>
+<div id="kpiStudents" class="kpi-value">Loading...</div>
+<div class="kpi-subtitle">Unique students assessed</div>
+</div>
+
+<div class="kpi-card">
+<div class="kpi-title">Total Examinations</div>
+<div class="kpi-value">7</div>
+<div class="kpi-subtitle">Assessment areas</div>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" id="dashboardTab" onclick="showTab('dashboardTab','dashboardPage')">Performance Dashboard</button>
+<button class="tab-btn" id="studentsTab" onclick="showTab('studentsTab','studentsPage')">Students Details</button>
+</div>
+
+<div id="dashboardPage">
+
+<div class="section">
+<div class="section-title">Dashboard Filters</div>
+<div class="filter-grid">
+<div class="filter-item">
+<label>Campus</label>
+<select id="campusFilter"><option value="">All Campuses</option></select>
+</div>
+<div class="filter-item">
+<label>Degree</label>
+<select id="degreeFilter"><option value="">All Degrees</option></select>
+</div>
+<div class="filter-item">
+<label>Department</label>
+<select id="departmentFilter"><option value="">All Departments</option></select>
+</div>
+<div class="filter-item">
+<label>Student Search</label>
+<input id="studentSearch" placeholder="Name / Roll Number / Email">
+</div>
+</div>
+<div class="filter-actions">
+<button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+<button class="btn btn-secondary" onclick="resetFilters()">Reset Filters</button>
+</div>
+</div>
+
+<div id="dashboardContent">
+<div class="loading">Loading CoCubes 2027 data...</div>
+</div>
+
+</div>
+
+<div id="studentsPage" class="hidden">
+
+<div class="section">
+<div class="section-title">Students Details</div>
+<div class="section-subtitle">Student-level CoCubes 2027 assessment data</div>
+
+<div class="filter-grid">
+<div class="filter-item">
+<label>Campus</label>
+<select id="studentCampusFilter"><option value="">All Campuses</option></select>
+</div>
+<div class="filter-item">
+<label>Degree</label>
+<select id="studentDegreeFilter"><option value="">All Degrees</option></select>
+</div>
+<div class="filter-item">
+<label>Department</label>
+<select id="studentDepartmentFilter"><option value="">All Departments</option></select>
+</div>
+<div class="filter-item">
+<label>Search</label>
+<input id="studentDetailSearch" placeholder="Name / Roll Number / Email">
+</div>
+</div>
+
+<div class="filter-actions">
+<button class="btn btn-primary" onclick="renderStudentsTable()">Apply Filters</button>
+<button class="btn btn-secondary" onclick="resetStudentFilters()">Reset Filters</button>
+<button class="btn btn-excel" onclick="exportExcel()">Export Students to Excel</button>
+</div>
+
+<div id="studentCount" class="student-count"></div>
+<div id="studentsTableContainer" class="table-container"></div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+const JSON_FILE="../data/cocubes-2027.json";
+
+const EXAMS=[
+"Domain",
+"English Usage",
+"Analytical Reasoning",
+"Quantitative Ability",
+"Computer Fundamentals",
+"Written English",
+"Coding"
+];
+
+let allStudents=[];
+let filteredStudents=[];
+
+function escapeHtml(value){
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+function percentage(value,total){
+return total?((value/total)*100).toFixed(1):"0.0";
+}
+
+function uniqueValues(field){
+return [...new Set(allStudents.map(s=>s[field]).filter(v=>v!==undefined&&v!==null&&String(v).trim()!==""))].sort((a,b)=>String(a).localeCompare(String(b)));
+}
+
+function fillSelect(id,values){
+const el=document.getElementById(id);
+values.forEach(v=>{
+const o=document.createElement("option");
+o.value=v;
+o.textContent=v;
+el.appendChild(o);
+});
+}
+
+function getFilteredStudents(){
+const campus=document.getElementById("campusFilter").value;
+const degree=document.getElementById("degreeFilter").value;
+const department=document.getElementById("departmentFilter").value;
+const search=document.getElementById("studentSearch").value.trim().toLowerCase();
+
+return allStudents.filter(s=>{
+const okCampus=!campus||s.Campus===campus;
+const okDegree=!degree||s.Degree===degree;
+const okDepartment=!department||s.Department===department;
+const text=(String(s.Name||"")+" "+String(s["University Roll Number"]||"")+" "+String(s.Email||"")).toLowerCase();
+const okSearch=!search||text.includes(search);
+return okCampus&&okDegree&&okDepartment&&okSearch;
+});
+}
+
+function calculateData(students){
+const counts={};
+EXAMS.forEach(exam=>{
+counts[exam]={"Good to Go":0,"Need Training":0,"Need Practice":0};
+});
+
+students.forEach(student=>{
+EXAMS.forEach(exam=>{
+const status=student[exam];
+if(counts[exam][status]!==undefined) counts[exam][status]++;
+});
+});
+
+const totalExamResults=students.length*EXAMS.length;
+
+const overall={
+"Good to Go":0,
+"Need Training":0,
+"Need Practice":0
+};
+
+EXAMS.forEach(exam=>{
+overall["Good to Go"]+=counts[exam]["Good to Go"];
+overall["Need Training"]+=counts[exam]["Need Training"];
+overall["Need Practice"]+=counts[exam]["Need Practice"];
+});
+
+const degreeData={};
+
+students.forEach(student=>{
+const degree=student.Degree||"Not Specified";
+if(!degreeData[degree]){
+degreeData[degree]={
+students:0,
+"Good to Go":0,
+"Need Training":0,
+"Need Practice":0
+};
+}
+degreeData[degree].students++;
+EXAMS.forEach(exam=>{
+const status=student[exam];
+if(degreeData[degree][status]!==undefined) degreeData[degree][status]++;
+});
+});
+
+return {counts,overall,degreeData,totalExamResults};
+}
+
+function renderDashboard(students){
+
+const {counts,overall,degreeData,totalExamResults}=calculateData(students);
+
+const overallGood=overall["Good to Go"];
+const overallTraining=overall["Need Training"];
+const overallPractice=overall["Need Practice"];
+
+let html="";
+
+html+=`
+<div class="section">
+<div class="section-title">Examination-wise Performance</div>
+<div class="section-subtitle">Results for each of the 7 assessment areas</div>
+
+<div class="info-box">
+<strong>How to read this table:</strong>
+The student count is <strong>${students.length.toLocaleString()}</strong>.
+Each student can have a result in all 7 examinations, so the total possible examination results are
+<strong>${totalExamResults.toLocaleString()} (${students.length.toLocaleString()} students × 7 examinations)</strong>.
+Therefore, Good to Go / Need Training / Need Practice counts are <strong>exam-result counts</strong>, not unique student counts.
+</div>
+
+<div class="table-container">
+<table class="exam-table">
+<thead>
+<tr>
+<th>Status</th>
+${EXAMS.map(e=>`<th>${escapeHtml(e)}</th>`).join("")}
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="good-row">
+<td class="status-cell">Good to Go</td>
+${EXAMS.map(e=>`<td>${counts[e]["Good to Go"].toLocaleString()}</td>`).join("")}
+<td class="total-col">${overallGood.toLocaleString()}</td>
+</tr>
+<tr class="training-row">
+<td class="status-cell">Need Training</td>
+${EXAMS.map(e=>`<td>${counts[e]["Need Training"].toLocaleString()}</td>`).join("")}
+<td class="total-col">${overallTraining.toLocaleString()}</td>
+</tr>
+<tr class="practice-row">
+<td class="status-cell">Need Practice</td>
+${EXAMS.map(e=>`<td>${counts[e]["Need Practice"].toLocaleString()}</td>`).join("")}
+<td class="total-col">${overallPractice.toLocaleString()}</td>
+</tr>
+<tr class="total-row">
+<td class="status-cell">Total Results</td>
+${EXAMS.map(e=>`<td>${(
+counts[e]["Good to Go"]+
+counts[e]["Need Training"]+
+counts[e]["Need Practice"]
+).toLocaleString()}</td>`).join("")}
+<td>${totalExamResults.toLocaleString()}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="small-note">
+Each examination column totals the students who have a recognised result for that examination.
+</div>
+</div>
+`;
+
+html+=`
+<div class="section">
+<div class="section-title">Overall Performance</div>
+<div class="section-subtitle">Overall examination-result performance across all 7 examinations</div>
+
+<div class="info-box">
+<strong>Important:</strong>
+The figures below are based on <strong>${totalExamResults.toLocaleString()} exam results</strong>,
+not ${students.length.toLocaleString()} unique students.
+For example, one student can contribute up to 7 examination results.
+</div>
+
+<div class="explanation-grid">
+
+<div class="explain-card good">
+<div class="explain-label">GOOD TO GO</div>
+<div class="explain-count">${overallGood.toLocaleString()}</div>
+<div class="explain-percent">${percentage(overallGood,totalExamResults)}%</div>
+</div>
+
+<div class="explain-card training">
+<div class="explain-label">NEED TRAINING</div>
+<div class="explain-count">${overallTraining.toLocaleString()}</div>
+<div class="explain-percent">${percentage(overallTraining,totalExamResults)}%</div>
+</div>
+
+<div class="explain-card practice">
+<div class="explain-label">NEED PRACTICE</div>
+<div class="explain-count">${overallPractice.toLocaleString()}</div>
+<div class="explain-percent">${percentage(overallPractice,totalExamResults)}%</div>
+</div>
+
+</div>
+</div>
+`;
+
+html+=`
+<div class="section">
+<div class="section-title">Performance Graphs (%)</div>
+<div class="section-subtitle">Percentages are calculated using the relevant examination-result denominator</div>
+
+<div class="chart-grid">
+
+<div class="chart-card full">
+<div class="chart-title">Examination-wise Performance %</div>
+<div class="bar-chart">
+${EXAMS.map(exam=>`
+<div class="bar-row">
+<div class="bar-label">${escapeHtml(exam)}<br><small>Good to Go</small></div>
+<div class="bar-track"><div class="bar-fill bar-good" style="width:${percentage(counts[exam]["Good to Go"],students.length)}%"></div></div>
+<div class="bar-value">${percentage(counts[exam]["Good to Go"],students.length)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label"></div>
+<div class="bar-track"><div class="bar-fill bar-training" style="width:${percentage(counts[exam]["Need Training"],students.length)}%"></div></div>
+<div class="bar-value">${percentage(counts[exam]["Need Training"],students.length)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label"></div>
+<div class="bar-track"><div class="bar-fill bar-practice" style="width:${percentage(counts[exam]["Need Practice"],students.length)}%"></div></div>
+<div class="bar-value">${percentage(counts[exam]["Need Practice"],students.length)}%</div>
+</div>
+`).join("")}
+</div>
+<div class="small-note">Green = Good to Go | Orange = Need Training | Red = Need Practice</div>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Overall Performance %</div>
+<div class="bar-chart">
+<div class="bar-row">
+<div class="bar-label">Good to Go</div>
+<div class="bar-track"><div class="bar-fill bar-good" style="width:${percentage(overallGood,totalExamResults)}%"></div></div>
+<div class="bar-value">${percentage(overallGood,totalExamResults)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label">Need Training</div>
+<div class="bar-track"><div class="bar-fill bar-training" style="width:${percentage(overallTraining,totalExamResults)}%"></div></div>
+<div class="bar-value">${percentage(overallTraining,totalExamResults)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label">Need Practice</div>
+<div class="bar-track"><div class="bar-fill bar-practice" style="width:${percentage(overallPractice,totalExamResults)}%"></div></div>
+<div class="bar-value">${percentage(overallPractice,totalExamResults)}%</div>
+</div>
+</div>
+</div>
+
+<div class="chart-card">
+<div class="chart-title">Degree-wise Performance %</div>
+<div class="bar-chart">
+${Object.keys(degreeData).sort().map(degree=>`
+<div style="font-size:11px;font-weight:bold;color:#007367;margin-top:5px">${escapeHtml(degree)}</div>
+<div class="bar-row">
+<div class="bar-label">Good to Go</div>
+<div class="bar-track"><div class="bar-fill bar-good" style="width:${percentage(degreeData[degree]["Good to Go"],degreeData[degree].students*EXAMS.length)}%"></div></div>
+<div class="bar-value">${percentage(degreeData[degree]["Good to Go"],degreeData[degree].students*EXAMS.length)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label">Need Training</div>
+<div class="bar-track"><div class="bar-fill bar-training" style="width:${percentage(degreeData[degree]["Need Training"],degreeData[degree].students*EXAMS.length)}%"></div></div>
+<div class="bar-value">${percentage(degreeData[degree]["Need Training"],degreeData[degree].students*EXAMS.length)}%</div>
+</div>
+<div class="bar-row">
+<div class="bar-label">Need Practice</div>
+<div class="bar-track"><div class="bar-fill bar-practice" style="width:${percentage(degreeData[degree]["Need Practice"],degreeData[degree].students*EXAMS.length)}%"></div></div>
+<div class="bar-value">${percentage(degreeData[degree]["Need Practice"],degreeData[degree].students*EXAMS.length)}%</div>
+</div>
+`).join("")}
+</div>
+</div>
+
+</div>
+</div>
+`;
+
+html+=`
+<div class="section">
+<div class="section-title">Degree-wise Analysis</div>
+<div class="section-subtitle">Performance breakdown by degree</div>
+
+<div class="info-box">
+<strong>How degree-wise Good to Go is calculated:</strong>
+For each degree, every student can contribute up to 7 examination results.
+Therefore, <strong>Degree Total Exam Results = Degree Students × 7</strong>.
+The Good to Go number is the number of Good to Go examination results within that degree.
+The percentage is <strong>Good to Go results ÷ Degree Total Exam Results × 100</strong>.
+</div>
+
+<div class="table-container">
+<table class="degree-table">
+<thead>
+<tr>
+<th>Degree</th>
+<th>Students</th>
+<th>Total Exam Results</th>
+<th>Good to Go</th>
+<th>Good to Go %</th>
+<th>Need Training</th>
+<th>Need Training %</th>
+<th>Need Practice</th>
+<th>Need Practice %</th>
+</tr>
+</thead>
+<tbody>
+${Object.keys(degreeData).sort().map(degree=>{
+const d=degreeData[degree];
+const total=d.students*EXAMS.length;
+return `
+<tr>
+<td>${escapeHtml(degree)}</td>
+<td>${d.students.toLocaleString()}</td>
+<td>${total.toLocaleString()}</td>
+<td class="good">${d["Good to Go"].toLocaleString()}</td>
+<td>${percentage(d["Good to Go"],total)}%</td>
+<td class="training">${d["Need Training"].toLocaleString()}</td>
+<td>${percentage(d["Need Training"],total)}%</td>
+<td class="practice">${d["Need Practice"].toLocaleString()}</td>
+<td>${percentage(d["Need Practice"],total)}%</td>
+</tr>`;
+}).join("")}
+</tbody>
+</table>
+</div>
+</div>
+`;
+
+document.getElementById("dashboardContent").innerHTML=html;
+}
+
+function renderStudentsTable(){
+
+const campus=document.getElementById("studentCampusFilter").value;
+const degree=document.getElementById("studentDegreeFilter").value;
+const department=document.getElementById("studentDepartmentFilter").value;
+const search=document.getElementById("studentDetailSearch").value.trim().toLowerCase();
+
+filteredStudents=allStudents.filter(s=>{
+const okCampus=!campus||s.Campus===campus;
+const okDegree=!degree||s.Degree===degree;
+const okDepartment=!department||s.Department===department;
+const text=(String(s.Name||"")+" "+String(s["University Roll Number"]||"")+" "+String(s.Email||"")).toLowerCase();
+const okSearch=!search||text.includes(search);
+return okCampus&&okDegree&&okDepartment&&okSearch;
+});
+
+document.getElementById("studentCount").textContent=
+"Showing "+filteredStudents.length.toLocaleString()+" of "+allStudents.length.toLocaleString()+" students";
+
+const fields=[
+"University Roll Number",
+"Name",
+"Email",
+"Degree",
+"Department",
+"Campus",
+...EXAMS
+];
+
+let html=`<table class="student-table"><thead><tr>`;
+fields.forEach(f=>html+=`<th>${escapeHtml(f)}</th>`);
+html+=`</tr></thead><tbody>`;
+
+filteredStudents.forEach(student=>{
+html+="<tr>";
+fields.forEach(field=>{
+html+=`<td>${escapeHtml(student[field])}</td>`;
+});
+html+="</tr>";
+});
+
+html+="</tbody></table>";
+
+document.getElementById("studentsTableContainer").innerHTML=html;
+}
+
+function populateFilters(){
+
+const campus=uniqueValues("Campus");
+const degree=uniqueValues("Degree");
+const department=uniqueValues("Department");
+
+fillSelect("campusFilter",campus);
+fillSelect("degreeFilter",degree);
+fillSelect("departmentFilter",department);
+
+fillSelect("studentCampusFilter",campus);
+fillSelect("studentDegreeFilter",degree);
+fillSelect("studentDepartmentFilter",department);
+}
+
+function applyFilters(){
+renderDashboard(getFilteredStudents());
+}
+
+function resetFilters(){
+document.getElementById("campusFilter").value="";
+document.getElementById("degreeFilter").value="";
+document.getElementById("departmentFilter").value="";
+document.getElementById("studentSearch").value="";
+renderDashboard(allStudents);
+}
+
+function resetStudentFilters(){
+document.getElementById("studentCampusFilter").value="";
+document.getElementById("studentDegreeFilter").value="";
+document.getElementById("studentDepartmentFilter").value="";
+document.getElementById("studentDetailSearch").value="";
+renderStudentsTable();
+}
+
+function showTab(buttonId,pageId){
+
+document.getElementById("dashboardPage").classList.add("hidden");
+document.getElementById("studentsPage").classList.add("hidden");
+
+document.getElementById("dashboardTab").classList.remove("active");
+document.getElementById("studentsTab").classList.remove("active");
+
+document.getElementById(pageId).classList.remove("hidden");
+document.getElementById(buttonId).classList.add("active");
+
+if(pageId==="studentsPage"){
+renderStudentsTable();
+}
+}
+
+function exportExcel(){
+
+if(!filteredStudents.length){
+alert("No students available to export.");
+return;
+}
+
+const fields=[
+"University Roll Number",
+"Name",
+"Email",
+"Degree",
+"Department",
+"Campus",
+...EXAMS
+];
+
+let html="<html><head><meta charset='UTF-8'></head><body>";
+html+="<table border='1'><tr>";
+fields.forEach(f=>html+="<th>"+escapeHtml(f)+"</th>");
+html+="</tr>";
+
+filteredStudents.forEach(student=>{
+html+="<tr>";
+fields.forEach(field=>{
+html+="<td>"+escapeHtml(student[field])+"</td>";
+});
+html+="</tr>";
+});
+
+html+="</table></body></html>";
+
+const blob=new Blob([html],{type:"application/vnd.ms-excel"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="CoCubes_2027_Students_Details.xls";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+}
+
+async function loadDashboard(){
+
+try{
+
+const response=await fetch(JSON_FILE);
+
+if(!response.ok){
+throw new Error("Unable to load cocubes-2027.json");
+}
+
+allStudents=await response.json();
+
+document.getElementById("kpiStudents").textContent=
+allStudents.length.toLocaleString();
+
+populateFilters();
+filteredStudents=allStudents.slice();
+
+renderDashboard(allStudents);
+renderStudentsTable();
+
+}catch(error){
+
+document.getElementById("dashboardContent").innerHTML=
+`<div class="error"><strong>Error loading dashboard:</strong><br>${escapeHtml(error.message)}</div>`;
+
+console.error(error);
+}
+}
+
+loadDashboard();
+</script>
+
+</body>
+</html>

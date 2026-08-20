@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Training Report</title>
+
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+    padding:0;
+    background:#fff;
+}
+
+/* Display images side by side */
+.image-container{
+    display:flex;
+    gap:30px;
+}
+
+.image-box{
+    text-align:left;
+}
+
+.image-box img{
+    width:400px;
+    height:300px;
+    cursor:pointer;
+    display:block;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="image-container">
+
+    <!-- 2027 -->
+    <div class="image-box">
+        <img
+            id="img2027"
+            src="../images/img12off.jpg"
+            alt="Training Report 2027">
+    </div>
+
+    <!-- 2028 -->
+    <div class="image-box">
+        <img
+            id="img2028"
+            src="../images/img13off.jpg"
+            alt="Training Report 2028">
+    </div>
+
+</div>
+
+<script>
+
+// ---------- 2027 ----------
+const img2027 = document.getElementById("img2027");
+
+img2027.addEventListener("click", function () {
+    window.parent.loadPage("pages/2027.HTML");
+});
+
+img2027.addEventListener("mouseenter", function () {
+    img2027.src = "../images/img12on.jpg";
+});
+
+img2027.addEventListener("mouseleave", function () {
+    img2027.src = "../images/img12off.jpg";
+});
+
+
+// ---------- 2028 ----------
+const img2028 = document.getElementById("img2028");
+
+img2028.addEventListener("click", function () {
+    window.parent.loadPage("pages/2028.HTML");
+});
+
+img2028.addEventListener("mouseenter", function () {
+    img2028.src = "../images/img13on.jpg";
+});
+
+img2028.addEventListener("mouseleave", function () {
+    img2028.src = "../images/img13off.jpg";
+});
+
+</script>
+
+</body>
+</html>

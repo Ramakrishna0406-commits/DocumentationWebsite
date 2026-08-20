@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - CoCubes 2027 Performance</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f8;
+    color:#263238;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    background:#007367;
+    color:white;
+    padding:22px 30px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+}
+
+.header p{
+    margin:7px 0 0;
+    opacity:.9;
+    font-size:14px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+    width:94%;
+    max-width:1500px;
+    margin:25px auto 50px;
+}
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:
+        repeat(4,minmax(180px,1fr));
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.08);
+    border-left:5px solid #007367;
+}
+
+.card .label{
+    font-size:13px;
+    color:#607d8b;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.card .number{
+    font-size:30px;
+    font-weight:700;
+    margin-top:8px;
+    color:#007367;
+}
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.panel{
+    background:white;
+    border-radius:12px;
+    padding:22px;
+    margin-bottom:22px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.07);
+}
+
+.panel-title{
+    margin:0 0 17px;
+    font-size:19px;
+    color:#007367;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:
+        repeat(4,minmax(180px,1fr));
+    gap:15px;
+}
+
+.filter label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:#607d8b;
+    margin-bottom:6px;
+}
+
+.filter select{
+    width:100%;
+    padding:11px;
+    border:1px solid #cfd8dc;
+    border-radius:7px;
+    background:white;
+    font-size:14px;
+}
+
+.reset{
+    margin-top:16px;
+    padding:10px 18px;
+    border:0;
+    border-radius:7px;
+    background:#007367;
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.reset:hover{
+    opacity:.9;
+}
+
+/* =========================================================
+   ASSESSMENT SELECTOR
+========================================================= */
+
+.assessment-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+.assessment-tab{
+    border:1px solid #b0bec5;
+    background:white;
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+}
+
+.assessment-tab.active{
+    background:#007367;
+    color:white;
+    border-color:#007367;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper{
+    width:100%;
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th{
+    background:#007367;
+    color:white;
+    padding:12px 10px;
+    text-align:center;
+    font-size:13px;
+}
+
+td{
+    padding:11px 10px;
+    border-bottom:1px solid #e0e0e0;
+    text-align:center;
+    font-size:13px;
+}
+
+tbody tr:hover{
+    background:#f1f8f7;
+}
+
+.left{
+    text-align:left;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-good{
+    color:#087f23;
+    font-weight:700;
+}
+
+.status-training{
+    color:#c62828;
+    font-weight:700;
+}
+
+.status-practice{
+    color:#ef6c00;
+    font-weight:700;
+}
+
+.status-not{
+    color:#78909c;
+    font-weight:700;
+}
+
+/* =========================================================
+   CHARTS
+========================================================= */
+
+.charts{
+    display:grid;
+    grid-template-columns:
+        repeat(2,minmax(300px,1fr));
+    gap:20px;
+}
+
+.chart-box{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.07);
+}
+
+.chart-box h3{
+    margin:0 0 15px;
+    color:#007367;
+    font-size:17px;
+}
+
+.chart-container{
+    position:relative;
+    height:340px;
+}
+
+/* =========================================================
+   DETAIL
+========================================================= */
+
+.detail-count{
+    color:#607d8b;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .cards{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .filters{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .charts{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:96%;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:22px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>DATA PULSE — CoCubes 2027 Performance</h1>
+
+    <p>
+        Pre Assessment → Post Assessment |
+        Assessment-wise Student Performance
+    </p>
+
+</div>
+
+<div class="container">
+
+<!-- ======================================================
+     SUMMARY
+====================================================== -->
+
+<div class="cards">
+
+    <div class="card">
+        <div class="label">Students</div>
+        <div class="number" id="studentCount">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Assessments</div>
+        <div class="number">6</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Pre Good to Go</div>
+        <div class="number" id="preGood">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Post Good to Go</div>
+        <div class="number" id="postGood">0</div>
+    </div>
+
+</div>
+
+<!-- ======================================================
+     FILTERS
+====================================================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+        Filters
+    </h2>
+
+    <div class="filters">
+
+        <div class="filter">
+
+            <label>Campus / Location</label>
+
+            <select id="locationFilter">
+                <option value="">All Locations</option>
+            </select>
+
+        </div>
+
+        <div class="filter">
+
+            <label>Degree</label>
+
+            <select id="degreeFilter">
+                <option value="">All Degrees</option>
+            </select>
+
+        </div>
+
+        <div class="filter">
+
+            <label>Department</label>
+
+            <select id="departmentFilter">
+                <option value="">All Departments</option>
+            </select>
+
+        </div>
+
+        <div class="filter">
+
+            <label>Assessment</label>
+
+            <select id="assessmentFilter">
+                <option value="ALL">All Assessments</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <button class="reset" id="resetButton">
+        Reset Filters
+    </button>
+
+</div>
+
+<!-- ======================================================
+     ASSESSMENTS
+====================================================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+        2027 Assessments
+    </h2>
+
+    <div class="assessment-tabs"
+         id="assessmentTabs">
+    </div>
+
+</div>
+
+<!-- ======================================================
+     SELECTED ASSESSMENT SUMMARY
+====================================================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title"
+        id="selectedTitle">
+        Assessment Summary
+    </h2>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Stage</th>
+                    <th>Good to Go</th>
+                    <th>Need Training</th>
+                    <th>Need Practice</th>
+                    <th>Not Appeared</th>
+                    <th>Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="summaryBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ======================================================
+     ALL ASSESSMENTS
+====================================================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+        Assessment-wise Pre / Post Performance
+    </h2>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th rowspan="2">
+                        Assessment
+                    </th>
+
+                    <th colspan="4">
+                        PRE ASSESSMENT
+                    </th>
+
+                    <th colspan="4">
+                        POST ASSESSMENT
+                    </th>
+
+                </tr>
+
+                <tr>
+
+                    <th>Good to Go</th>
+                    <th>Need Training</th>
+                    <th>Need Practice</th>
+                    <th>Not Appeared</th>
+
+                    <th>Good to Go</th>
+                    <th>Need Training</th>
+                    <th>Need Practice</th>
+                    <th>Not Appeared</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="assessmentTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ======================================================
+     CHARTS
+====================================================== -->
+
+<div class="charts">
+
+    <div class="chart-box">
+
+        <h3>
+            Pre vs Post — Good to Go
+        </h3>
+
+        <div class="chart-container">
+            <canvas id="goodChart"></canvas>
+        </div>
+
+    </div>
+
+    <div class="chart-box">
+
+        <h3>
+            Pre vs Post — Training / Practice
+        </h3>
+
+        <div class="chart-container">
+            <canvas id="needChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ======================================================
+     STUDENT DETAILS
+====================================================== -->
+
+<div class="panel">
+
+    <h2 class="panel-title">
+        Student Performance Details
+    </h2>
+
+    <div class="detail-count"
+         id="detailCount">
+        Showing 0 students
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>S.No</th>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Degree</th>
+                    <th>Location</th>
+                    <th>Assessment</th>
+                    <th>Pre</th>
+                    <th>Post</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="studentTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* ==========================================================
+   DATA
+========================================================== */
+
+let DATA = [];
+
+let goodChart = null;
+let needChart = null;
+
+let selectedAssessment = "ALL";
+
+
+/* ==========================================================
+   EXACT 2027 ASSESSMENTS
+========================================================== */
+
+const ASSESSMENTS = [
+
+    {
+        key:"Domain Test",
+        name:"Domain"
+    },
+
+    {
+        key:"English Usage",
+        name:"English Usage"
+    },
+
+    {
+        key:"Analytical Reasoning",
+        name:"Analytical Reasoning"
+    },
+
+    {
+        key:"Quantitative Aptitude",
+        name:"Quantitative Ability"
+    },
+
+    {
+        key:"Written English Test",
+        name:"Written English"
+    },
+
+    {
+        key:"Coding",
+        name:"Coding"
+    }
+
+];
+
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+function normalizeStatus(value){
+
+    if(value === null ||
+       value === undefined ||
+       value === ""){
+
+        return "Not Appeared";
+    }
+
+    value =
+        String(value).trim();
+
+    if(value === "Not Attended"){
+        return "Not Appeared";
+    }
+
+    if(value === "Not Appeared"){
+        return "Not Appeared";
+    }
+
+    if(value === "Good to Go"){
+        return "Good to Go";
+    }
+
+    if(value === "Need Training"){
+        return "Need Training";
+    }
+
+    if(value === "Need Practice"){
+        return "Need Practice";
+    }
+
+    return value;
+}
+
+
+/* ==========================================================
+   GET PRE / POST
+========================================================== */
+
+function getStatus(row, assessmentKey, stage){
+
+    if(!row){
+        return "Not Appeared";
+    }
+
+    const assessment =
+        row[assessmentKey];
+
+    if(!assessment){
+        return "Not Appeared";
+    }
+
+    return normalizeStatus(
+        assessment[stage]
+    );
+}
+
+
+/* ==========================================================
+   FILTER
+========================================================== */
+
+function filteredData(){
+
+    const location =
+        document
+        .getElementById("locationFilter")
+        .value;
+
+    const degree =
+        document
+        .getElementById("degreeFilter")
+        .value;
+
+    const department =
+        document
+        .getElementById("departmentFilter")
+        .value;
+
+    return DATA.filter(function(row){
+
+        if(location &&
+           String(row["Location"]) !== location){
+
+            return false;
+        }
+
+        if(degree &&
+           String(row["Degree"]) !== degree){
+
+            return false;
+        }
+
+        if(department &&
+           String(row["Department"]) !== department){
+
+            return false;
+        }
+
+        return true;
+
+    });
+
+}
+
+
+/* ==========================================================
+   COUNT STATUS
+========================================================== */
+
+function countStatus(
+    rows,
+    assessmentKey,
+    stage,
+    status
+){
+
+    return rows.filter(function(row){
+
+        return getStatus(
+            row,
+            assessmentKey,
+            stage
+        ) === status;
+
+    }).length;
+
+}
+
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+function getSummary(
+    rows,
+    assessmentKey,
+    stage
+){
+
+    return {
+
+        good:
+            countStatus(
+                rows,
+                assessmentKey,
+                stage,
+                "Good to Go"
+            ),
+
+        training:
+            countStatus(
+                rows,
+                assessmentKey,
+                stage,
+                "Need Training"
+            ),
+
+        practice:
+            countStatus(
+                rows,
+                assessmentKey,
+                stage,
+                "Need Practice"
+            ),
+
+        notAppeared:
+            countStatus(
+                rows,
+                assessmentKey,
+                stage,
+                "Not Appeared"
+            )
+
+    };
+
+}
+
+
+/* ==========================================================
+   FILTER OPTIONS
+========================================================== */
+
+function uniqueValues(field){
+
+    return [
+        ...new Set(
+            DATA
+            .map(row =>
+                String(row[field] || "")
+            )
+            .filter(Boolean)
+        )
+    ].sort();
+
+}
+
+
+function populateSelect(
+    id,
+    values
+){
+
+    const select =
+        document.getElementById(id);
+
+    values.forEach(function(value){
+
+        const option =
+            document.createElement("option");
+
+        option.value = value;
+        option.textContent = value;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* ==========================================================
+   ASSESSMENT SELECTOR
+========================================================== */
+
+function buildAssessmentSelectors(){
+
+    const select =
+        document.getElementById(
+            "assessmentFilter"
+        );
+
+    const tabs =
+        document.getElementById(
+            "assessmentTabs"
+        );
+
+    ASSESSMENTS.forEach(function(a){
+
+        const option =
+            document.createElement("option");
+
+        option.value = a.key;
+        option.textContent = a.name;
+
+        select.appendChild(option);
+
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "assessment-tab";
+
+        button.textContent =
+            a.name;
+
+        button.dataset.key =
+            a.key;
+
+        button.onclick =
+            function(){
+
+                selectedAssessment =
+                    a.key;
+
+                select.value =
+                    a.key;
+
+                update();
+
+            };
+
+        tabs.appendChild(button);
+
+    });
+
+}
+
+
+/* ==========================================================
+   UPDATE ACTIVE TAB
+========================================================== */
+
+function updateActiveTab(){
+
+    document
+    .querySelectorAll(".assessment-tab")
+    .forEach(function(button){
+
+        button.classList.toggle(
+            "active",
+            button.dataset.key ===
+            selectedAssessment
+        );
+
+    });
+
+}
+
+
+/* ==========================================================
+   SUMMARY TABLE
+========================================================== */
+
+function renderSelectedSummary(rows){
+
+    const body =
+        document.getElementById(
+            "summaryBody"
+        );
+
+    body.innerHTML = "";
+
+    let assessments =
+        ASSESSMENTS;
+
+    if(selectedAssessment !== "ALL"){
+
+        assessments =
+            ASSESSMENTS.filter(
+                a =>
+                a.key ===
+                selectedAssessment
+            );
+
+    }
+
+    assessments.forEach(function(a){
+
+        const pre =
+            getSummary(
+                rows,
+                a.key,
+                "Pre 1"
+            );
+
+        const post =
+            getSummary(
+                rows,
+                a.key,
+                "Post 1"
+            );
+
+        if(selectedAssessment !== "ALL"){
+
+            document.getElementById(
+                "selectedTitle"
+            ).textContent =
+                a.name +
+                " — Pre vs Post";
+
+        }
+
+        body.innerHTML += `
+
+            <tr>
+
+                <td class="left">
+                    ${a.name} — Pre
+                </td>
+
+                <td class="status-good">
+                    ${pre.good}
+                </td>
+
+                <td class="status-training">
+                    ${pre.training}
+                </td>
+
+                <td class="status-practice">
+                    ${pre.practice}
+                </td>
+
+                <td class="status-not">
+                    ${pre.notAppeared}
+                </td>
+
+                <td>
+                    ${rows.length}
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="left">
+                    ${a.name} — Post
+                </td>
+
+                <td class="status-good">
+                    ${post.good}
+                </td>
+
+                <td class="status-training">
+                    ${post.training}
+                </td>
+
+                <td class="status-practice">
+                    ${post.practice}
+                </td>
+
+                <td class="status-not">
+                    ${post.notAppeared}
+                </td>
+
+                <td>
+                    ${rows.length}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+    if(selectedAssessment === "ALL"){
+
+        document.getElementById(
+            "selectedTitle"
+        ).textContent =
+            "All Assessment Summary";
+
+    }
+
+}
+
+
+/* ==========================================================
+   ALL ASSESSMENTS TABLE
+========================================================== */
+
+function renderAssessmentTable(rows){
+
+    const body =
+        document.getElementById(
+            "assessmentTableBody"
+        );
+
+    body.innerHTML = "";
+
+    ASSESSMENTS.forEach(function(a){
+
+        const pre =
+            getSummary(
+                rows,
+                a.key,
+                "Pre 1"
+            );
+
+        const post =
+            getSummary(
+                rows,
+                a.key,
+                "Post 1"
+            );
+
+        body.innerHTML += `
+
+            <tr>
+
+                <td class="left">
+                    <strong>${a.name}</strong>
+                </td>
+
+                <td class="status-good">
+                    ${pre.good}
+                </td>
+
+                <td class="status-training">
+                    ${pre.training}
+                </td>
+
+                <td class="status-practice">
+                    ${pre.practice}
+                </td>
+
+                <td class="status-not">
+                    ${pre.notAppeared}
+                </td>
+
+                <td class="status-good">
+                    ${post.good}
+                </td>
+
+                <td class="status-training">
+                    ${post.training}
+                </td>
+
+                <td class="status-practice">
+                    ${post.practice}
+                </td>
+
+                <td class="status-not">
+                    ${post.notAppeared}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ==========================================================
+   TOP KPI
+========================================================== */
+
+function updateKPIs(rows){
+
+    document.getElementById(
+        "studentCount"
+    ).textContent =
+        rows.length.toLocaleString();
+
+
+    let preGood = 0;
+    let postGood = 0;
+
+    ASSESSMENTS.forEach(function(a){
+
+        preGood += countStatus(
+            rows,
+            a.key,
+            "Pre 1",
+            "Good to Go"
+        );
+
+        postGood += countStatus(
+            rows,
+            a.key,
+            "Post 1",
+            "Good to Go"
+        );
+
+    });
+
+    document.getElementById(
+        "preGood"
+    ).textContent =
+        preGood.toLocaleString();
+
+    document.getElementById(
+        "postGood"
+    ).textContent =
+        postGood.toLocaleString();
+
+}
+
+
+/* ==========================================================
+   CHARTS
+========================================================== */
+
+function renderCharts(rows){
+
+    const labels =
+        ASSESSMENTS.map(
+            a => a.name
+        );
+
+    const preGood =
+        ASSESSMENTS.map(
+            a =>
+            countStatus(
+                rows,
+                a.key,
+                "Pre 1",
+                "Good to Go"
+            )
+        );
+
+    const postGood =
+        ASSESSMENTS.map(
+            a =>
+            countStatus(
+                rows,
+                a.key,
+                "Post 1",
+                "Good to Go"
+            )
+        );
+
+    const preNeed =
+        ASSESSMENTS.map(
+            a =>
+            countStatus(
+                rows,
+                a.key,
+                "Pre 1",
+                "Need Training"
+            ) +
+            countStatus(
+                rows,
+                a.key,
+                "Pre 1",
+                "Need Practice"
+            )
+        );
+
+    const postNeed =
+        ASSESSMENTS.map(
+            a =>
+            countStatus(
+                rows,
+                a.key,
+                "Post 1",
+                "Need Training"
+            ) +
+            countStatus(
+                rows,
+                a.key,
+                "Post 1",
+                "Need Practice"
+            )
+        );
+
+
+    if(goodChart){
+        goodChart.destroy();
+    }
+
+    if(needChart){
+        needChart.destroy();
+    }
+
+
+    goodChart =
+        new Chart(
+            document
+            .getElementById("goodChart"),
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:labels,
+
+                    datasets:[
+
+                        {
+                            label:"Pre Assessment",
+                            data:preGood
+                        },
+
+                        {
+                            label:"Post Assessment",
+                            data:postGood
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    scales:{
+                        y:{
+                            beginAtZero:true
+                        }
+                    }
+
+                }
+
+            }
+        );
+
+
+    needChart =
+        new Chart(
+            document
+            .getElementById("needChart"),
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:labels,
+
+                    datasets:[
+
+                        {
+                            label:"Pre - Training + Practice",
+                            data:preNeed
+                        },
+
+                        {
+                            label:"Post - Training + Practice",
+                            data:postNeed
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    scales:{
+                        y:{
+                            beginAtZero:true
+                        }
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* ==========================================================
+   STUDENT TABLE
+========================================================== */
+
+function renderStudents(rows){
+
+    const body =
+        document.getElementById(
+            "studentTableBody"
+        );
+
+    body.innerHTML = "";
+
+    let displayRows = [];
+
+    if(selectedAssessment === "ALL"){
+
+        rows.forEach(function(row){
+
+            ASSESSMENTS.forEach(
+                function(a){
+
+                    displayRows.push({
+
+                        row:row,
+                        assessment:a
+
+                    });
+
+                }
+            );
+
+        });
+
+    }
+    else{
+
+        const assessment =
+            ASSESSMENTS.find(
+                a =>
+                a.key ===
+                selectedAssessment
+            );
+
+        rows.forEach(function(row){
+
+            displayRows.push({
+
+                row:row,
+                assessment:assessment
+
+            });
+
+        });
+
+    }
+
+
+    document.getElementById(
+        "detailCount"
+    ).textContent =
+        "Showing " +
+        rows.length.toLocaleString() +
+        " students";
+
+
+    const maxRows = 1000;
+
+    displayRows
+        .slice(0,maxRows)
+        .forEach(function(item){
+
+            const row =
+                item.row;
+
+            const a =
+                item.assessment;
+
+            const pre =
+                getStatus(
+                    row,
+                    a.key,
+                    "Pre 1"
+                );
+
+            const post =
+                getStatus(
+                    row,
+                    a.key,
+                    "Post 1"
+                );
+
+            body.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${row["S.No"] || ""}
+                    </td>
+
+                    <td>
+                        ${row["Roll Number"] || ""}
+                    </td>
+
+                    <td class="left">
+                        ${row["Name"] || ""}
+                    </td>
+
+                    <td>
+                        ${row["Department"] || ""}
+                    </td>
+
+                    <td>
+                        ${row["Degree"] || ""}
+                    </td>
+
+                    <td>
+                        ${row["Location"] || ""}
+                    </td>
+
+                    <td class="left">
+                        ${a.name}
+                    </td>
+
+                    <td class="${statusClass(pre)}">
+                        ${pre}
+                    </td>
+
+                    <td class="${statusClass(post)}">
+                        ${post}
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+}
+
+
+function statusClass(status){
+
+    if(status === "Good to Go"){
+        return "status-good";
+    }
+
+    if(status === "Need Training"){
+        return "status-training";
+    }
+
+    if(status === "Need Practice"){
+        return "status-practice";
+    }
+
+    return "status-not";
+
+}
+
+
+/* ==========================================================
+   UPDATE EVERYTHING
+========================================================== */
+
+function update(){
+
+    const rows =
+        filteredData();
+
+    updateKPIs(rows);
+
+    renderSelectedSummary(rows);
+
+    renderAssessmentTable(rows);
+
+    renderCharts(rows);
+
+    renderStudents(rows);
+
+    updateActiveTab();
+
+}
+
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+function resetFilters(){
+
+    document.getElementById(
+        "locationFilter"
+    ).value = "";
+
+    document.getElementById(
+        "degreeFilter"
+    ).value = "";
+
+    document.getElementById(
+        "departmentFilter"
+    ).value = "";
+
+    document.getElementById(
+        "assessmentFilter"
+    ).value = "ALL";
+
+    selectedAssessment = "ALL";
+
+    update();
+
+}
+
+
+/* ==========================================================
+   LOAD DATA
+========================================================== */
+
+async function loadData(){
+
+    try{
+
+        const response =
+            await fetch(
+                "../data/cocubes-2027.json"
+            );
+
+        if(!response.ok){
+            throw new Error(
+                "Unable to load cocubes-2027.json"
+            );
+        }
+
+        DATA =
+            await response.json();
+
+
+        console.log(
+            "CoCubes 2027 records:",
+            DATA.length
+        );
+
+
+        if(DATA.length !== 3816){
+
+            console.warn(
+                "Expected 3816 records. Found:",
+                DATA.length
+            );
+
+        }
+
+
+        populateSelect(
+            "locationFilter",
+            uniqueValues("Location")
+        );
+
+        populateSelect(
+            "degreeFilter",
+            uniqueValues("Degree")
+        );
+
+        populateSelect(
+            "departmentFilter",
+            uniqueValues("Department")
+        );
+
+
+        buildAssessmentSelectors();
+
+
+        document
+        .getElementById(
+            "locationFilter"
+        )
+        .addEventListener(
+            "change",
+            update
+        );
+
+
+        document
+        .getElementById(
+            "degreeFilter"
+        )
+        .addEventListener(
+            "change",
+            update
+        );
+
+
+        document
+        .getElementById(
+            "departmentFilter"
+        )
+        .addEventListener(
+            "change",
+            update
+        );
+
+
+        document
+        .getElementById(
+            "assessmentFilter"
+        )
+        .addEventListener(
+            "change",
+            function(){
+
+                selectedAssessment =
+                    this.value;
+
+                update();
+
+            }
+        );
+
+
+        document
+        .getElementById(
+            "resetButton"
+        )
+        .addEventListener(
+            "click",
+            resetFilters
+        );
+
+
+        update();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.body.innerHTML += `
+
+            <div style="
+                position:fixed;
+                left:20px;
+                right:20px;
+                bottom:20px;
+                background:#b71c1c;
+                color:white;
+                padding:16px;
+                border-radius:8px;
+                font-weight:bold;
+                z-index:9999;
+            ">
+
+                Unable to load 2027 CoCubes data.
+                Check the browser console.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ==========================================================
+   START
+========================================================== */
+
+loadData();
+
+</script>
+
+</body>
+</html>

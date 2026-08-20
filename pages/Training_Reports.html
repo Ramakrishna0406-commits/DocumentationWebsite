@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>DATA PULSE — Training Reports</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           BODY
+           ===================================================== */
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7f7;
+
+            color: #222;
+        }
+
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        header {
+
+            background: #007367;
+
+            color: white;
+
+            padding: 18px 30px;
+        }
+
+
+        .title {
+
+            font-size: 24px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+           ===================================================== */
+
+        .container {
+
+            padding: 25px;
+        }
+
+
+        /* =====================================================
+           YEAR TABS
+           ===================================================== */
+
+        .year-tabs {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+
+            border-bottom:
+                2px solid #ddd;
+
+            padding-bottom: 10px;
+        }
+
+
+        .year-tab {
+
+            border: none;
+
+            background: #e9eeee;
+
+            color: #333;
+
+            padding:
+                12px 25px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            transition:
+                background 0.2s,
+                color 0.2s;
+        }
+
+
+        .year-tab:hover {
+
+            background: #d8e4e3;
+        }
+
+
+        .year-tab.active {
+
+            background: #007367;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           SUB TABS
+           ===================================================== */
+
+        .sub-tabs {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .sub-tab {
+
+            border: none;
+
+            background: #e9eeee;
+
+            color: #333;
+
+            padding:
+                10px 18px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition:
+                background 0.2s,
+                color 0.2s;
+        }
+
+
+        .sub-tab:hover {
+
+            background: #d8e4e3;
+        }
+
+
+        .sub-tab.active {
+
+            background: #007367;
+
+            color: white;
+        }
+
+
+        /* =====================================================
+           REPORT PANEL
+           ===================================================== */
+
+        .panel {
+
+            background: white;
+
+            border-radius: 8px;
+
+            padding: 15px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =====================================================
+           REPORT IFRAME
+           ===================================================== */
+
+        .viewer {
+
+            width: 100%;
+
+            height: 75vh;
+
+            border: none;
+
+            display: block;
+
+            border-radius: 5px;
+
+            background: white;
+        }
+
+
+        /* =====================================================
+           INFORMATION MESSAGE
+           ===================================================== */
+
+        .info {
+
+            text-align: center;
+
+            padding:
+                50px 20px;
+        }
+
+
+        .info h2 {
+
+            margin:
+                0 0 10px;
+
+            color: #007367;
+        }
+
+
+        .info p {
+
+            margin: 0;
+
+            color: #666;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           HIDDEN
+           ===================================================== */
+
+        .hidden {
+
+            display: none !important;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 768px) {
+
+            header {
+
+                padding:
+                    15px 20px;
+            }
+
+
+            .title {
+
+                font-size: 20px;
+            }
+
+
+            .container {
+
+                padding: 15px;
+            }
+
+
+            .year-tabs {
+
+                flex-wrap: wrap;
+            }
+
+
+            .year-tab {
+
+                font-size: 14px;
+
+                padding:
+                    10px 18px;
+            }
+
+
+            .viewer {
+
+                height: 70vh;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header>
+
+    <div class="title">
+        DATA PULSE — Training Reports
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <!-- =====================================================
+         YEAR TABS
+         ===================================================== -->
+
+    <div class="year-tabs">
+        <button
+            type="button"
+            class="year-tab active"
+            onclick="showYear('2027', this)">
+            2027
+        </button>
+    </div>
+    <!-- =====================================================
+         2027 TRAINING REPORTS
+         ===================================================== -->
+
+    <section id="year2027">
+
+        <div class="sub-tabs">
+
+            <button
+                type="button"
+                class="sub-tab active"
+                onclick="openReport('CoCubes_2027_DATA_PULSE.html', this);">
+                CoCubes Data
+            </button>
+
+            <button
+                type="button"
+                class="sub-tab"
+                >
+                Training Performance
+            </button>
+
+            <button
+                type="button"
+                class="sub-tab"
+                onclick="openReport('Company_Specific_Training.html', this);">
+                Company Specific Training
+            </button>
+
+        </div>
+
+        <div class="panel">
+            <iframe
+                id="reportFrame2027"
+                class="viewer"
+                src="CoCubes_2027_DATA_PULSE.html"
+                title="2027 CoCubes Data">
+            </iframe>
+        </div>
+
+    </section>
+<script>
+
+
+/* =========================================================
+   SHOW YEAR
+   ========================================================= */
+
+function showYear(year, button) {
+
+
+    /*
+     * Remove active state from all year buttons.
+     */
+
+    document
+        .querySelectorAll(".year-tab")
+        .forEach(function(tab) {
+
+            tab.classList.remove("active");
+
+        });
+
+
+    /*
+     * Activate the selected year.
+     */
+
+    if (button) {
+
+        button.classList.add("active");
+
+    }
+
+
+    /*
+     * Get all year sections.
+     */
+
+    const year2027 =
+        document.getElementById("year2027");
+
+
+    /*
+     * Hide all year sections first.
+     */
+
+
+    if (year2027) {
+
+        year2027.classList.add("hidden");
+
+    }
+
+
+    /*
+     * Show selected year.
+     */
+
+
+    if (year === "2027" && year2027) {
+
+        year2027.classList.remove("hidden");
+
+    }
+
+}
+
+
+
+/* =========================================================
+   OPEN REPORT
+   ========================================================= */
+
+function openReport(fileName, button) {
+
+
+    /*
+     * Find the year section containing
+     * the clicked button.
+     */
+
+    const currentSection =
+        button.closest("section");
+
+
+    /*
+     * If no section was found, stop safely.
+     */
+
+    if (!currentSection) {
+
+        console.error(
+            "DATA PULSE: Unable to find report section."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Remove active state only from
+     * sub-tabs in the current section.
+     */
+
+    currentSection
+        .querySelectorAll(".sub-tab")
+        .forEach(function(tab) {
+
+            tab.classList.remove("active");
+
+        });
+
+
+    /*
+     * Activate the clicked report button.
+     */
+
+    button.classList.add("active");
+
+
+    /*
+     * Find the iframe inside this
+     * specific year section.
+     */
+
+    const frame =
+        currentSection.querySelector(".viewer");
+
+
+    /*
+     * Load the selected report.
+     */
+
+    if (frame) {
+
+        frame.src = fileName;
+
+    } else {
+
+        console.error(
+            "DATA PULSE: Report iframe not found."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   INITIAL PAGE STATE
+   ========================================================= */
+
+/*
+ * Make sure 2026 is displayed when
+ * the page initially loads.
+ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const firstYearButton =
+            document.querySelector(
+                ".year-tab"
+            );
+
+
+        if (firstYearButton) {
+
+            showYear("2027", firstYearButton);
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
+
+
+
+

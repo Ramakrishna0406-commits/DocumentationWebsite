@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DATA PULSE - GITAM Login</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #007367 0%,
+                    #00584f 50%,
+                    #003f39 100%
+                );
+
+            overflow-x: hidden;
+
+            padding: 22px 18px;
+
+            position: relative;
+        }
+
+
+        /* =====================================================
+           BACKGROUND WORDS
+        ===================================================== */
+
+        .background-words {
+
+            position: fixed;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+        .word {
+
+            position: absolute;
+
+            font-weight: 900;
+
+            letter-spacing: 8px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.14
+                );
+
+            text-shadow:
+                0 0 15px
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.16
+                ),
+
+                0 0 35px
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            user-select: none;
+
+            white-space: nowrap;
+
+            animation:
+                zoomWord
+                6s
+                ease-in-out
+                infinite,
+
+                floatWord
+                10s
+                ease-in-out
+                infinite;
+        }
+
+        .word.tcd {
+
+            top: 7%;
+            left: 5%;
+            font-size: 80px;
+
+        }
+
+        .word.acs {
+
+            top: 16%;
+            right: 6%;
+            font-size: 85px;
+            animation-delay: 1.5s;
+
+        }
+
+        .word.ccm {
+
+            bottom: 10%;
+            left: 7%;
+            font-size: 90px;
+            animation-delay: 3s;
+
+        }
+
+        .word.tcd2 {
+
+            bottom: 5%;
+            right: 8%;
+            font-size: 52px;
+            animation-delay: 2s;
+
+        }
+
+        .word.acs2 {
+
+            top: 52%;
+            left: 2%;
+            font-size: 42px;
+            animation-delay: 4s;
+
+        }
+
+        .word.ccm2 {
+
+            top: 5%;
+            right: 35%;
+            font-size: 42px;
+            animation-delay: 1s;
+
+        }
+
+
+        /* =====================================================
+           BACKGROUND ANIMATION
+        ===================================================== */
+
+        @keyframes zoomWord {
+
+            0% {
+
+                transform:
+                    scale(0.78);
+
+                opacity: 0.20;
+
+            }
+
+            50% {
+
+                transform:
+                    scale(1.20);
+
+                opacity: 0.65;
+
+            }
+
+            100% {
+
+                transform:
+                    scale(0.78);
+
+                opacity: 0.20;
+
+            }
+        }
+
+        @keyframes floatWord {
+
+            0% {
+
+                margin-top: 0;
+                margin-left: 0;
+
+            }
+
+            50% {
+
+                margin-top: -15px;
+                margin-left: 12px;
+
+            }
+
+            100% {
+
+                margin-top: 0;
+                margin-left: 0;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MAIN WRAPPER
+        ===================================================== */
+
+        .page-wrapper {
+
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin: 0 auto;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        /* =====================================================
+           LOGIN BOX
+        ===================================================== */
+
+        .login-box {
+
+            width: 520px;
+
+            max-width: calc(100% - 20px);
+
+            margin:
+                0 auto 24px;
+
+            padding:
+                42px 55px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.97
+                );
+
+            border-radius: 22px;
+
+            text-align: center;
+
+            box-shadow:
+                0 22px 55px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.30
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.55
+                );
+
+            position: relative;
+
+            z-index: 5;
+
+        }
+
+
+        /* =====================================================
+           TITLE
+        ===================================================== */
+
+        .login-box h1 {
+
+            margin:
+                0 0 8px;
+
+            color:
+                #007367;
+
+            font-size: 36px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .login-subtitle {
+
+            color:
+                #666666;
+
+            margin:
+                0 0 22px;
+
+            font-size: 16px;
+
+        }
+
+
+        /* =====================================================
+           GOOGLE LOGIN BUTTON
+        ===================================================== */
+
+        #googleLogin {
+
+            width: 100%;
+
+            padding:
+                14px 16px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                #007367;
+
+            color:
+                #ffffff;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+        #googleLogin:hover {
+
+            background:
+                #005f56;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 16px
+                rgba(
+                    0,
+                    115,
+                    103,
+                    0.25
+                );
+
+        }
+
+        #googleLogin:active {
+
+            transform:
+                translateY(0);
+
+        }
+
+        #googleLogin:disabled {
+
+            background:
+                #999999;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+
+            box-shadow:
+                none;
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        #status {
+
+            margin-top: 18px;
+
+            line-height: 1.5;
+
+            color:
+                #333333;
+
+            word-break:
+                break-word;
+
+            font-size: 13px;
+
+        }
+
+        .success {
+
+            color:
+                #007367;
+
+        }
+
+        .error {
+
+            color:
+                #c62828;
+
+        }
+
+
+        /* =====================================================
+           USER PHOTO
+        ===================================================== */
+
+        .user-photo {
+
+            width: 70px;
+
+            height: 70px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            margin-top: 8px;
+
+            border:
+                3px solid
+                #007367;
+
+            display: inline-block;
+
+        }
+
+
+        /* =====================================================
+           GITAM NOTE
+        ===================================================== */
+
+        .gitam-note {
+
+            margin-top: 15px;
+
+            padding: 8px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(
+                    0,
+                    115,
+                    103,
+                    0.06
+                );
+
+            color:
+                #666666;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .login-footer {
+
+            margin-top: 13px;
+
+            color:
+                #999999;
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* =====================================================
+           PHOTO ROW
+        ===================================================== */
+
+        .photo-row {
+
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap: 16px;
+
+            position: relative;
+
+            z-index: 3;
+
+            align-items: start;
+
+        }
+
+
+        /* =====================================================
+           TMCG COLUMN
+        ===================================================== */
+
+        .tmcg-column {
+
+            width: 100%;
+
+        }
+
+
+        /* =====================================================
+           PHOTO CARD
+        ===================================================== */
+
+        .photo-card {
+
+            width: 100%;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.97
+                );
+
+            border-radius: 14px;
+
+            padding: 8px;
+
+            box-shadow:
+                0 12px 30px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.20
+                );
+
+            overflow: hidden;
+
+        }
+
+
+        /* =====================================================
+           PHOTO WINDOW
+        ===================================================== */
+
+        .photo-window {
+
+            width: 100%;
+
+            height: 210px;
+
+            overflow: hidden;
+
+            border-radius: 10px;
+
+            background:
+                #e8eeee;
+
+        }
+
+
+        /* =====================================================
+           PHOTO
+        ===================================================== */
+
+        .photo-window img {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            object-position: center;
+
+            transition:
+                opacity 0.55s ease,
+                transform 0.8s ease;
+
+        }
+
+
+        /* =====================================================
+           PHOTO TRANSITION
+        ===================================================== */
+
+        .photo-window img.photo-changing {
+
+            opacity: 0;
+
+            transform:
+                scale(1.03);
+
+        }
+
+
+        /* =====================================================
+           TMCG INFORMATION
+        ===================================================== */
+
+        .tmcg-info {
+
+            width: 100%;
+
+            text-align: left;
+
+            padding:
+                10px 8px 8px 8px;
+
+            background:
+                transparent;
+
+        }
+
+
+        .person-name {
+
+            color:
+                #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            line-height: 1.3;
+
+        }
+
+
+        .person-designation {
+
+            color:
+                #e5f5f3;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+            line-height: 1.4;
+
+        }
+
+
+        /* =====================================================
+           TMCG TEXT TRANSITION
+        ===================================================== */
+
+        .tmcg-info.info-changing {
+
+            opacity: 0;
+
+            transform:
+                translateY(5px);
+
+        }
+
+        .tmcg-info {
+
+            transition:
+                opacity 0.35s ease,
+                transform 0.35s ease;
+
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            body {
+
+                padding:
+                    18px 12px;
+
+            }
+
+            .photo-row {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+            .photo-window {
+
+                height:
+                    220px;
+
+            }
+
+            .tmcg-info {
+
+                padding-left:
+                    8px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding:
+                    15px 10px;
+
+            }
+
+            .login-box {
+
+                width: 100%;
+
+                max-width: 100%;
+
+                padding:
+                    25px 20px;
+
+                border-radius:
+                    16px;
+
+            }
+
+            .login-box h1 {
+
+                font-size:
+                    27px;
+
+            }
+
+            .word {
+
+                font-size:
+                    45px !important;
+
+            }
+
+            .photo-window {
+
+                height:
+                    210px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           REDUCE MOTION
+        ===================================================== */
+
+        @media (
+            prefers-reduced-motion: reduce
+        ) {
+
+            .word {
+
+                animation:
+                    none;
+
+                opacity:
+                    0.20;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     BACKGROUND WORDS
+========================================================= -->
+
+<div
+    class="background-words"
+    aria-hidden="true"
+>
+
+    <span class="word tcd">
+        TCD
+    </span>
+
+    <span class="word acs">
+        ACS
+    </span>
+
+    <span class="word ccm">
+        CCM
+    </span>
+
+    <span class="word tcd2">
+        TCD
+    </span>
+
+    <span class="word acs2">
+        ACS
+    </span>
+
+    <span class="word ccm2">
+        CCM
+    </span>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN PAGE
+========================================================= -->
+
+<div class="page-wrapper">
+
+
+    <!-- =====================================================
+         LOGIN BOX
+    ===================================================== -->
+
+    <div class="login-box">
+
+        <h1>
+            DATA PULSE
+        </h1>
+
+        <p class="login-subtitle">
+            Secure GITAM Login
+        </p>
+
+
+        <button
+            id="googleLogin"
+            type="button">
+
+            Sign in with GITAM Account
+
+        </button>
+
+
+        <div id="status">
+
+            Please sign in with your GITAM account.
+
+        </div>
+
+
+        <div class="gitam-note">
+
+            Access restricted to authorized
+            <strong>@gitam.edu</strong>
+            accounts.
+
+        </div>
+
+
+        <div class="login-footer">
+
+            TMCG • DATA PULSE
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PHOTO SECTION
+    ===================================================== -->
+
+    <div class="photo-row">
+
+
+        <!-- =================================================
+             LEADERS CARD
+        ================================================= -->
+
+        <div class="photo-card">
+
+            <div class="photo-window">
+
+                <img
+                    id="leaderImage"
+                    src="../images/leaders/leader1.jpg"
+                    alt="GITAM Leadership">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CAMPUS CARD
+        ================================================= -->
+
+        <div class="photo-card">
+
+            <div class="photo-window">
+
+                <img
+                    id="campusImage"
+                    src="../images/campus/campus1.jpg"
+                    alt="GITAM Campus">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TMCG CARD
+        ================================================= -->
+
+        <div class="tmcg-column">
+
+            <div class="photo-card">
+
+                <div class="photo-window">
+
+                    <img
+                        id="teamImage"
+                        src="../images/tmcg/tmcg1.jpg"
+                        alt="Dr.Rojeena Aby Mathew">
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TMCG NAME + DESIGNATION
+            ================================================= -->
+
+            <div
+                id="teamInfo"
+                class="tmcg-info">
+
+                <div
+                    id="teamName"
+                    class="person-name">
+
+                    Dr.Rojeena Aby Mathew
+
+                </div>
+
+                <div
+                    id="teamDesignation"
+                    class="person-designation">
+
+                    Director-TMCG
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     IMAGE SLIDESHOW
+========================================================= -->
+
+<script>
+
+
+/* =========================================================
+   LEADERS
+========================================================= */
+
+const leaderImages = [
+
+    "../images/leaders/leader1.jpg",
+
+    "../images/leaders/leader2.jpg",
+
+    "../images/leaders/leader3.jpg"
+
+];
+
+
+let leaderIndex = 0;
+
+
+const leaderImage =
+    document.getElementById(
+        "leaderImage"
+    );
+
+
+function changeLeader() {
+
+    leaderImage.classList.add(
+        "photo-changing"
+    );
+
+
+    setTimeout(
+        function () {
+
+            leaderIndex++;
+
+            if (
+                leaderIndex >=
+                leaderImages.length
+            ) {
+
+                leaderIndex = 0;
+
+            }
+
+
+            const nextImage =
+                leaderImages[
+                    leaderIndex
+                ];
+
+
+            const imageLoader =
+                new Image();
+
+
+            imageLoader.onload =
+                function () {
+
+                    leaderImage.src =
+                        nextImage;
+
+                    leaderImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                };
+
+
+            imageLoader.onerror =
+                function () {
+
+                    leaderImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                    console.error(
+                        "Unable to load leader image:",
+                        nextImage
+                    );
+
+                };
+
+
+            imageLoader.src =
+                nextImage;
+
+        },
+        500
+    );
+
+}
+
+
+setInterval(
+    changeLeader,
+    4000
+);
+
+
+
+/* =========================================================
+   CAMPUS
+========================================================= */
+
+const campusImages = [
+
+    "../images/campus/campus1.jpg",
+
+    "../images/campus/campus2.jpg",
+
+    "../images/campus/campus3.jpg"
+
+];
+
+
+let campusIndex = 0;
+
+
+const campusImage =
+    document.getElementById(
+        "campusImage"
+    );
+
+
+function changeCampus() {
+
+    campusImage.classList.add(
+        "photo-changing"
+    );
+
+
+    setTimeout(
+        function () {
+
+            campusIndex++;
+
+            if (
+                campusIndex >=
+                campusImages.length
+            ) {
+
+                campusIndex = 0;
+
+            }
+
+
+            const nextImage =
+                campusImages[
+                    campusIndex
+                ];
+
+
+            const imageLoader =
+                new Image();
+
+
+            imageLoader.onload =
+                function () {
+
+                    campusImage.src =
+                        nextImage;
+
+                    campusImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                };
+
+
+            imageLoader.onerror =
+                function () {
+
+                    campusImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                    console.error(
+                        "Unable to load campus image:",
+                        nextImage
+                    );
+
+                };
+
+
+            imageLoader.src =
+                nextImage;
+
+        },
+        500
+    );
+
+}
+
+
+setInterval(
+    changeCampus,
+    4000
+);
+
+
+
+/* =========================================================
+   TMCG TEAM
+   PHOTO + NAME + DESIGNATION
+   MUST CHANGE TOGETHER
+========================================================= */
+
+const tmcgTeam = [
+
+    {
+        image:
+            "../images/tmcg/tmcg1.jpg",
+
+        name:
+            "Dr.Rojeena Aby Mathew",
+
+        designation:
+            "Director-TMCG"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg2.jpg",
+
+        name:
+            "Dr. Ravikanth Balijepalli",
+
+        designation:
+            "Deputy Director-Alternate Career Services (ACS) - VSP/HYD/BLR Campus"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg3.jpg",
+
+        name:
+            "Prof P Sarita",
+
+        designation:
+            "Deputy Director-CCM - VSP/HYD/BLR"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg4.jpg",
+
+        name:
+            "Rama Murthy Yeranagula",
+
+        designation:
+            "Assistant Director ACS - VSP Campus SPoC"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg5.jpg",
+
+        name:
+            "Sampath Kumar R",
+
+        designation:
+            "Assistant Director TCD - VSP/HYD/BLR Campus"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg6.jpg",
+
+        name:
+            "Nagendra Prasad Poolla",
+
+        designation:
+            "Manager TCD - VSP Campus SPoC"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg7.jpg",
+
+        name:
+            "S Anita Sherine",
+
+        designation:
+            "Assistant Director - TCD - BLR Campus"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg8.jpg",
+
+        name:
+            "Vamsi Krishna Lokavarapu",
+
+        designation:
+            "Manager TCD - HYD Campus SPoC"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg9.jpg",
+
+        name:
+            "Rosalyn Ranjana Fernando",
+
+        designation:
+            "Deputy Manager - CCM"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg10.jpg",
+
+        name:
+            "Padmaja Ayyana Somayajulu",
+
+        designation:
+            "Assistant Director - TCD (GCGC Courses / Certifications) - VSP/HYD/BLR Campus"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg11.jpg",
+
+        name:
+            "Jothsna Chinthapilli",
+
+        designation:
+            "Assistant Manager- TMCG"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg12.jpg",
+
+        name:
+            "Safa S",
+
+        designation:
+            "Manager ACS - HYD Campus SPoC"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg13.jpg",
+
+        name:
+            "Vishnu Priya Garapati",
+
+        designation:
+            "Assistant Manager-TCD"
+    },
+
+
+    {
+        image:
+            "../images/tmcg/tmcg14.jpg",
+
+        name:
+            "Rama Krishna",
+
+        designation:
+            "Manager - Data Analytics, TMCG, GCGC - VSP/HYD/BLR Campus"
+    }
+
+];
+
+
+let teamIndex = 0;
+
+
+
+/* =========================================================
+   TMCG ELEMENTS
+========================================================= */
+
+const teamImage =
+    document.getElementById(
+        "teamImage"
+    );
+
+
+const teamInfo =
+    document.getElementById(
+        "teamInfo"
+    );
+
+
+const teamName =
+    document.getElementById(
+        "teamName"
+    );
+
+
+const teamDesignation =
+    document.getElementById(
+        "teamDesignation"
+    );
+
+
+
+/* =========================================================
+   PRELOAD ALL 14 TMCG PHOTOS
+========================================================= */
+
+tmcgTeam.forEach(
+    function (person) {
+
+        const preload =
+            new Image();
+
+        preload.src =
+            person.image;
+
+    }
+);
+
+
+
+/* =========================================================
+   CHANGE TMCG PERSON
+========================================================= */
+
+function changeTeamPhoto() {
+
+    teamImage.classList.add(
+        "photo-changing"
+    );
+
+    teamInfo.classList.add(
+        "info-changing"
+    );
+
+
+    setTimeout(
+        function () {
+
+            teamIndex++;
+
+
+            if (
+                teamIndex >=
+                tmcgTeam.length
+            ) {
+
+                teamIndex = 0;
+
+            }
+
+
+            const person =
+                tmcgTeam[
+                    teamIndex
+                ];
+
+
+            const imageLoader =
+                new Image();
+
+
+            imageLoader.onload =
+                function () {
+
+                    teamImage.src =
+                        person.image;
+
+                    teamImage.alt =
+                        person.name;
+
+                    teamName.textContent =
+                        person.name;
+
+                    teamDesignation.textContent =
+                        person.designation;
+
+
+                    teamImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                    teamInfo.classList.remove(
+                        "info-changing"
+                    );
+
+                };
+
+
+            imageLoader.onerror =
+                function () {
+
+                    console.error(
+                        "Unable to load TMCG image:",
+                        person.image
+                    );
+
+
+                    teamImage.classList.remove(
+                        "photo-changing"
+                    );
+
+                    teamInfo.classList.remove(
+                        "info-changing"
+                    );
+
+                };
+
+
+            imageLoader.src =
+                person.image;
+
+
+        },
+        500
+    );
+
+}
+
+
+
+setInterval(
+    changeTeamPhoto,
+    4000
+);
+
+
+</script>
+
+
+
+<!-- =========================================================
+     FIREBASE AUTHENTICATION
+========================================================= -->
+
+<script type="module">
+
+
+/* =========================================================
+   FIREBASE CONFIGURATION
+   EXISTING FILE REMAINS UNCHANGED
+========================================================= */
+
+import {
+
+    auth,
+    googleProvider,
+    db
+
+} from "../js/firebase-config.js";
+
+
+
+/* =========================================================
+   FIREBASE AUTH
+========================================================= */
+
+import {
+
+    signInWithPopup,
+    setPersistence,
+    browserLocalPersistence,
+    signOut
+
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+
+/* =========================================================
+   FIRESTORE
+========================================================= */
+
+import {
+
+    collection,
+    addDoc,
+    serverTimestamp
+
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loginButton =
+    document.getElementById(
+        "googleLogin"
+    );
+
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+
+
+/* =========================================================
+   STATUS FUNCTION
+========================================================= */
+
+function showStatus(
+    message,
+    type = ""
+) {
+
+    status.className =
+        type;
+
+    status.innerHTML =
+        message;
+
+}
+
+
+
+/* =========================================================
+   CLEAR LOCAL USER DATA
+========================================================= */
+
+function clearLocalUserData() {
+
+    localStorage.removeItem(
+        "dataPulseFirebaseLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "dataPulseUserEmail"
+    );
+
+    localStorage.removeItem(
+        "dataPulseUserName"
+    );
+
+    localStorage.removeItem(
+        "dataPulseUserPhoto"
+    );
+
+    localStorage.removeItem(
+        "dataPulseFirebaseUID"
+    );
+
+
+    /*
+     * Also clear the temporary authorization
+     * information for this browser visit.
+     */
+
+    sessionStorage.removeItem(
+        "dataPulseAuthEmail"
+    );
+
+    sessionStorage.removeItem(
+        "dataPulseAuthUserUID"
+    );
+
+}
+
+
+
+/* =========================================================
+   SAVE USER INFORMATION
+========================================================= */
+
+function saveUserInformation(
+    user
+) {
+
+    const email =
+        (
+            user.email ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    /*
+     * Existing localStorage information.
+     */
+
+    localStorage.setItem(
+        "dataPulseFirebaseLoggedIn",
+        "true"
+    );
+
+
+    localStorage.setItem(
+        "dataPulseUserEmail",
+        email
+    );
+
+
+    localStorage.setItem(
+        "dataPulseUserName",
+        user.displayName || ""
+    );
+
+
+    localStorage.setItem(
+        "dataPulseUserPhoto",
+        user.photoURL || ""
+    );
+
+
+    localStorage.setItem(
+        "dataPulseFirebaseUID",
+        user.uid || ""
+    );
+
+
+    /*
+     * NEW:
+     *
+     * Store the Firebase user's email
+     * for the current browser session.
+     *
+     * The authorization page will use
+     * this value later.
+     */
+
+    sessionStorage.setItem(
+        "dataPulseAuthEmail",
+        email
+    );
+
+
+    /*
+     * Store the Firebase UID for the
+     * current session as well.
+     */
+
+    sessionStorage.setItem(
+        "dataPulseAuthUserUID",
+        user.uid || ""
+    );
+
+
+
+    console.log(
+        "Authorization session prepared for:",
+        email
+    );
+
+}
+
+
+
+/* =========================================================
+   SAVE LOGIN HISTORY
+========================================================= */
+
+async function saveLoginHistory(
+    user
+) {
+
+    const email =
+        (
+            user.email ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    const loginRecord = {
+
+        name:
+            user.displayName || "",
+
+        email:
+            email,
+
+        uid:
+            user.uid || "",
+
+        photoURL:
+            user.photoURL || "",
+
+        loginTime:
+            serverTimestamp()
+
+    };
+
+
+    const documentReference =
+        await addDoc(
+
+            collection(
+                db,
+                "loginHistory"
+            ),
+
+            loginRecord
+
+        );
+
+
+    console.log(
+        "Login history saved:",
+        documentReference.id
+    );
+
+
+    return documentReference.id;
+
+}
+
+
+
+/* =========================================================
+   CHECK GITAM ACCOUNT
+========================================================= */
+
+function isGitamAccount(
+    email
+) {
+
+    if (!email) {
+
+        return false;
+
+    }
+
+
+    return email
+        .trim()
+        .toLowerCase()
+        .endsWith(
+            "@gitam.edu"
+        );
+
+}
+
+
+
+/* =========================================================
+   REDIRECT TO HOME
+========================================================= */
+
+function redirectToHome(
+    user
+) {
+
+    const email =
+        (
+            user.email ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        !isGitamAccount(
+            email
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * Save both the existing user information
+     * and the new authorization session email.
+     */
+
+    saveUserInformation(
+        user
+    );
+
+
+    showStatus(
+
+        `
+        <strong class="success">
+
+            Login Successful
+
+        </strong>
+
+        <br><br>
+
+        ${
+            user.photoURL
+            ?
+            `
+            <img
+                src="${user.photoURL}"
+                class="user-photo"
+                alt="Google Profile Photo"
+                referrerpolicy="no-referrer"
+            >
+
+            <br>
+            `
+            :
+            ""
+        }
+
+        <strong>
+
+            ${
+                user.displayName ||
+                "GITAM User"
+            }
+
+        </strong>
+
+        <br>
+
+        ${email}
+
+        <br><br>
+
+        Opening DATA PULSE...
+
+        `,
+
+        "success"
+
+    );
+
+
+    setTimeout(
+
+        function () {
+
+            window.location.replace(
+                "../index.html"
+            );
+
+        },
+
+        700
+
+    );
+
+
+    return true;
+
+}
+
+
+
+/* =========================================================
+   FIREBASE PERSISTENCE
+========================================================= */
+
+async function initializeLogin() {
+
+    try {
+
+        await setPersistence(
+
+            auth,
+
+            browserLocalPersistence
+
+        );
+
+
+        console.log(
+            "Firebase persistence enabled."
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Firebase persistence error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   GOOGLE LOGIN
+========================================================= */
+
+loginButton.addEventListener(
+
+    "click",
+
+    async function () {
+
+        try {
+
+            loginButton.disabled =
+                true;
+
+
+            showStatus(
+
+                `
+                Opening Google Login...
+
+                <br><br>
+
+                Please complete Google authentication.
+
+                `
+
+            );
+
+
+            googleProvider.setCustomParameters({
+
+                prompt:
+                    "select_account"
+
+            });
+
+
+            const result =
+                await signInWithPopup(
+
+                    auth,
+
+                    googleProvider
+
+                );
+
+
+            const user =
+                result.user;
+
+
+            console.log(
+                "Google login successful:",
+                user.email
+            );
+
+
+            const email =
+                (
+                    user.email ||
+                    ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+
+            /* =================================================
+               CHECK GITAM ACCOUNT
+            ================================================= */
+
+            if (
+                !isGitamAccount(
+                    email
+                )
+            ) {
+
+                try {
+
+                    await signOut(
+                        auth
+                    );
+
+                }
+
+                catch (
+                    signOutError
+                ) {
+
+                    console.error(
+                        "Sign-out error:",
+                        signOutError
+                    );
+
+                }
+
+
+                clearLocalUserData();
+
+
+                showStatus(
+
+                    `
+                    <strong class="error">
+
+                        Access Denied
+
+                    </strong>
+
+                    <br><br>
+
+                    ${
+                        email ||
+                        "This Google account"
+                    }
+
+                    <br><br>
+
+                    Only GITAM accounts ending with
+                    <strong>@gitam.edu</strong>
+                    are allowed to access DATA PULSE.
+
+                    `,
+
+                    "error"
+
+                );
+
+
+                loginButton.disabled =
+                    false;
+
+
+                return;
+
+            }
+
+
+
+            /* =================================================
+               SAVE LOGIN HISTORY
+            ================================================= */
+
+            try {
+
+                await saveLoginHistory(
+                    user
+                );
+
+            }
+
+            catch (
+                firestoreError
+            ) {
+
+                console.error(
+                    "Firestore login-history error:",
+                    firestoreError
+                );
+
+            }
+
+
+
+            /* =================================================
+               SAVE USER INFORMATION
+            ================================================= */
+
+            saveUserInformation(
+                user
+            );
+
+
+
+            /* =================================================
+               REDIRECT
+            ================================================= */
+
+            redirectToHome(
+                user
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Google Login Error:",
+                error
+            );
+
+
+            loginButton.disabled =
+                false;
+
+
+            let errorMessage =
+                "Unable to complete Google Sign-In.";
+
+
+            if (
+                error &&
+                error.code
+            ) {
+
+                switch (
+                    error.code
+                ) {
+
+                    case
+                        "auth/popup-closed-by-user":
+
+                        errorMessage =
+                            "Google Sign-In was cancelled. Please try again.";
+
+                        break;
+
+
+                    case
+                        "auth/popup-blocked":
+
+                        errorMessage =
+                            "The Google Sign-In popup was blocked. Please allow popups for this website and try again.";
+
+                        break;
+
+
+                    case
+                        "auth/network-request-failed":
+
+                        errorMessage =
+                            "Network error. Please check your internet connection and try again.";
+
+                        break;
+
+
+                    case
+                        "auth/unauthorized-domain":
+
+                        errorMessage =
+                            "This website domain is not authorized in Firebase Authentication.";
+
+                        break;
+
+
+                    case
+                        "auth/operation-not-allowed":
+
+                        errorMessage =
+                            "Google Sign-In is not enabled in Firebase Authentication.";
+
+                        break;
+
+
+                    case
+                        "auth/cancelled-popup-request":
+
+                        errorMessage =
+                            "Another Google Sign-In request is already active. Please try again.";
+
+                        break;
+
+
+                    case
+                        "auth/account-exists-with-different-credential":
+
+                        errorMessage =
+                            "This email is already associated with another sign-in method.";
+
+                        break;
+
+
+                    default:
+
+                        errorMessage =
+                            error.message ||
+                            errorMessage;
+
+                        break;
+
+                }
+
+            }
+
+
+            showStatus(
+
+                `
+                <strong class="error">
+
+                    Login Failed
+
+                </strong>
+
+                <br><br>
+
+                ${errorMessage}
+
+                `,
+
+                "error"
+
+            );
+
+        }
+
+    }
+
+);
+
+
+
+/* =========================================================
+   START FIREBASE
+========================================================= */
+
+initializeLogin();
+
+
+</script>
+
+
+</body>
+
+</html>

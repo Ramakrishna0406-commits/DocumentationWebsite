@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Authorization</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .authorization-box {
+            width: 360px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .field input {
+            width: 100%;
+            height: 44px;
+
+            padding: 0 12px;
+
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        .field input:focus {
+            border-color: #777777;
+        }
+
+        .authorize-btn {
+            width: 100%;
+            height: 44px;
+
+            border: none;
+            border-radius: 4px;
+
+            background: #007367;
+            color: #ffffff;
+
+            font-size: 15px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .authorize-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Error message */
+
+        .error-message {
+            display: none;
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            color: #d00000;
+            font-size: 14px;
+            font-weight: 600;
+
+            line-height: 1.5;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: blinkError 0.5s ease-in-out 8;
+        }
+
+        @keyframes blinkError {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="authorization-box">
+
+        <!-- Email -->
+        <div class="field">
+            <label for="email">Email ID</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter Email ID"
+                autocomplete="off"
+            >
+        </div>
+
+        <!-- Secret PIN -->
+        <div class="field">
+            <label for="secretPin">Secret PIN</label>
+
+            <input
+                type="password"
+                id="secretPin"
+                placeholder="Enter Secret PIN"
+                autocomplete="off"
+            >
+        </div>
+
+        <!-- Authorize -->
+        <button
+            type="button"
+            class="authorize-btn"
+            onclick="authorizeUser()"
+        >
+            Authorize
+        </button>
+
+        <!-- Error -->
+        <div id="errorMessage" class="error-message">
+            Authorization failed. Check your Secret PIN and Email ID,
+            and kindly check whether you are authorized to access this page.
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function authorizeUser() {
+
+            const email = document.getElementById("email").value.trim();
+            const secretPin = document.getElementById("secretPin").value.trim();
+
+            const errorMessage = document.getElementById("errorMessage");
+
+            /*
+             * TEST ONLY
+             *
+             * Change these values to test.
+             *
+             * Later these credentials will NOT be stored
+             * in this HTML file.
+             *
+             * The real authorization will be checked
+             * by the backend.
+             */
+
+            const testEmail = "test@gitam.edu";
+            const testSecretPin = "123456";
+
+
+            // Remove previous error
+            errorMessage.classList.remove("show");
+
+
+            // Check empty fields
+            if (email === "" || secretPin === "") {
+
+                showAuthorizationError();
+
+                return;
+            }
+
+
+            // TEST AUTHORIZATION
+            if (
+                email === testEmail &&
+                secretPin === testSecretPin
+            ) {
+
+                /*
+                 * SUCCESS
+                 *
+                 * For testing, show a simple message.
+                 *
+                 * Later this will redirect to the
+                 * protected DATA PULSE page.
+                 */
+
+                alert("Authorization successful");
+
+                return;
+            }
+
+
+            // FAILED AUTHORIZATION
+            showAuthorizationError();
+        }
+
+
+        function showAuthorizationError() {
+
+            const errorMessage =
+                document.getElementById("errorMessage");
+
+
+            /*
+             * Restart animation every time.
+             *
+             * This means even if the user clicks
+             * 10, 20 or 100 times, the same error
+             * animation starts again.
+             */
+
+            errorMessage.classList.remove("show");
+
+            void errorMessage.offsetWidth;
+
+            errorMessage.classList.add("show");
+
+
+            /*
+             * Error remains visible for 4 seconds.
+             */
+
+            setTimeout(function () {
+
+                errorMessage.classList.remove("show");
+
+            }, 4000);
+        }
+
+    </script>
+
+</body>
+</html>

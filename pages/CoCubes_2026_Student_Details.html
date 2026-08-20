@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>DATA PULSE - CoCubes 2026 Student Details</title>
+
+
+<!-- Excel Export Library -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f7f7;
+
+    color: #18312f;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+
+    background: #ffffff;
+
+    border-bottom: 3px solid #007367;
+
+    padding: 18px 24px;
+
+}
+
+
+.brand {
+
+    text-align: center;
+
+    color: #007367;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container {
+
+    max-width: 1600px;
+
+    margin: auto;
+
+    padding: 22px;
+
+}
+
+
+/* =====================================================
+   PANEL
+===================================================== */
+
+.panel {
+
+    background: #ffffff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    margin-bottom: 18px;
+
+}
+
+
+h2 {
+
+    color: #007367;
+
+    margin: 0 0 15px;
+
+}
+
+
+/* =====================================================
+   NOTE
+===================================================== */
+
+.note {
+
+    background: #eef7f5;
+
+    border-left: 4px solid #007367;
+
+    padding: 11px;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters {
+
+    display: flex;
+
+    gap: 15px;
+
+    align-items: end;
+
+    flex-wrap: wrap;
+
+}
+
+
+.filter {
+
+    width: 220px;
+
+}
+
+
+.filter label {
+
+    display: block;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+
+    color: #555;
+
+}
+
+
+.filter input,
+.filter select {
+
+    display: block;
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 8px 12px;
+
+    background: #ffffff;
+
+    color: #222;
+
+    border: 1px solid #999;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn {
+
+    height: 42px;
+
+    padding: 0 18px;
+
+    background: #007367;
+
+    color: #ffffff;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn:hover {
+
+    opacity: 0.9;
+
+}
+
+
+.btn.blue {
+
+    background: #5b9bd5;
+
+}
+
+
+/* =====================================================
+   KPI
+===================================================== */
+
+.kpis {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.kpi {
+
+    background: #ffffff;
+
+    padding: 15px;
+
+    border-left: 4px solid #007367;
+
+    border-radius: 8px;
+
+}
+
+
+.kpi small {
+
+    color: #666;
+
+}
+
+
+.kpi b {
+
+    display: block;
+
+    color: #007367;
+
+    font-size: 25px;
+
+    margin-top: 5px;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow: auto;
+
+    max-height: 700px;
+
+    border: 1px solid #bbb;
+
+}
+
+
+table {
+
+    border-collapse: collapse;
+
+    width: max-content;
+
+    min-width: 100%;
+
+}
+
+
+th,
+td {
+
+    border: 1px solid #555;
+
+    padding: 8px 10px;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+}
+
+
+thead th {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 3;
+
+    background: #8b0000;
+
+    color: #ffffff;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   EXAM GROUP HEADERS
+===================================================== */
+
+.exam-header {
+
+    background: #007367 !important;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+}
+
+
+/* =====================================================
+   STAGE HEADERS
+===================================================== */
+
+.stage-header {
+
+    background: #5b9bd5 !important;
+
+    color: #ffffff;
+
+}
+
+
+/* =====================================================
+   STUDENT COLUMNS
+===================================================== */
+
+.student-column {
+
+    background: #eeeeee !important;
+
+    color: #222 !important;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.good {
+
+    background: #d9ead3;
+
+    color: #274e13;
+
+    font-weight: bold;
+
+}
+
+
+.practice {
+
+    background: #fff2cc;
+
+    color: #7f6000;
+
+    font-weight: bold;
+
+}
+
+
+.training {
+
+    background: #f4cccc;
+
+    color: #990000;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+
+    text-align: center;
+
+    padding: 30px;
+
+    font-weight: bold;
+
+    color: #007367;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px) {
+
+    .kpis {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .filter {
+
+        width: 100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="brand">
+
+        DATA PULSE - CoCubes 2026 Student Details
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     FILTER PANEL
+===================================================== -->
+
+<div class="panel">
+
+    <h2>
+
+        2026 CoCubes Student Details
+
+    </h2>
+
+
+    <div class="note">
+
+        Each student is displayed with all
+        7 CoCubes exams and all 3 stages:
+        Pre 1, Post 1 and Post 2.
+
+    </div>
+
+
+    <div class="filters">
+
+
+        <!-- SEARCH -->
+
+        <div class="filter">
+
+            <label for="searchFilter">
+
+                Search Student
+
+            </label>
+
+
+            <input
+                type="text"
+                id="searchFilter"
+                placeholder="Name or Roll Number"
+            >
+
+        </div>
+
+
+        <!-- CAMPUS -->
+
+        <div class="filter">
+
+            <label for="campusFilter">
+
+                Campus
+
+            </label>
+
+
+            <select id="campusFilter">
+
+                <option value="">
+
+                    All Campuses
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- COURSE -->
+
+        <div class="filter">
+
+            <label for="courseFilter">
+
+                Course
+
+            </label>
+
+
+            <select id="courseFilter">
+
+                <option value="">
+
+                    All Courses
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DEPARTMENT -->
+
+        <div class="filter">
+
+            <label for="deptFilter">
+
+                Department
+
+            </label>
+
+
+            <select id="deptFilter">
+
+                <option value="">
+
+                    All Departments
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <button
+            class="btn"
+            id="resetBtn"
+        >
+
+            Reset
+
+        </button>
+
+
+        <!-- EXCEL -->
+
+        <button
+            class="btn blue"
+            id="excelBtn"
+        >
+
+            Export to Excel
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     KPI
+===================================================== -->
+
+<div class="kpis">
+
+
+    <div class="kpi">
+
+        <small>
+
+            Total Students
+
+        </small>
+
+
+        <b id="totalStudents">
+
+            0
+
+        </b>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <small>
+
+            Displayed Students
+
+        </small>
+
+
+        <b id="displayedStudents">
+
+            0
+
+        </b>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <small>
+
+            Total Results
+
+        </small>
+
+
+        <b>
+
+            21
+
+        </b>
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     STUDENT TABLE
+===================================================== -->
+
+<div class="panel">
+
+
+    <h2>
+
+        Student Performance
+
+    </h2>
+
+
+    <div
+        id="loading"
+        class="loading"
+    >
+
+        Loading 2026 CoCubes data...
+
+    </div>
+
+
+    <div
+        id="tableContainer"
+        class="table-wrapper"
+        style="display:none;"
+    >
+
+        <table id="studentTable">
+
+
+            <thead>
+
+
+                <!-- EXAM GROUP -->
+
+                <tr>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        S.No
+                    </th>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        Roll Number
+                    </th>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        Name
+                    </th>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        Department
+                    </th>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        Degree
+                    </th>
+
+
+                    <th
+                        rowspan="2"
+                        class="student-column"
+                    >
+                        Campus
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Domain
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        English Usage
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Analytical Reasoning
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Quantitative Aptitude
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Coding
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Written English Test
+                    </th>
+
+
+                    <th
+                        colspan="3"
+                        class="exam-header"
+                    >
+                        Computer Fundamentals
+                    </th>
+
+
+                </tr>
+
+
+                <!-- STAGES -->
+
+                <tr>
+
+
+                    <!-- DOMAIN -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- ENGLISH -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- ANALYTICAL -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- QUANTITATIVE -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- CODING -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- WRITTEN ENGLISH -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                    <!-- COMPUTER -->
+
+                    <th class="stage-header">
+                        Pre 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 1
+                    </th>
+
+                    <th class="stage-header">
+                        Post 2
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+            <tbody id="studentBody">
+
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let DATA = [];
+
+
+/* =====================================================
+   EXAM DEFINITIONS
+===================================================== */
+
+const exams = [
+
+    {
+        name: "Domain",
+        field: "Domain Test"
+    },
+
+    {
+        name: "English Usage",
+        field: "English Usage"
+    },
+
+    {
+        name: "Analytical Reasoning",
+        field: "Analytical Reasoning"
+    },
+
+    {
+        name: "Quantitative Aptitude",
+        field: "Quantitative Aptitude"
+    },
+
+    {
+        name: "Coding",
+        field: "Coding"
+    },
+
+    {
+        name: "Written English Test",
+        field: "Written English Test"
+    },
+
+    {
+        name: "Computer Fundamentals",
+        field: "Computer Fundamentals"
+    }
+
+];
+
+
+const stages = [
+
+    "Pre 1",
+
+    "Post 1",
+
+    "Post 2"
+
+];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const searchEl =
+    document.getElementById(
+        "searchFilter"
+    );
+
+
+const campusEl =
+    document.getElementById(
+        "campusFilter"
+    );
+
+
+const courseEl =
+    document.getElementById(
+        "courseFilter"
+    );
+
+
+const deptEl =
+    document.getElementById(
+        "deptFilter"
+    );
+
+
+const studentBody =
+    document.getElementById(
+        "studentBody"
+    );
+
+
+const loadingEl =
+    document.getElementById(
+        "loading"
+    );
+
+
+const tableContainer =
+    document.getElementById(
+        "tableContainer"
+    );
+
+
+/* =====================================================
+   CLEAN
+===================================================== */
+
+function clean(value) {
+
+    return value == null
+        ? ""
+        : String(value).trim();
+
+}
+
+
+/* =====================================================
+   UNIQUE
+===================================================== */
+
+function unique(values) {
+
+    return [
+
+        ...new Set(
+
+            values
+                .map(clean)
+                .filter(Boolean)
+
+        )
+
+    ].sort();
+
+}
+
+
+/* =====================================================
+   ADD OPTIONS
+===================================================== */
+
+function addOptions(
+    element,
+    values
+) {
+
+
+    unique(values).forEach(
+        function(value) {
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                value;
+
+
+            option.textContent =
+                value;
+
+
+            element.appendChild(
+                option
+            );
+
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   GET URL PARAMETERS
+===================================================== */
+
+function getUrlParameter(
+    name
+) {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    return params.get(name) || "";
+
+}
+
+
+/* =====================================================
+   APPLY DASHBOARD FILTERS
+===================================================== */
+
+function applyUrlFilters() {
+
+
+    const campus =
+        getUrlParameter(
+            "campus"
+        );
+
+
+    const course =
+        getUrlParameter(
+            "course"
+        );
+
+
+    const dept =
+        getUrlParameter(
+            "dept"
+        );
+
+
+    if (campus) {
+
+        campusEl.value =
+            campus;
+
+    }
+
+
+    if (course) {
+
+        courseEl.value =
+            course;
+
+    }
+
+
+    if (dept) {
+
+        deptEl.value =
+            dept;
+
+    }
+
+}
+
+
+/* =====================================================
+   FILTER DATA
+===================================================== */
+
+function filteredData() {
+
+
+    const search =
+        clean(
+            searchEl.value
+        ).toLowerCase();
+
+
+    const campus =
+        campusEl.value;
+
+
+    const course =
+        courseEl.value;
+
+
+    const dept =
+        deptEl.value;
+
+
+    return DATA.filter(
+        function(row) {
+
+
+            const name =
+                clean(
+                    row.Name
+                ).toLowerCase();
+
+
+            const roll =
+                clean(
+                    row["Roll Number"]
+                ).toLowerCase();
+
+
+            const matchesSearch =
+
+                !search ||
+
+                name.includes(search) ||
+
+                roll.includes(search);
+
+
+            const matchesCampus =
+
+                !campus ||
+
+                clean(
+                    row.Location
+                ) === campus;
+
+
+            const matchesCourse =
+
+                !course ||
+
+                clean(
+                    row.Degree
+                ) === course;
+
+
+            const matchesDept =
+
+                !dept ||
+
+                clean(
+                    row.Department
+                ) === dept;
+
+
+            return (
+
+                matchesSearch &&
+
+                matchesCampus &&
+
+                matchesCourse &&
+
+                matchesDept
+
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
+
+function statusClass(
+    value
+) {
+
+
+    const v =
+        clean(value);
+
+
+    if (
+        v === "Good to Go"
+    ) {
+
+        return "good";
+
+    }
+
+
+    if (
+        v === "Need Practice"
+    ) {
+
+        return "practice";
+
+    }
+
+
+    if (
+        v === "Need Training"
+    ) {
+
+        return "training";
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =====================================================
+   CREATE STUDENT ROW
+===================================================== */
+
+function createStudentRow(
+    row
+) {
+
+
+    let html = "";
+
+
+    html +=
+        "<tr>";
+
+
+    /* S.NO */
+
+    html +=
+        "<td>" +
+        clean(row["S.No"]) +
+        "</td>";
+
+
+    /* ROLL NUMBER */
+
+    html +=
+        "<td>" +
+        clean(row["Roll Number"]) +
+        "</td>";
+
+
+    /* NAME */
+
+    html +=
+        "<td style='text-align:left;font-weight:bold;'>" +
+        clean(row.Name) +
+        "</td>";
+
+
+    /* DEPARTMENT */
+
+    html +=
+        "<td>" +
+        clean(row.Department) +
+        "</td>";
+
+
+    /* DEGREE */
+
+    html +=
+        "<td>" +
+        clean(row.Degree) +
+        "</td>";
+
+
+    /* CAMPUS */
+
+    html +=
+        "<td>" +
+        clean(row.Location) +
+        "</td>";
+
+
+    /* =================================================
+       7 EXAMS × 3 STAGES
+    ================================================= */
+
+
+    exams.forEach(
+        function(exam) {
+
+
+            const examData =
+                row[exam.field];
+
+
+            stages.forEach(
+                function(stage) {
+
+
+                    let value = "";
+
+
+                    if (
+
+                        examData &&
+
+                        typeof examData ===
+                            "object"
+
+                    ) {
+
+                        value =
+                            clean(
+                                examData[
+                                    stage
+                                ]
+                            );
+
+                    }
+
+
+                    html +=
+
+                        "<td class='" +
+                        statusClass(
+                            value
+                        ) +
+                        "'>" +
+
+                        value +
+
+                        "</td>";
+
+
+                }
+            );
+
+
+        }
+    );
+
+
+    html +=
+        "</tr>";
+
+
+    return html;
+
+}
+
+
+/* =====================================================
+   RENDER TABLE
+===================================================== */
+
+function renderTable() {
+
+
+    const rows =
+        filteredData();
+
+
+    document.getElementById(
+        "totalStudents"
+    ).textContent =
+        DATA.length.toLocaleString(
+            "en-IN"
+        );
+
+
+    document.getElementById(
+        "displayedStudents"
+    ).textContent =
+        rows.length.toLocaleString(
+            "en-IN"
+        );
+
+
+    if (
+        rows.length === 0
+    ) {
+
+
+        studentBody.innerHTML =
+
+            "<tr>" +
+
+            "<td colspan='27' " +
+            "style='padding:30px;'>" +
+
+            "No students found."
+
+            +
+
+            "</td>" +
+
+            "</tr>";
+
+
+        return;
+
+    }
+
+
+    studentBody.innerHTML =
+
+        rows.map(
+            createStudentRow
+        ).join("");
+
+}
+
+
+/* =====================================================
+   EXPORT TO EXCEL
+===================================================== */
+
+function exportExcel() {
+
+
+    const rows =
+        filteredData();
+
+
+    if (
+        rows.length === 0
+    ) {
+
+        alert(
+            "No student data available to export."
+        );
+
+        return;
+
+    }
+
+
+    const excelData = [];
+
+
+    rows.forEach(
+        function(row) {
+
+
+            const item = {
+
+
+                "S.No":
+                    clean(
+                        row["S.No"]
+                    ),
+
+
+                "Roll Number":
+                    clean(
+                        row["Roll Number"]
+                    ),
+
+
+                "Name":
+                    clean(
+                        row.Name
+                    ),
+
+
+                "Department":
+                    clean(
+                        row.Department
+                    ),
+
+
+                "Degree":
+                    clean(
+                        row.Degree
+                    ),
+
+
+                "Campus":
+                    clean(
+                        row.Location
+                    )
+
+
+            };
+
+
+            exams.forEach(
+                function(exam) {
+
+
+                    const examData =
+                        row[
+                            exam.field
+                        ];
+
+
+                    stages.forEach(
+                        function(stage) {
+
+
+                            let value = "";
+
+
+                            if (
+
+                                examData &&
+
+                                typeof examData ===
+                                    "object"
+
+                            ) {
+
+                                value =
+                                    clean(
+                                        examData[
+                                            stage
+                                        ]
+                                    );
+
+                            }
+
+
+                            item[
+                                exam.name +
+                                " - " +
+                                stage
+                            ] = value;
+
+
+                        }
+                    );
+
+
+                }
+            );
+
+
+            excelData.push(item);
+
+
+        }
+    );
+
+
+    const worksheet =
+        XLSX.utils.json_to_sheet(
+            excelData
+        );
+
+
+    const workbook =
+        XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(
+
+        workbook,
+
+        worksheet,
+
+        "CoCubes 2026"
+
+    );
+
+
+    XLSX.writeFile(
+
+        workbook,
+
+        "CoCubes_2026_Student_Details.xlsx"
+
+    );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetFilters() {
+
+
+    searchEl.value = "";
+
+    campusEl.value = "";
+
+    courseEl.value = "";
+
+    deptEl.value = "";
+
+
+    renderTable();
+
+}
+
+
+/* =====================================================
+   EVENT LISTENERS
+===================================================== */
+
+searchEl.addEventListener(
+    "input",
+    renderTable
+);
+
+
+campusEl.addEventListener(
+    "change",
+    renderTable
+);
+
+
+courseEl.addEventListener(
+    "change",
+    renderTable
+);
+
+
+deptEl.addEventListener(
+    "change",
+    renderTable
+);
+
+
+document
+    .getElementById(
+        "resetBtn"
+    )
+    .addEventListener(
+        "click",
+        resetFilters
+    );
+
+
+document
+    .getElementById(
+        "excelBtn"
+    )
+    .addEventListener(
+        "click",
+        exportExcel
+    );
+
+
+/* =====================================================
+   LOAD 2026 JSON
+===================================================== */
+
+fetch(
+    "../data/cocubes-2026.json"
+)
+
+
+.then(
+    function(response) {
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                "Failed to load cocubes-2026.json"
+            );
+
+        }
+
+
+        return response.json();
+
+
+    }
+)
+
+
+.then(
+    function(rows) {
+
+
+        DATA =
+
+            Array.isArray(rows)
+
+            ?
+
+            rows
+
+            :
+
+            [];
+
+
+        console.log(
+            "2026 CoCubes students loaded:",
+            DATA.length
+        );
+
+
+        /* FILTER OPTIONS */
+
+
+        addOptions(
+
+            campusEl,
+
+            DATA.map(
+                function(row) {
+
+                    return row.Location;
+
+                }
+            )
+
+        );
+
+
+        addOptions(
+
+            courseEl,
+
+            DATA.map(
+                function(row) {
+
+                    return row.Degree;
+
+                }
+            )
+
+        );
+
+
+        addOptions(
+
+            deptEl,
+
+            DATA.map(
+                function(row) {
+
+                    return row.Department;
+
+                }
+            )
+
+        );
+
+
+        /* APPLY DASHBOARD FILTERS */
+
+
+        applyUrlFilters();
+
+
+        /* SHOW TABLE */
+
+
+        loadingEl.style.display =
+            "none";
+
+
+        tableContainer.style.display =
+            "block";
+
+
+        /* RENDER */
+
+
+        renderTable();
+
+
+    }
+)
+
+
+.catch(
+    function(error) {
+
+
+        console.error(
+            "2026 CoCubes load error:",
+            error
+        );
+
+
+        loadingEl.textContent =
+
+            "Unable to load 2026 CoCubes data.";
+
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

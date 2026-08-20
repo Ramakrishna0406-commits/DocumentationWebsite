@@ -1,0 +1,1226 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - CoCubes 2027 Performance</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#243333;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    background:white;
+    padding:18px;
+    text-align:center;
+    border-bottom:3px solid #007367;
+}
+
+.header h1{
+    margin:0;
+    color:#007367;
+    font-size:25px;
+}
+
+.header p{
+    margin:6px 0 0;
+    color:#666;
+    font-size:13px;
+}
+
+/* ================= EXAMINATION TABS ================= */
+
+.tabs-wrapper{
+    background:white;
+    padding:12px 15px;
+    border-bottom:1px solid #ddd;
+    overflow-x:auto;
+}
+
+.tabs{
+    display:flex;
+    gap:8px;
+    min-width:max-content;
+    justify-content:center;
+}
+
+.tab{
+    border:none;
+    padding:12px 18px;
+    border-radius:7px;
+    font-weight:bold;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.2s;
+}
+
+.tab:hover{
+    transform:translateY(-1px);
+}
+
+.domain{background:#d8efeb}
+.english{background:#dcecff}
+.quant{background:#eadfff}
+.analytical{background:#ffe6cc}
+.coding{background:#d8f5f7}
+.written{background:#fff2bf}
+.computer{background:#eadfce}
+
+.domain.active{background:#007367;color:white}
+.english.active{background:#2774c7;color:white}
+.quant.active{background:#7147b8;color:white}
+.analytical.active{background:#d87518;color:white}
+.coding.active{background:#168b94;color:white}
+.written.active{background:#c89a00;color:white}
+.computer.active{background:#80623c;color:white}
+
+/* ================= CONTENT ================= */
+
+.content{
+    max-width:1250px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.assessment-card{
+    padding:22px;
+    border-radius:12px;
+}
+
+.domain-bg{
+    background:#e9f7f4;
+    border:1px solid #b9ded8;
+}
+
+.english-bg{
+    background:#edf4ff;
+    border:1px solid #c5dafa;
+}
+
+.quant-bg{
+    background:#f4efff;
+    border:1px solid #d9c9f5;
+}
+
+.analytical-bg{
+    background:#fff3e6;
+    border:1px solid #f3d0aa;
+}
+
+.coding-bg{
+    background:#e9fafb;
+    border:1px solid #bfe6e9;
+}
+
+.written-bg{
+    background:#fff9df;
+    border:1px solid #eedb8b;
+}
+
+.computer-bg{
+    background:#f5eee5;
+    border:1px solid #dfcbb0;
+}
+
+/* ================= FILTERS ================= */
+
+.filters-card{
+    background:white;
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.filters-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+}
+
+.filter-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#555;
+    margin-bottom:6px;
+}
+
+.filter-group select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    background:white;
+    font-size:13px;
+}
+
+.actions{
+    margin-top:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.actions-title{
+    font-weight:bold;
+    color:#007367;
+    font-size:13px;
+    margin-right:5px;
+}
+
+.action-btn{
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.reset-btn{
+    background:#eee;
+    color:#333;
+}
+
+.students-btn{
+    background:#007367;
+    color:white;
+}
+
+.action-btn:hover{
+    opacity:.9;
+}
+
+/* ================= TITLE ================= */
+
+.assessment-title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.assessment-title h2{
+    margin:0;
+    font-size:23px;
+}
+
+.assessment-title p{
+    margin:6px 0;
+    color:#666;
+    font-size:12px;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper{
+    overflow-x:auto;
+    margin-bottom:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#007367;
+    color:white;
+    padding:13px;
+    font-size:13px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+    font-size:14px;
+    font-weight:bold;
+}
+
+td:first-child{
+    text-align:left;
+    background:#f8f8f8;
+}
+
+.positive{
+    background:#e5f6eb;
+    color:#16803b;
+}
+
+.negative{
+    background:#fde7e7;
+    color:#bd2525;
+}
+
+.no-change{
+    background:#f1f1f1;
+    color:#666;
+}
+
+.change{
+    display:block;
+    font-size:11px;
+    margin-top:4px;
+    font-weight:normal;
+}
+
+/* ================= DEGREE ================= */
+
+.degree-section{
+    margin-top:25px;
+    background:white;
+    border-radius:10px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.degree-section h3{
+    margin:0 0 5px;
+    color:#007367;
+    font-size:16px;
+}
+
+.degree-section p{
+    margin:0 0 15px;
+    color:#777;
+    font-size:12px;
+}
+
+.degree-table th,
+.degree-table td{
+    padding:8px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.degree-performance{
+    font-weight:bold;
+    text-align:center;
+}
+
+.degree-up{
+    background:#e5f6eb !important;
+    color:#16803b;
+}
+
+.degree-down{
+    background:#fde7e7 !important;
+    color:#bd2525;
+}
+
+.degree-same{
+    background:#f1f1f1 !important;
+    color:#666;
+}
+
+.degree-change{
+    display:block;
+    margin-top:5px;
+    font-size:11px;
+    font-weight:normal;
+}
+
+/* ================= GRAPHS ================= */
+
+.graph-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:25px;
+}
+
+.graph-card{
+    background:white;
+    border-radius:10px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.graph-card h3{
+    margin:0 0 15px;
+    color:#007367;
+    font-size:16px;
+}
+
+.chart-container{
+    height:350px;
+    position:relative;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-box{
+    margin-top:20px;
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    border-left:5px solid #007367;
+}
+
+.summary-box h3{
+    margin:0 0 8px;
+    color:#007367;
+    font-size:15px;
+}
+
+.summary-box p{
+    margin:5px 0;
+    font-size:13px;
+}
+
+.green{
+    color:#16803b;
+}
+
+.red{
+    color:#bd2525;
+}
+
+/* ================= LEGEND ================= */
+
+.legend{
+    margin-top:20px;
+    background:rgba(255,255,255,.8);
+    padding:12px;
+    border-radius:7px;
+    font-size:12px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#007367;
+    font-weight:bold;
+}
+
+.error-box{
+    background:#fde7e7;
+    color:#bd2525;
+    padding:15px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .tabs{
+        justify-content:flex-start;
+    }
+
+    .filters-grid{
+        grid-template-columns:1fr;
+    }
+
+    .graph-grid{
+        grid-template-columns:1fr;
+    }
+
+    .content{
+        padding:0 10px;
+    }
+
+    .actions{
+        flex-wrap:wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <h1>
+        DATA PULSE - CoCubes 2027 Performance Comparison
+    </h1>
+
+            <p class="performance-period">
+            CoCubes Performance: 03-July-2025 to 30th July 2025
+        </p>
+<p>
+        Pre 1 → Post 1 | Assessment-wise Student Performance
+    </p>
+
+</div>
+
+
+<!-- ================= EXAMINATION TABS ================= -->
+
+<div class="tabs-wrapper">
+
+    <div class="tabs">
+
+        <button class="tab domain active"
+                onclick="showExam('domain',this)">
+            Domain
+        </button>
+
+        <button class="tab english"
+                onclick="showExam('english',this)">
+            English Usage
+        </button>
+
+        <button class="tab quant"
+                onclick="showExam('quant',this)">
+            Quantitative Aptitude
+        </button>
+
+        <button class="tab analytical"
+                onclick="showExam('analytical',this)">
+            Analytical Reasoning
+        </button>
+
+        <button class="tab coding"
+                onclick="showExam('coding',this)">
+            Coding
+        </button>
+
+        <button class="tab written"
+                onclick="showExam('written',this)">
+            Written English Test
+        </button>
+
+        <button class="tab computer"
+                onclick="showExam('computer',this)">
+            Computer Fundamentals
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="content">
+
+<!-- ================= FILTERS ================= -->
+
+<div class="filters-card">
+
+    <div class="filters-grid">
+
+        <div class="filter-group">
+
+            <label>Campus</label>
+
+            <select id="campusFilter">
+                <option value="">All Campuses</option>
+            </select>
+
+        </div>
+
+
+        <div class="filter-group">
+
+            <label>Degree</label>
+
+            <select id="degreeFilter">
+                <option value="">All Degrees</option>
+            </select>
+
+        </div>
+
+
+        <div class="filter-group">
+
+            <label>Department</label>
+
+            <select id="departmentFilter">
+                <option value="">All Departments</option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <div class="actions">
+
+        <span class="actions-title">
+            Actions
+        </span>
+
+        <button
+            id="resetBtn"
+            class="action-btn reset-btn">
+            Reset
+        </button>
+
+        <button
+            id="studentsBtn"
+            class="action-btn students-btn">
+            Student Details
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ASSESSMENT CARD ================= -->
+
+<div id="assessmentCard"
+     class="assessment-card domain-bg">
+
+    <div class="assessment-title">
+
+        <h2 id="examTitle">
+            Domain Test
+        </h2>
+
+        <p>
+            Actual student performance from 3,816 records
+        </p>
+
+        <div class="attendance-summary">
+
+    <table class="attendance-table">
+
+        <thead>
+            <tr>
+                <th>Stage</th>
+                <th>Present</th>
+                <th>Absent</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Pre 1</td>
+                <td id="presentPre1">0</td>
+                <td id="absentPre1">0</td>
+            </tr>
+
+            <tr>
+                <td>Post 1</td>
+                <td id="presentPost1">0</td>
+                <td id="absentPost1">0</td>
+            </tr>
+
+            <tr>
+                
+                <td id="presentPost2">0</td>
+                <td id="absentPost2">0</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= PERFORMANCE TABLE ================= -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Stage</th>
+
+                    <th>Good to Go</th>
+
+                    <th>Need Training</th>
+
+                    <th>Need Practice</th>
+
+                    <th>Not Appeared</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tableBody">
+
+                <tr>
+                    <td colspan="5" class="loading">
+                        Loading actual JSON data...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= DEGREE TABLE ================= -->
+
+    <div class="degree-section">
+
+        <h3 id="degreeTableTitle">
+            Domain Test - Degree-wise Present Performance
+        </h3>
+
+
+
+        <div class="table-wrapper">
+
+            <table class="degree-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Performance</th>
+
+                        <th>Stage</th>
+
+                        <th>BCA</th>
+
+                        <th>MSC</th>
+
+                        <th>MCA</th>
+
+                        <th>MTECH</th>
+
+                        <th>BTECH</th>
+
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="degreeTableBody">
+
+                    <tr>
+                        <td colspan="8" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DEGREE PRESENT COUNT TABLE ================= -->
+
+    <div class="degree-section">
+
+        <h3>
+            Domain Test - Degree-wise Present Count
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table class="degree-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Stage</th>
+                        <th>BCA</th>
+                        <th>MSC</th>
+                        <th>MCA</th>
+                        <th>MTECH</th>
+                        <th>BTECH</th>
+                        <th>Total Present Count</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="degreePresentCountTableBody">
+
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GRAPHS ================= -->
+
+    <div class="graph-grid">
+
+        <div class="graph-card">
+
+            <h3>
+                Pre 1 → Post 1
+            </h3>
+
+            <div class="chart-container">
+
+                <canvas id="progressChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="graph-card">
+
+            <h3>
+                Pre 1 vs Post 1
+            </h3>
+
+            <div class="chart-container">
+
+                <canvas id="comparisonChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <div class="summary-box">
+
+        <h3>
+            Performance Summary
+        </h3>
+
+        <p id="summaryText">
+            Loading actual data...
+        </p>
+
+    </div>
+
+
+    <!-- ================= LEGEND ================= -->
+
+    <div class="legend">
+
+        <span class="green">
+            🟢 Increase in Good to Go = Positive
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="green">
+            🟢 Decrease in Need Training = Positive
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 Increase in Need Training = Dip
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 Increase in Not Appeared = Dip
+        </span>
+
+        <br><br>
+
+        <span class="green">
+            🟢 ↑ Degree count increased
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 ↓ Degree count decreased
+        </span>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+let DATA=[];
+let currentExam="domain";
+let progressChart=null;
+let comparisonChart=null;
+
+const EXAMS={
+domain:{
+title:"Domain Test",
+bg:"domain-bg",
+fields:{
+"Pre 1":"Domain Fitment - Pre Assessment",
+"Post 1":"Domain Fitment - Post Assessment"
+}},
+english:{
+title:"English Usage",
+bg:"english-bg",
+fields:{
+"Pre 1":"English Usage Fitment - Pre Assessment",
+"Post 1":"English Usage Fitment - Post Assessment"
+}},
+analytical:{
+title:"Analytical Reasoning",
+bg:"analytical-bg",
+fields:{
+"Pre 1":"Analytical Reasoning Fitment - Pre Assessment",
+"Post 1":"Analytical Reasoning Fitment - Post Assessment"
+}},
+quant:{
+title:"Quantitative Aptitude",
+bg:"quant-bg",
+fields:{
+"Pre 1":"Quantitative Ability Fitment - Pre Assessment",
+"Post 1":"Quantitative Ability Fitment - Post Assessment"
+}},
+coding:{
+title:"Coding",
+bg:"coding-bg",
+fields:{
+"Pre 1":"Coding Fitment - Pre Assessment",
+"Post 1":"Coding Fitment - Post Assessment"
+}},
+written:{
+title:"Written English Test",
+bg:"written-bg",
+fields:{
+"Pre 1":"Written English Fitment - Pre Assessment",
+"Post 1":"Written English Fitment - Post Assessment"
+}},
+computer:{
+title:"Computer Fundamentals",
+bg:"computer-bg",
+fields:{
+"Pre 1":"",
+"Post 1":""
+}}
+};
+
+const STAGES=["Pre 1","Post 1"];
+const STATUSES=["Good to Go","Need Training","Need Practice","Not Appeared"];
+const DEGREES=["BCA","MSC","MCA","MTECH","BTECH"];
+
+function clean(v){
+return v===null||v===undefined?"":String(v).trim();
+}
+
+function getStatus(row,exam,stage){
+const field=EXAMS[exam].fields[stage];
+if(!field)return"Not Appeared";
+const v=clean(row[field]);
+if(!v||v.toLowerCase()==="not attended"||v.toLowerCase()==="not appeared")return"Not Appeared";
+return v;
+}
+
+function filteredRows(){
+const c=clean(document.getElementById("campusFilter").value);
+const d=clean(document.getElementById("degreeFilter").value);
+const dep=clean(document.getElementById("departmentFilter").value);
+
+return DATA.filter(r=>
+(!c||clean(r.Location)===c)&&
+(!d||clean(r.Degree)===d)&&
+(!dep||clean(r.Department)===dep)
+);
+}
+
+function count(rows,exam,stage,status){
+return rows.filter(r=>getStatus(r,exam,stage)===status).length;
+}
+
+function stats(rows,exam,stage){
+return{
+good:count(rows,exam,stage,"Good to Go"),
+training:count(rows,exam,stage,"Need Training"),
+practice:count(rows,exam,stage,"Need Practice"),
+notAppeared:count(rows,exam,stage,"Not Appeared")
+};
+}
+
+function pct(n,total){
+return total?((n/total)*100).toFixed(1):"0.0";
+}
+
+function fmt(n){
+return Number(n||0).toLocaleString("en-IN");
+}
+
+function cell(current,previous,total,type){
+const change=previous===null?0:current-previous;
+let cls="";
+if(previous!==null&&change!==0){
+let positive=type==="good"?change>0:change<0;
+cls=positive?"positive":"negative";
+}
+const arrow=change>0?"↑":change<0?"↓":"→";
+return `<td class="${cls}">${fmt(current)}<span class="change">${pct(current,total)}%${previous===null?"":" &nbsp; "+arrow+" "+(change>0?"+":"")+fmt(change)}</span></td>`;
+}
+
+function updatePerformance(rows){
+const pre=stats(rows,currentExam,"Pre 1");
+const post=stats(rows,currentExam,"Post 1");
+
+const preTotal=rows.length;
+const postTotal=rows.length;
+
+document.getElementById("presentPre1").textContent=
+fmt(pre.good+pre.training+pre.practice);
+document.getElementById("absentPre1").textContent=
+fmt(pre.notAppeared);
+
+document.getElementById("presentPost1").textContent=
+fmt(post.good+post.training+post.practice);
+document.getElementById("absentPost1").textContent=
+fmt(post.notAppeared);
+
+const tb=document.getElementById("tableBody");
+
+tb.innerHTML=`
+<tr>
+<td>Pre 1</td>
+${cell(pre.good,null,preTotal,"good")}
+${cell(pre.training,null,preTotal,"training")}
+${cell(pre.practice,null,preTotal,"practice")}
+${cell(pre.notAppeared,null,preTotal,"notAppeared")}
+</tr>
+<tr>
+<td>Post 1</td>
+${cell(post.good,pre.good,postTotal,"good")}
+${cell(post.training,pre.training,postTotal,"training")}
+${cell(post.practice,pre.practice,postTotal,"practice")}
+${cell(post.notAppeared,pre.notAppeared,postTotal,"notAppeared")}
+</tr>`;
+
+createDegreeTables(rows);
+createCharts(pre,post);
+createSummary(pre,post);
+}
+
+function createDegreeTables(rows){
+let performanceHTML="";
+let presentHTML="";
+
+["Good to Go","Need Training","Need Practice"].forEach(status=>{
+STAGES.forEach((stage,i)=>{
+let vals={BCA:0,MSC:0,MCA:0,MTECH:0,BTECH:0,Total:0};
+
+rows.forEach(r=>{
+if(clean(r.Degree) in vals&&getStatus(r,currentExam,stage)===status){
+vals[clean(r.Degree)]++;
+vals.Total++;
+}
+});
+
+performanceHTML+=`<tr>
+${i===0?`<td rowspan="2" class="degree-performance">${status}</td>`:""}
+<td>${stage}</td>
+<td>${fmt(vals.BCA)}</td>
+<td>${fmt(vals.MSC)}</td>
+<td>${fmt(vals.MCA)}</td>
+<td>${fmt(vals.MTECH)}</td>
+<td>${fmt(vals.BTECH)}</td>
+<td>${fmt(vals.Total)}</td>
+</tr>`;
+});
+});
+
+STAGES.forEach(stage=>{
+let vals={BCA:0,MSC:0,MCA:0,MTECH:0,BTECH:0,Total:0};
+
+rows.forEach(r=>{
+const d=clean(r.Degree);
+const st=getStatus(r,currentExam,stage);
+if(d in vals&&["Good to Go","Need Training","Need Practice"].includes(st)){
+vals[d]++;
+vals.Total++;
+}
+});
+
+presentHTML+=`<tr>
+<td>${stage}</td>
+<td>${fmt(vals.BCA)}</td>
+<td>${fmt(vals.MSC)}</td>
+<td>${fmt(vals.MCA)}</td>
+<td>${fmt(vals.MTECH)}</td>
+<td>${fmt(vals.BTECH)}</td>
+<td>${fmt(vals.Total)}</td>
+</tr>`;
+});
+
+document.getElementById("degreeTableBody").innerHTML=performanceHTML;
+document.getElementById("degreePresentCountTableBody").innerHTML=presentHTML;
+
+document.getElementById("degreeTableTitle").textContent=
+EXAMS[currentExam].title+" - Degree-wise Student Count";
+}
+
+function createCharts(pre,post){
+if(progressChart)progressChart.destroy();
+if(comparisonChart)comparisonChart.destroy();
+
+progressChart=new Chart(document.getElementById("progressChart"),{
+type:"bar",
+data:{
+labels:["Pre 1","Post 1"],
+datasets:[
+{label:"Good to Go",data:[pre.good,post.good],backgroundColor:"#16803b"},
+{label:"Need Training",data:[pre.training,post.training],backgroundColor:"#e07b00"},
+{label:"Need Practice",data:[pre.practice,post.practice],backgroundColor:"#2774c7"},
+{label:"Not Appeared",data:[pre.notAppeared,post.notAppeared],backgroundColor:"#999999"}
+]},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{position:"bottom"}},
+scales:{y:{beginAtZero:true,ticks:{precision:0}}}
+}});
+
+comparisonChart=new Chart(document.getElementById("comparisonChart"),{
+type:"bar",
+data:{
+labels:["Good to Go","Need Training","Need Practice","Not Appeared"],
+datasets:[
+{label:"Pre 1",data:[pre.good,pre.training,pre.practice,pre.notAppeared],backgroundColor:"#9bc5bf"},
+{label:"Post 1",data:[post.good,post.training,post.practice,post.notAppeared],backgroundColor:"#007367"}
+]},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{position:"bottom"}},
+scales:{y:{beginAtZero:true,ticks:{precision:0}}}
+}});
+}
+
+function createSummary(pre,post){
+const preGood=pct(pre.good,pre.good+pre.training+pre.practice+pre.notAppeared);
+const postGood=pct(post.good,post.good+post.training+post.practice+post.notAppeared);
+const diff=(Number(postGood)-Number(preGood)).toFixed(1);
+
+document.getElementById("summaryText").innerHTML=
+`Good to Go changed from <b>${preGood}%</b> in Pre 1 to <b>${postGood}%</b> in Post 1. 
+<strong class="${diff>=0?"green":"red"}">${diff>=0?"↑":"↓"} ${Math.abs(diff)} percentage points</strong>.
+Need Training changed from <b>${fmt(pre.training)}</b> to <b>${fmt(post.training)}</b>.`;
+}
+
+function fillSelect(id,values){
+const el=document.getElementById(id);
+el.innerHTML='<option value="">All</option>';
+[...new Set(values.map(clean).filter(Boolean))].sort().forEach(v=>{
+const o=document.createElement("option");
+o.value=v;
+o.textContent=v;
+el.appendChild(o);
+});
+}
+
+function loadFilters(){
+fillSelect("campusFilter",DATA.map(r=>r.Location));
+fillSelect("degreeFilter",DATA.map(r=>r.Degree));
+fillSelect("departmentFilter",DATA.map(r=>r.Department));
+}
+
+function updateDashboard(){
+if(!DATA.length)return;
+updatePerformance(filteredRows());
+}
+
+function showExam(exam,button){
+if(!EXAMS[exam])return;
+currentExam=exam;
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+if(button)button.classList.add("active");
+
+document.getElementById("assessmentCard").className=
+"assessment-card "+EXAMS[exam].bg;
+
+document.getElementById("examTitle").textContent=
+EXAMS[exam].title;
+
+updateDashboard();
+}
+
+function resetFilters(){
+document.getElementById("campusFilter").value="";
+document.getElementById("degreeFilter").value="";
+document.getElementById("departmentFilter").value="";
+updateDashboard();
+}
+
+function openStudentDetails(){
+const q=[];
+const c=document.getElementById("campusFilter").value;
+const d=document.getElementById("degreeFilter").value;
+const dep=document.getElementById("departmentFilter").value;
+
+if(c)q.push("campus="+encodeURIComponent(c));
+if(d)q.push("degree="+encodeURIComponent(d));
+if(dep)q.push("dept="+encodeURIComponent(dep));
+
+window.open("CoCubes_2027_Student_Details.html"+(q.length?"?"+q.join("&"):""),"_blank");
+}
+
+document.getElementById("campusFilter").addEventListener("change",updateDashboard);
+document.getElementById("degreeFilter").addEventListener("change",updateDashboard);
+document.getElementById("departmentFilter").addEventListener("change",updateDashboard);
+document.getElementById("resetBtn").addEventListener("click",resetFilters);
+document.getElementById("studentsBtn").addEventListener("click",openStudentDetails);
+
+fetch("../data/cocubes-2027.json")
+.then(r=>{
+if(!r.ok)throw new Error("Unable to load cocubes-2027.json");
+return r.json();
+})
+.then(rows=>{
+if(!Array.isArray(rows))throw new Error("JSON is not an array");
+
+DATA=rows;
+window.DATA=DATA;
+
+console.log("CORRECT 2027 DATA LOADED:",DATA.length);
+console.log("First record:",DATA[0]);
+
+loadFilters();
+updateDashboard();
+})
+.catch(err=>{
+console.error(err);
+document.getElementById("tableBody").innerHTML=
+`<tr><td colspan="5"><div class="error-box">${err.message}</div></td></tr>`;
+});
+
+})();
+</script>
+</body>
+</html>

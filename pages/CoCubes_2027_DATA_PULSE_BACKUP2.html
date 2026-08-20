@@ -1,0 +1,4089 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - CoCubes 2027 Performance</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#243333;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    background:white;
+    padding:18px;
+    text-align:center;
+    border-bottom:3px solid #007367;
+}
+
+.header h1{
+    margin:0;
+    color:#007367;
+    font-size:25px;
+}
+
+.header p{
+    margin:6px 0 0;
+    color:#666;
+    font-size:13px;
+}
+
+/* ================= EXAMINATION TABS ================= */
+
+.tabs-wrapper{
+    background:white;
+    padding:12px 15px;
+    border-bottom:1px solid #ddd;
+    overflow-x:auto;
+}
+
+.tabs{
+    display:flex;
+    gap:8px;
+    min-width:max-content;
+    justify-content:center;
+}
+
+.tab{
+    border:none;
+    padding:12px 18px;
+    border-radius:7px;
+    font-weight:bold;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.2s;
+}
+
+.tab:hover{
+    transform:translateY(-1px);
+}
+
+.domain{background:#d8efeb}
+.english{background:#dcecff}
+.quant{background:#eadfff}
+.analytical{background:#ffe6cc}
+.coding{background:#d8f5f7}
+.written{background:#fff2bf}
+.computer{background:#eadfce}
+
+.domain.active{background:#007367;color:white}
+.english.active{background:#2774c7;color:white}
+.quant.active{background:#7147b8;color:white}
+.analytical.active{background:#d87518;color:white}
+.coding.active{background:#168b94;color:white}
+.written.active{background:#c89a00;color:white}
+.computer.active{background:#80623c;color:white}
+
+/* ================= CONTENT ================= */
+
+.content{
+    max-width:1250px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.assessment-card{
+    padding:22px;
+    border-radius:12px;
+}
+
+.domain-bg{
+    background:#e9f7f4;
+    border:1px solid #b9ded8;
+}
+
+.english-bg{
+    background:#edf4ff;
+    border:1px solid #c5dafa;
+}
+
+.quant-bg{
+    background:#f4efff;
+    border:1px solid #d9c9f5;
+}
+
+.analytical-bg{
+    background:#fff3e6;
+    border:1px solid #f3d0aa;
+}
+
+.coding-bg{
+    background:#e9fafb;
+    border:1px solid #bfe6e9;
+}
+
+.written-bg{
+    background:#fff9df;
+    border:1px solid #eedb8b;
+}
+
+.computer-bg{
+    background:#f5eee5;
+    border:1px solid #dfcbb0;
+}
+
+/* ================= FILTERS ================= */
+
+.filters-card{
+    background:white;
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.filters-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+}
+
+.filter-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#555;
+    margin-bottom:6px;
+}
+
+.filter-group select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    background:white;
+    font-size:13px;
+}
+
+.actions{
+    margin-top:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.actions-title{
+    font-weight:bold;
+    color:#007367;
+    font-size:13px;
+    margin-right:5px;
+}
+
+.action-btn{
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.reset-btn{
+    background:#eee;
+    color:#333;
+}
+
+.students-btn{
+    background:#007367;
+    color:white;
+}
+
+.action-btn:hover{
+    opacity:.9;
+}
+
+/* ================= TITLE ================= */
+
+.assessment-title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.assessment-title h2{
+    margin:0;
+    font-size:23px;
+}
+
+.assessment-title p{
+    margin:6px 0;
+    color:#666;
+    font-size:12px;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrapper{
+    overflow-x:auto;
+    margin-bottom:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th{
+    background:#007367;
+    color:white;
+    padding:13px;
+    font-size:13px;
+}
+
+td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
+    font-size:14px;
+    font-weight:bold;
+}
+
+td:first-child{
+    text-align:left;
+    background:#f8f8f8;
+}
+
+.positive{
+    background:#e5f6eb;
+    color:#16803b;
+}
+
+.negative{
+    background:#fde7e7;
+    color:#bd2525;
+}
+
+.no-change{
+    background:#f1f1f1;
+    color:#666;
+}
+
+.change{
+    display:block;
+    font-size:11px;
+    margin-top:4px;
+    font-weight:normal;
+}
+
+/* ================= DEGREE ================= */
+
+.degree-section{
+    margin-top:25px;
+    background:white;
+    border-radius:10px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.degree-section h3{
+    margin:0 0 5px;
+    color:#007367;
+    font-size:16px;
+}
+
+.degree-section p{
+    margin:0 0 15px;
+    color:#777;
+    font-size:12px;
+}
+
+.degree-table th,
+.degree-table td{
+    padding:8px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.degree-performance{
+    font-weight:bold;
+    text-align:center;
+}
+
+.degree-up{
+    background:#e5f6eb !important;
+    color:#16803b;
+}
+
+.degree-down{
+    background:#fde7e7 !important;
+    color:#bd2525;
+}
+
+.degree-same{
+    background:#f1f1f1 !important;
+    color:#666;
+}
+
+.degree-change{
+    display:block;
+    margin-top:5px;
+    font-size:11px;
+    font-weight:normal;
+}
+
+/* ================= GRAPHS ================= */
+
+.graph-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:25px;
+}
+
+.graph-card{
+    background:white;
+    border-radius:10px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.graph-card h3{
+    margin:0 0 15px;
+    color:#007367;
+    font-size:16px;
+}
+
+.chart-container{
+    height:350px;
+    position:relative;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-box{
+    margin-top:20px;
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    border-left:5px solid #007367;
+}
+
+.summary-box h3{
+    margin:0 0 8px;
+    color:#007367;
+    font-size:15px;
+}
+
+.summary-box p{
+    margin:5px 0;
+    font-size:13px;
+}
+
+.green{
+    color:#16803b;
+}
+
+.red{
+    color:#bd2525;
+}
+
+/* ================= LEGEND ================= */
+
+.legend{
+    margin-top:20px;
+    background:rgba(255,255,255,.8);
+    padding:12px;
+    border-radius:7px;
+    font-size:12px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#007367;
+    font-weight:bold;
+}
+
+.error-box{
+    background:#fde7e7;
+    color:#bd2525;
+    padding:15px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .tabs{
+        justify-content:flex-start;
+    }
+
+    .filters-grid{
+        grid-template-columns:1fr;
+    }
+
+    .graph-grid{
+        grid-template-columns:1fr;
+    }
+
+    .content{
+        padding:0 10px;
+    }
+
+    .actions{
+        flex-wrap:wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <h1>
+        DATA PULSE - CoCubes 2027 Performance Comparison
+    </h1>
+
+            <p class="performance-period">
+            CoCubes Performance: 03-July-2025 to 30th July 2025
+        </p>
+<p>
+        Pre 1 → Post 1 | Assessment-wise Student Performance
+    </p>
+
+</div>
+
+
+<!-- ================= EXAMINATION TABS ================= -->
+
+<div class="tabs-wrapper">
+
+    <div class="tabs">
+
+        <button class="tab domain active"
+                onclick="showExam('domain',this)">
+            Domain
+        </button>
+
+        <button class="tab english"
+                onclick="showExam('english',this)">
+            English Usage
+        </button>
+
+        <button class="tab quant"
+                onclick="showExam('quant',this)">
+            Quantitative Aptitude
+        </button>
+
+        <button class="tab analytical"
+                onclick="showExam('analytical',this)">
+            Analytical Reasoning
+        </button>
+
+        <button class="tab coding"
+                onclick="showExam('coding',this)">
+            Coding
+        </button>
+
+        <button class="tab written"
+                onclick="showExam('written',this)">
+            Written English Test
+        </button>
+
+        <button class="tab computer"
+                onclick="showExam('computer',this)">
+            Computer Fundamentals
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="content">
+
+<!-- ================= FILTERS ================= -->
+
+<div class="filters-card">
+
+    <div class="filters-grid">
+
+        <div class="filter-group">
+
+            <label>Campus</label>
+
+            <select id="campusFilter">
+                <option value="">All Campuses</option>
+            </select>
+
+        </div>
+
+
+        <div class="filter-group">
+
+            <label>Degree</label>
+
+            <select id="degreeFilter">
+                <option value="">All Degrees</option>
+            </select>
+
+        </div>
+
+
+        <div class="filter-group">
+
+            <label>Department</label>
+
+            <select id="departmentFilter">
+                <option value="">All Departments</option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <div class="actions">
+
+        <span class="actions-title">
+            Actions
+        </span>
+
+        <button
+            id="resetBtn"
+            class="action-btn reset-btn">
+            Reset
+        </button>
+
+        <button
+            id="studentsBtn"
+            class="action-btn students-btn">
+            Student Details
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ASSESSMENT CARD ================= -->
+
+<div id="assessmentCard"
+     class="assessment-card domain-bg">
+
+    <div class="assessment-title">
+
+        <h2 id="examTitle">
+            Domain Test
+        </h2>
+
+        <p>
+            Actual student performance from 3,816 records
+        </p>
+
+        <div class="attendance-summary">
+
+    <table class="attendance-table">
+
+        <thead>
+            <tr>
+                <th>Stage</th>
+                <th>Present</th>
+                <th>Absent</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Pre 1</td>
+                <td id="presentPre1">0</td>
+                <td id="absentPre1">0</td>
+            </tr>
+
+            <tr>
+                <td>Post 1</td>
+                <td id="presentPost1">0</td>
+                <td id="absentPost1">0</td>
+            </tr>
+
+            <tr>
+                
+                <td id="presentPost2">0</td>
+                <td id="absentPost2">0</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= PERFORMANCE TABLE ================= -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Stage</th>
+
+                    <th>Good to Go</th>
+
+                    <th>Need Training</th>
+
+                    <th>Need Practice</th>
+
+                    <th>Not Appeared</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tableBody">
+
+                <tr>
+                    <td colspan="5" class="loading">
+                        Loading actual JSON data...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= DEGREE TABLE ================= -->
+
+    <div class="degree-section">
+
+        <h3 id="degreeTableTitle">
+            Domain Test - Degree-wise Present Performance
+        </h3>
+
+
+
+        <div class="table-wrapper">
+
+            <table class="degree-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Performance</th>
+
+                        <th>Stage</th>
+
+                        <th>BCA</th>
+
+                        <th>MSC</th>
+
+                        <th>MCA</th>
+
+                        <th>MTECH</th>
+
+                        <th>BTECH</th>
+
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="degreeTableBody">
+
+                    <tr>
+                        <td colspan="8" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DEGREE PRESENT COUNT TABLE ================= -->
+
+    <div class="degree-section">
+
+        <h3>
+            Domain Test - Degree-wise Present Count
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table class="degree-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Stage</th>
+                        <th>BCA</th>
+                        <th>MSC</th>
+                        <th>MCA</th>
+                        <th>MTECH</th>
+                        <th>BTECH</th>
+                        <th>Total Present Count</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="degreePresentCountTableBody">
+
+                    <tr>
+                        <td colspan="7" class="loading">
+                            Loading...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GRAPHS ================= -->
+
+    <div class="graph-grid">
+
+        <div class="graph-card">
+
+            <h3>
+                Pre 1 → Post 1
+            </h3>
+
+            <div class="chart-container">
+
+                <canvas id="progressChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="graph-card">
+
+            <h3>
+                Pre 1 vs Post 1
+            </h3>
+
+            <div class="chart-container">
+
+                <canvas id="comparisonChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <div class="summary-box">
+
+        <h3>
+            Performance Summary
+        </h3>
+
+        <p id="summaryText">
+            Loading actual data...
+        </p>
+
+    </div>
+
+
+    <!-- ================= LEGEND ================= -->
+
+    <div class="legend">
+
+        <span class="green">
+            🟢 Increase in Good to Go = Positive
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="green">
+            🟢 Decrease in Need Training = Positive
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 Increase in Need Training = Dip
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 Increase in Not Appeared = Dip
+        </span>
+
+        <br><br>
+
+        <span class="green">
+            🟢 ↑ Degree count increased
+        </span>
+
+        &nbsp;&nbsp;
+
+        <span class="red">
+            🔴 ↓ Degree count decreased
+        </span>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================================
+   ACTUAL CoCUBES 2026 DATA
+========================================================== */
+
+let DATA = [];
+
+let currentExam = "domain";
+
+let progressChart = null;
+let comparisonChart = null;
+
+
+/* ==========================================================
+   EXAMINATION DEFINITIONS
+========================================================== */
+
+const exams = {
+
+    domain: {
+        title: "Domain Test",
+        field: "Domain Test",
+        bg: "domain-bg"
+    },
+
+    english: {
+        title: "English Usage",
+        field: "English Usage",
+        bg: "english-bg"
+    },
+
+    quant: {
+        title: "Quantitative Aptitude",
+        field: "Quantitative Aptitude",
+        bg: "quant-bg"
+    },
+
+    analytical: {
+        title: "Analytical Reasoning",
+        field: "Analytical Reasoning",
+        bg: "analytical-bg"
+    },
+
+    coding: {
+        title: "Coding",
+        field: "Coding",
+        bg: "coding-bg"
+    },
+
+    written: {
+        title: "Written English Test",
+        field: "Written English Test",
+        bg: "written-bg"
+    },
+
+    computer: {
+        title: "Computer Fundamentals",
+        field: "Computer Fundamentals",
+        bg: "computer-bg"
+    }
+
+};
+
+
+/* ==========================================================
+   CONSTANTS
+========================================================== */
+
+const STAGES = [
+    "Pre 1",
+    "Post 1",
+    "Post 2"
+];
+
+const STATUSES = [
+    "Good to Go",
+    "Need Training",
+    "Need Practice",
+    "Not Appeared"
+];
+
+const DEGREES = [
+    "BCA",
+    "MSC",
+    "MCA",
+    "MTECH",
+    "BTECH"
+];
+
+
+/* ==========================================================
+   DOM ELEMENTS
+========================================================== */
+
+const campusFilter =
+    document.getElementById("campusFilter");
+
+const degreeFilter =
+    document.getElementById("degreeFilter");
+
+const departmentFilter =
+    document.getElementById("departmentFilter");
+
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+function clean(value){
+
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value).trim();
+
+}
+
+
+function number(value){
+
+    return Number(value || 0);
+
+}
+
+
+function percentage(value,total){
+
+    if(!total){
+        return "0.0";
+    }
+
+    return ((value / total) * 100).toFixed(1);
+
+}
+
+
+function formatNumber(value){
+
+    return Number(value || 0).toLocaleString("en-IN");
+
+}
+
+
+/* ==========================================================
+   UNIQUE FILTER VALUES
+========================================================== */
+
+function uniqueValues(values){
+
+    return [
+        ...new Set(
+            values
+                .map(clean)
+                .filter(Boolean)
+        )
+    ].sort();
+
+}
+
+
+function populateSelect(select, values){
+
+    values.forEach(function(value){
+
+        const option =
+            document.createElement("option");
+
+        option.value = value;
+
+        option.textContent = value;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* ==========================================================
+   FILTER DATA
+========================================================== */
+
+function filteredRows(){
+
+    const campus =
+        clean(campusFilter.value);
+
+    const degree =
+        clean(degreeFilter.value);
+
+    const department =
+        clean(departmentFilter.value);
+
+    return DATA.filter(function(row){
+
+        return (
+
+            (!campus ||
+                clean(row.Location) === campus)
+
+            &&
+
+            (!degree ||
+                clean(row.Degree) === degree)
+
+            &&
+
+            (!department ||
+                clean(row.Department) === department)
+
+        );
+
+    });
+
+}
+
+
+/* ==========================================================
+   GET STATUS FOR STUDENT
+========================================================== */
+
+function getStatus(row,field,stage){
+
+    const value = row[field];
+
+    if(value &&
+       typeof value === "object"){
+
+        return clean(value[stage]);
+
+    }
+
+    return clean(value);
+
+}
+
+
+/* ==========================================================
+   COUNT EXAMINATION STATUSES
+========================================================== */
+
+function countExam(rows,exam,stage){
+
+    const result = {
+
+        good:0,
+
+        training:0,
+
+        practice:0,
+
+        notAppeared:0
+
+    };
+
+    const field =
+        exams[exam].field;
+
+    rows.forEach(function(row){
+
+        const status =
+            getStatus(
+                row,
+                field,
+                stage
+            );
+
+        if(status === "Good to Go"){
+
+            result.good++;
+
+        }
+        else if(status === "Need Training"){
+
+            result.training++;
+
+        }
+        else if(status === "Need Practice"){
+
+            result.practice++;
+
+        }
+        else if(status === "Not Appeared"){
+
+            result.notAppeared++;
+
+        }
+
+    });
+
+    return result;
+
+}
+
+
+/* ==========================================================
+   PERFORMANCE TABLE CELL
+========================================================== */
+
+function tableCell(
+    current,
+    previous,
+    category,
+    total
+){
+
+    const pct =
+        percentage(
+            current,
+            total
+        );
+
+    if(previous === null){
+
+        return `
+        <td>
+            ${formatNumber(current)}
+            <span class="change">
+                ${pct}%
+            </span>
+        </td>`;
+
+    }
+
+    const change =
+        current - previous;
+
+    let positive;
+
+    if(category === "good"){
+
+        positive = change > 0;
+
+    }
+    else if(category === "notAppeared"){
+
+        positive = change < 0;
+
+    }
+    else{
+
+        positive = change < 0;
+
+    }
+
+    let className =
+        "no-change";
+
+    if(change !== 0){
+
+        className =
+            positive
+                ? "positive"
+                : "negative";
+
+    }
+
+    const arrow =
+        change > 0
+            ? "↑"
+            : change < 0
+                ? "↓"
+                : "→";
+
+    const changeText =
+        change > 0
+            ? "+" + formatNumber(change)
+            : formatNumber(change);
+
+    return `
+    <td class="${className}">
+
+        ${formatNumber(current)}
+
+        <span class="change">
+
+            ${pct}%
+            &nbsp;
+            ${arrow} ${changeText}
+
+        </span>
+
+    </td>`;
+
+}
+
+
+/* ==========================================================
+   CREATE PERFORMANCE TABLE
+========================================================== */
+
+function createTable(data){
+
+    const preTotal =
+        data.pre.good +
+        data.pre.training +
+        data.pre.practice +
+        data.pre.notAppeared;
+
+    const post1Total =
+        data.post1.good +
+        data.post1.training +
+        data.post1.practice +
+        data.post1.notAppeared;
+
+    const post2Total =
+        data.post2.good +
+        data.post2.training +
+        data.post2.practice +
+        data.post2.notAppeared;
+
+    return `
+
+    <tr>
+
+        <td>Pre 1</td>
+
+        ${tableCell(
+            data.pre.good,
+            null,
+            "good",
+            preTotal
+        )}
+
+        ${tableCell(
+            data.pre.training,
+            null,
+            "training",
+            preTotal
+        )}
+
+        ${tableCell(
+            data.pre.practice,
+            null,
+            "practice",
+            preTotal
+        )}
+
+        ${tableCell(
+            data.pre.notAppeared,
+            null,
+            "notAppeared",
+            preTotal
+        )}
+
+    </tr>
+
+
+    <tr>
+
+        <td>Post 1</td>
+
+        ${tableCell(
+            data.post1.good,
+            data.pre.good,
+            "good",
+            post1Total
+        )}
+
+        ${tableCell(
+            data.post1.training,
+            data.pre.training,
+            "training",
+            post1Total
+        )}
+
+        ${tableCell(
+            data.post1.practice,
+            data.pre.practice,
+            "practice",
+            post1Total
+        )}
+
+        ${tableCell(
+            data.post1.notAppeared,
+            data.pre.notAppeared,
+            "notAppeared",
+            post1Total
+        )}
+
+    </tr>
+
+
+    <tr>
+
+        
+
+        ${tableCell(
+            data.post2.good,
+            data.post1.good,
+            "good",
+            post2Total
+        )}
+
+        ${tableCell(
+            data.post2.training,
+            data.post1.training,
+            "training",
+            post2Total
+        )}
+
+        ${tableCell(
+            data.post2.practice,
+            data.post1.practice,
+            "practice",
+            post2Total
+        )}
+
+        ${tableCell(
+            data.post2.notAppeared,
+            data.post1.notAppeared,
+            "notAppeared",
+            post2Total
+        )}
+
+    </tr>
+
+    `;
+
+}
+
+
+/* ==========================================================
+   DEGREE COUNT
+========================================================== */
+
+function degreePerformanceCounts(exam,stage,rows){
+
+    const result = {};
+
+    const performances = [
+        "Good to Go",
+        "Need Training",
+        "Need Practice"
+    ];
+
+    performances.forEach(function(performance){
+
+        result[performance] = {};
+
+        DEGREES.forEach(function(degree){
+
+            result[performance][degree] = 0;
+
+        });
+
+        result[performance].Total = 0;
+
+    });
+
+    const field =
+        exams[exam].field;
+
+    rows.forEach(function(row){
+
+        const degree =
+            clean(row.Degree);
+
+        if(!DEGREES.includes(degree)){
+            return;
+        }
+
+        const status =
+            getStatus(
+                row,
+                field,
+                stage
+            );
+
+        if(
+            status === "Good to Go" ||
+            status === "Need Training" ||
+            status === "Need Practice"
+        ){
+
+            result[status][degree]++;
+
+            result[status].Total++;
+
+        }
+
+    });
+
+    return result;
+
+}
+
+
+/* ==========================================================
+   DEGREE PERFORMANCE TABLE
+========================================================== */
+
+function createDegreeTable(
+    exam,
+    rows
+){
+
+    const stages = [
+        "Pre 1",
+        "Post 1",
+        "Post 2"
+    ];
+
+    const performances = [
+        "Good to Go",
+        "Need Training",
+        "Need Practice"
+    ];
+
+    let html = "";
+
+    performances.forEach(function(performance){
+
+        stages.forEach(function(stage,index){
+
+            const counts =
+                degreePerformanceCounts(
+                    exam,
+                    stage,
+                    rows
+                )[performance];
+
+            html += `
+
+            <tr>
+
+                ${
+                    index === 0
+                        ? `<td rowspan="3" class="degree-performance">
+                            ${performance}
+                           </td>`
+                        : ""
+                }
+
+                <td>${stage}</td>
+
+                <td>${formatNumber(counts.BCA)}</td>
+
+                <td>${formatNumber(counts.MSC)}</td>
+
+                <td>${formatNumber(counts.MCA)}</td>
+
+                <td>${formatNumber(counts.MTECH)}</td>
+
+                <td>${formatNumber(counts.BTECH)}</td>
+
+                <td>${formatNumber(counts.Total)}</td>
+
+            </tr>
+
+            `;
+
+        });
+
+    });
+
+    return html;
+
+}
+
+/* ==========================================================
+   DEGREE PRESENT COUNT TABLE
+========================================================== */
+
+function createDegreePresentCountTable(
+    exam,
+    rows
+){
+
+    const stages = [
+        "Pre 1",
+        "Post 1",
+        "Post 2"
+    ];
+
+    let html = "";
+
+    stages.forEach(function(stage){
+
+        const counts = {
+            BCA: 0,
+            MSC: 0,
+            MCA: 0,
+            MTECH: 0,
+            BTECH: 0,
+            Total: 0
+        };
+
+        const field =
+            exams[exam].field;
+
+        rows.forEach(function(row){
+
+            const degree =
+                clean(row.Degree);
+
+            if(!DEGREES.includes(degree)){
+                return;
+            }
+
+            const status =
+                getStatus(
+                    row,
+                    field,
+                    stage
+                );
+
+            if(
+                status === "Good to Go" ||
+                status === "Need Training" ||
+                status === "Need Practice"
+            ){
+
+                counts[degree]++;
+                counts.Total++;
+
+            }
+
+        });
+
+        html += `
+
+        <tr>
+
+            <td>${stage}</td>
+
+            <td>${formatNumber(counts.BCA)}</td>
+
+            <td>${formatNumber(counts.MSC)}</td>
+
+            <td>${formatNumber(counts.MCA)}</td>
+
+            <td>${formatNumber(counts.MTECH)}</td>
+
+            <td>${formatNumber(counts.BTECH)}</td>
+
+            <td>${formatNumber(counts.Total)}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    return html;
+
+}
+
+
+/* ==========================================================
+   DEGREE CELL
+========================================================== */
+
+function degreeCell(
+    current,
+    previous
+){
+
+    if(previous === null){
+
+        return `
+        <td>
+            ${formatNumber(current)}
+        </td>`;
+
+    }
+
+    const change =
+        current - previous;
+
+    if(change > 0){
+
+        return `
+        <td class="degree-up">
+
+            ${formatNumber(current)}
+
+            <span class="degree-change">
+                ↑ +${formatNumber(change)}
+            </span>
+
+        </td>`;
+
+    }
+
+    if(change < 0){
+
+        return `
+        <td class="degree-down">
+
+            ${formatNumber(current)}
+
+            <span class="degree-change">
+                ↓ ${formatNumber(change)}
+            </span>
+
+        </td>`;
+
+    }
+
+    return `
+    <td class="degree-same">
+
+        ${formatNumber(current)}
+
+        <span class="degree-change">
+            → 0
+        </span>
+
+    </td>`;
+
+}
+
+
+/* ==========================================================
+   CHART LABEL PLUGIN
+========================================================== */
+
+const percentageLabels = {
+
+    id:"percentageLabels",
+
+    afterDatasetsDraw(chart){
+
+        const ctx =
+            chart.ctx;
+
+        chart.data.datasets.forEach(
+            function(dataset,datasetIndex){
+
+                const meta =
+                    chart.getDatasetMeta(
+                        datasetIndex
+                    );
+
+                meta.data.forEach(
+                    function(bar,index){
+
+                        const value =
+                            Number(
+                                dataset.data[index] || 0
+                            );
+
+                        let total = 0;
+
+                        chart.data.datasets.forEach(
+                            function(ds){
+
+                                total += Number(
+                                    ds.data[index] || 0
+                                );
+
+                            }
+                        );
+
+                        const pct =
+                            total
+                                ? ((value / total) * 100).toFixed(1)
+                                : "0.0";
+
+                        ctx.save();
+
+                        ctx.fillStyle =
+                            "#243333";
+
+                        ctx.font =
+                            "bold 10px Arial";
+
+                        ctx.textAlign =
+                            "center";
+
+                        ctx.fillText(
+                            pct + "%",
+                            bar.x,
+                            bar.y - 5
+                        );
+
+                        ctx.restore();
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+};
+
+
+/* ==========================================================
+   GRAPH 1
+========================================================== */
+
+function createProgressChart(data){
+
+    if(progressChart){
+
+        progressChart.destroy();
+
+    }
+
+    progressChart =
+        new Chart(
+
+            document.getElementById(
+                "progressChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+                        "Pre 1",
+                        "Post 1",
+                        "Post 2"
+                    ],
+
+                    datasets:[
+
+                        {
+
+                            label:"Good to Go",
+
+                            data:[
+                                data.pre.good,
+                                data.post1.good,
+                                data.post2.good
+                            ],
+
+                            backgroundColor:"#16803b"
+
+                        },
+
+                        {
+
+                            label:"Need Training",
+
+                            data:[
+                                data.pre.training,
+                                data.post1.training,
+                                data.post2.training
+                            ],
+
+                            backgroundColor:"#e07b00"
+
+                        },
+
+                        {
+
+                            label:"Need Practice",
+
+                            data:[
+                                data.pre.practice,
+                                data.post1.practice,
+                                data.post2.practice
+                            ],
+
+                            backgroundColor:"#2774c7"
+
+                        },
+
+                        {
+
+                            label:"Not Appeared",
+
+                            data:[
+                                data.pre.notAppeared,
+                                data.post1.notAppeared,
+                                data.post2.notAppeared
+                            ],
+
+                            backgroundColor:"#999999"
+
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            position:"bottom"
+                        }
+
+                    },
+
+                    scales:{
+
+                        y:{
+
+                            beginAtZero:true,
+
+                            ticks:{
+                                precision:0
+                            },
+
+                            title:{
+                                display:true,
+                                text:"Number of Students"
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                plugins:[
+                    percentageLabels
+                ]
+
+            }
+
+        );
+
+}
+
+
+/* ==========================================================
+   GRAPH 2
+========================================================== */
+
+function createComparisonChart(data){
+
+    if(comparisonChart){
+
+        comparisonChart.destroy();
+
+    }
+
+    comparisonChart =
+        new Chart(
+
+            document.getElementById(
+                "comparisonChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+
+                        "Good to Go",
+
+                        "Need Training",
+
+                        "Need Practice",
+
+                        "Not Appeared"
+
+                    ],
+
+                    datasets:[
+
+                        {
+
+                            label:"Pre 1",
+
+                            data:[
+
+                                data.pre.good,
+
+                                data.pre.training,
+
+                                data.pre.practice,
+
+                                data.pre.notAppeared
+
+                            ],
+
+                            backgroundColor:"#9bc5bf"
+
+                        },
+
+                        {
+
+                            label:"Post 2",
+
+                            data:[
+
+                                data.post2.good,
+
+                                data.post2.training,
+
+                                data.post2.practice,
+
+                                data.post2.notAppeared
+
+                            ],
+
+                            backgroundColor:"#007367"
+
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            position:"bottom"
+                        }
+
+                    },
+
+                    scales:{
+
+                        y:{
+
+                            beginAtZero:true,
+
+                            ticks:{
+                                precision:0
+                            },
+
+                            title:{
+                                display:true,
+                                text:"Number of Students"
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                plugins:[
+                    percentageLabels
+                ]
+
+            }
+
+        );
+
+}
+
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+function createSummary(data){
+
+    const preTotal =
+        data.pre.good +
+        data.pre.training +
+        data.pre.practice +
+        data.pre.notAppeared;
+
+    const post2Total =
+        data.post2.good +
+        data.post2.training +
+        data.post2.practice +
+        data.post2.notAppeared;
+
+    const preGood =
+        Number(
+            percentage(
+                data.pre.good,
+                preTotal
+            )
+        );
+
+    const post2Good =
+        Number(
+            percentage(
+                data.post2.good,
+                post2Total
+            )
+        );
+
+    const improvement =
+        (post2Good - preGood).toFixed(1);
+
+    let arrow = "→";
+    let className = "";
+
+    if(improvement > 0){
+
+        arrow = "↑";
+        className = "green";
+
+    }
+    else if(improvement < 0){
+
+        arrow = "↓";
+        className = "red";
+
+    }
+
+    const trainingChange =
+        data.post2.training -
+        data.pre.training;
+
+    const trainingArrow =
+        trainingChange < 0
+            ? "↓"
+            : trainingChange > 0
+                ? "↑"
+                : "→";
+
+    document.getElementById(
+        "summaryText"
+    ).innerHTML =
+
+        `Good to Go changed from
+        <b>${preGood.toFixed(1)}%</b> in Pre 1
+        to
+        <b>${post2Good.toFixed(1)}%</b> in Post 2.
+
+        <strong class="${className}">
+            ${arrow}
+            ${Math.abs(improvement)}
+            percentage points
+        </strong>.
+
+        Need Training changed from
+        <b>${formatNumber(data.pre.training)}</b>
+        to
+        <b>${formatNumber(data.post2.training)}</b>
+        (${trainingArrow}
+        ${formatNumber(Math.abs(trainingChange))}).`;
+
+}
+
+
+/* ==========================================================
+   UPDATE DASHBOARD
+========================================================== */
+
+function updateDashboard(){
+
+    if(!DATA.length){
+
+        return;
+
+    }
+
+    const rows =
+        filteredRows();
+
+    const exam =
+        exams[currentExam];
+
+    const data = {
+
+        pre:
+            countExam(
+                rows,
+                currentExam,
+                "Pre 1"
+            ),
+
+        post1:
+            countExam(
+                rows,
+                currentExam,
+                "Post 1"
+            ),
+
+        post2:
+            countExam(
+                rows,
+                currentExam,
+                "Post 2"
+            )
+
+    };
+
+
+    /* ================= PRESENT / ABSENT SUMMARY ================= */
+
+    const prePresent =
+        data.pre.good +
+        data.pre.training +
+        data.pre.practice;
+
+    const post1Present =
+        data.post1.good +
+        data.post1.training +
+        data.post1.practice;
+
+    const post2Present =
+        data.post2.good +
+        data.post2.training +
+        data.post2.practice;
+
+    document.getElementById(
+        "presentPre1"
+    ).textContent =
+        prePresent.toLocaleString();
+
+    document.getElementById(
+        "absentPre1"
+    ).textContent =
+        data.pre.notAppeared.toLocaleString();
+
+    document.getElementById(
+        "presentPost1"
+    ).textContent =
+        post1Present.toLocaleString();
+
+    document.getElementById(
+        "absentPost1"
+    ).textContent =
+        data.post1.notAppeared.toLocaleString();
+
+    document.getElementById(
+        "presentPost2"
+    ).textContent =
+        post2Present.toLocaleString();
+
+    document.getElementById(
+        "absentPost2"
+    ).textContent =
+        data.post2.notAppeared.toLocaleString();
+
+
+    /* ================= PERFORMANCE TABLE ================= */
+
+    document.getElementById(
+        "tableBody"
+    ).innerHTML =
+        createTable(data);
+
+
+    /* ================= DEGREE TABLE ================= */
+
+    document.getElementById(
+        "degreeTableTitle"
+    ).textContent =
+        exam.title +
+        " - Degree-wise Student Count";
+
+
+    document.getElementById(
+        "degreeTableBody"
+    ).innerHTML =
+        createDegreeTable(
+            currentExam,
+            rows
+        );
+
+
+    /* ================= DEGREE PRESENT COUNT TABLE ================= */
+
+    document.getElementById(
+        "degreePresentCountTableBody"
+    ).innerHTML =
+        createDegreePresentCountTable(
+            currentExam,
+            rows
+        );
+
+
+    /* ================= GRAPHS ================= */
+
+    createProgressChart(data);
+
+    createComparisonChart(data);
+
+
+    /* ================= SUMMARY ================= */
+
+    createSummary(data);
+
+}
+
+
+/* ==========================================================
+   SWITCH EXAMINATION
+========================================================== */
+
+function showExam(exam,button){
+
+    if(!exams[exam]){
+
+        return;
+
+    }
+
+    currentExam =
+        exam;
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(function(tab){
+
+            tab.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    if(button){
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+
+    const examData =
+        exams[exam];
+
+
+    document.getElementById(
+        "assessmentCard"
+    ).className =
+        "assessment-card " +
+        examData.bg;
+
+
+    document.getElementById(
+        "examTitle"
+    ).textContent =
+        examData.title;
+
+
+    updateDashboard();
+
+}
+
+
+/* ==========================================================
+   RESET FILTERS
+========================================================== */
+
+function resetFilters(){
+
+    campusFilter.value = "";
+
+    degreeFilter.value = "";
+
+    departmentFilter.value = "";
+
+    updateDashboard();
+
+}
+
+
+/* ==========================================================
+   STUDENT DETAILS
+========================================================== */
+
+function openStudentDetails(){
+
+    const query = [];
+
+    if(campusFilter.value){
+
+        query.push(
+            "campus=" +
+            encodeURIComponent(
+                campusFilter.value
+            )
+        );
+
+    }
+
+    if(degreeFilter.value){
+
+        query.push(
+            "degree=" +
+            encodeURIComponent(
+                degreeFilter.value
+            )
+        );
+
+    }
+
+    if(departmentFilter.value){
+
+        query.push(
+            "dept=" +
+            encodeURIComponent(
+                departmentFilter.value
+            )
+        );
+
+    }
+
+    const url =
+        "CoCubes_2026_Student_Details.html" +
+        (query.length
+            ? "?" + query.join("&")
+            : "");
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/* ==========================================================
+   LOAD ACTUAL JSON
+========================================================== */
+
+function loadData(){
+
+    fetch(
+        "../data/cocubes-2027.json"
+    )
+
+    .then(function(response){
+
+        if(!response.ok){
+
+            throw new Error(
+                "Unable to load cocubes-2027.json"
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(function(rows){
+
+        if(!Array.isArray(rows)){
+
+            throw new Error(
+                "JSON does not contain an array"
+            );
+
+        }
+
+        DATA = rows;
+
+
+        console.log(
+            "CoCubes 2027 actual records:",
+            DATA.length
+        );
+
+
+        /* ================= FILTER OPTIONS ================= */
+
+        populateSelect(
+            campusFilter,
+            uniqueValues(
+                DATA.map(function(row){
+                    return row.Location;
+                })
+            )
+        );
+
+
+        populateSelect(
+            degreeFilter,
+            uniqueValues(
+                DATA.map(function(row){
+                    return row.Degree;
+                })
+            )
+        );
+
+
+        populateSelect(
+            departmentFilter,
+            uniqueValues(
+                DATA.map(function(row){
+                    return row.Department;
+                })
+            )
+        );
+
+
+        /* ================= EVENTS ================= */
+
+        campusFilter.addEventListener(
+            "change",
+            updateDashboard
+        );
+
+        degreeFilter.addEventListener(
+            "change",
+            updateDashboard
+        );
+
+        departmentFilter.addEventListener(
+            "change",
+            updateDashboard
+        );
+
+
+        document.getElementById(
+            "resetBtn"
+        ).addEventListener(
+            "click",
+            resetFilters
+        );
+
+
+        document.getElementById(
+            "studentsBtn"
+        ).addEventListener(
+            "click",
+            openStudentDetails
+        );
+
+
+        /* ================= FIRST LOAD ================= */
+
+        updateDashboard();
+
+    })
+
+    .catch(function(error){
+
+        console.error(
+            "CoCubes JSON error:",
+            error
+        );
+
+        document.getElementById(
+            "tableBody"
+        ).innerHTML =
+
+            `<tr>
+                <td colspan="5">
+                    <div class="error-box">
+                        Error loading actual CoCubes data:
+                        ${error.message}
+                    </div>
+                </td>
+            </tr>`;
+
+        document.getElementById(
+            "degreeTableBody"
+        ).innerHTML =
+
+            `<tr>
+                <td colspan="6">
+                    <div class="error-box">
+                        Please check the JSON file.
+                    </div>
+                </td>
+            </tr>`;
+
+    });
+
+}
+
+
+/* ==========================================================
+   START
+========================================================== */
+
+loadData();
+
+</script>
+
+
+<script>
+
+const DATA_URL = "../data/cocubes-2027.json";
+
+let DATA = [];
+
+const ASSESSMENTS = [
+
+    {
+        key: "Domain Test",
+        label: "Domain Test"
+    },
+
+    {
+        key: "English Usage",
+        label: "English Usage"
+    },
+
+    {
+        key: "Analytical Reasoning",
+        label: "Analytical Reasoning"
+    },
+
+    {
+        key: "Quantitative Aptitude",
+        label: "Quantitative Aptitude"
+    },
+
+    {
+        key: "Computer Fundamentals",
+        label: "Computer Fundamentals"
+    },
+
+    {
+        key: "Written English Test",
+        label: "Written English"
+    },
+
+    {
+        key: "Coding",
+        label: "Coding"
+    }
+
+];
+
+const STAGES = [
+    "Pre 1",
+    "Post 1"
+];
+
+const STATUS = [
+    "Good to Go",
+    "Need Training",
+    "Need Practice",
+    "Not Appeared"
+];
+
+function clean(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value).trim();
+
+}
+
+
+function getStatus(row, assessment, stage) {
+
+    if (!row) {
+        return "Not Appeared";
+    }
+
+    if (!row[assessment]) {
+        return "Not Appeared";
+    }
+
+    const value =
+        row[assessment][stage];
+
+    if (
+        value === null ||
+        value === undefined ||
+        clean(value) === ""
+    ) {
+        return "Not Appeared";
+    }
+
+    return clean(value);
+
+}
+
+
+function getPresent(rows, assessment, stage) {
+
+    return rows.filter(function(row) {
+
+        const value =
+            getStatus(
+                row,
+                assessment,
+                stage
+            );
+
+        return (
+            value !== "" &&
+            value !== "Not Appeared"
+        );
+
+    }).length;
+
+}
+
+
+function getAbsent(rows, assessment, stage) {
+
+    return rows.length -
+        getPresent(
+            rows,
+            assessment,
+            stage
+        );
+
+}
+
+
+function getStatusCount(
+    rows,
+    assessment,
+    stage,
+    status
+) {
+
+    return rows.filter(function(row) {
+
+        return (
+            getStatus(
+                row,
+                assessment,
+                stage
+            ) === status
+        );
+
+    }).length;
+
+}
+
+
+function getPercentage(
+    count,
+    total
+) {
+
+    if (!total) {
+        return "0.0";
+    }
+
+    return (
+        count * 100 / total
+    ).toFixed(1);
+
+}
+
+
+function getFilteredRows() {
+
+    const campus =
+        document.getElementById(
+            "campusFilter"
+        )?.value || "";
+
+    const degree =
+        document.getElementById(
+            "degreeFilter"
+        )?.value || "";
+
+    const department =
+        document.getElementById(
+            "departmentFilter"
+        )?.value || "";
+
+    return DATA.filter(function(row) {
+
+        const campusOK =
+            !campus ||
+            clean(row.Location) ===
+            clean(campus);
+
+        const degreeOK =
+            !degree ||
+            clean(row.Degree) ===
+            clean(degree);
+
+        const departmentOK =
+            !department ||
+            clean(row.Department) ===
+            clean(department);
+
+        return (
+            campusOK &&
+            degreeOK &&
+            departmentOK
+        );
+
+    });
+
+}
+
+
+function getDegrees(rows) {
+
+    return [
+        ...new Set(
+            rows
+                .map(r => clean(r.Degree))
+                .filter(Boolean)
+        )
+    ];
+
+}
+
+
+function getDepartments(rows) {
+
+    return [
+        ...new Set(
+            rows
+                .map(r => clean(r.Department))
+                .filter(Boolean)
+        )
+    ];
+
+}
+
+
+function getCampuses(rows) {
+
+    return [
+        ...new Set(
+            rows
+                .map(r => clean(r.Location))
+                .filter(Boolean)
+        )
+    ];
+
+}
+
+
+function fillSelect(
+    id,
+    values
+) {
+
+    const select =
+        document.getElementById(id);
+
+    if (!select) {
+        return;
+    }
+
+    const current =
+        select.value;
+
+    select.innerHTML =
+        '<option value="">All</option>';
+
+    values
+        .sort()
+        .forEach(function(value) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = value;
+
+            option.textContent = value;
+
+            select.appendChild(option);
+
+        });
+
+    if (
+        values.includes(current)
+    ) {
+
+        select.value =
+            current;
+
+    }
+
+}
+
+
+function populate2027Filters() {
+
+    fillSelect(
+        "campusFilter",
+        getCampuses(DATA)
+    );
+
+    fillSelect(
+        "degreeFilter",
+        getDegrees(DATA)
+    );
+
+    fillSelect(
+        "departmentFilter",
+        getDepartments(DATA)
+    );
+
+}
+
+
+function create2027AssessmentTable(
+    rows,
+    assessment
+) {
+
+    let html = "";
+
+    STAGES.forEach(function(stage) {
+
+        const present =
+            getPresent(
+                rows,
+                assessment,
+                stage
+            );
+
+        const absent =
+            getAbsent(
+                rows,
+                assessment,
+                stage
+            );
+
+        html += `
+            <tr>
+                <td><b>${stage}</b></td>
+                <td><b>${present.toLocaleString()}</b></td>
+                <td><b>${absent.toLocaleString()}</b></td>
+            </tr>
+        `;
+
+    });
+
+    return html;
+
+}
+
+
+function create2027PerformanceTable(
+    rows,
+    assessment
+) {
+
+    let html = "";
+
+    STAGES.forEach(function(stage) {
+
+        html += `
+            <tr>
+                <td><b>${stage}</b></td>
+        `;
+
+        STATUS.forEach(function(status) {
+
+            const count =
+                getStatusCount(
+                    rows,
+                    assessment,
+                    stage,
+                    status
+                );
+
+            const present =
+                getPresent(
+                    rows,
+                    assessment,
+                    stage
+                );
+
+            const percent =
+                getPercentage(
+                    count,
+                    present
+                );
+
+            html += `
+                <td>
+                    <b>${count.toLocaleString()}</b>
+                    <span>${percent}%</span>
+                </td>
+            `;
+
+        });
+
+        html += "</tr>";
+
+    });
+
+    return html;
+
+}
+
+
+function create2027DegreeTable(
+    rows,
+    assessment
+) {
+
+    const degrees =
+        getDegrees(rows);
+
+    let html = "";
+
+    degrees.forEach(function(degree) {
+
+        const degreeRows =
+            rows.filter(function(row) {
+
+                return clean(row.Degree) ===
+                    degree;
+
+            });
+
+        const total =
+            degreeRows.length;
+
+        html += `
+            <tr>
+                <td><b>${degree}</b></td>
+                <td><b>${total.toLocaleString()}</b></td>
+            </tr>
+        `;
+
+    });
+
+    return html;
+
+}
+
+
+function update2027Dashboard() {
+
+    const rows =
+        getFilteredRows();
+
+    /*
+       IMPORTANT:
+       Only 2027 data is used.
+       Only Pre 1 and Post 1 are used.
+       No Post 2.
+    */
+
+    console.log(
+        "2027 students:",
+        rows.length
+    );
+
+    /*
+       The existing 2026 layout remains intact.
+       Replace its calculation source with these
+       2027 functions where the corresponding
+       dashboard elements exist.
+    */
+
+}
+
+
+fetch(DATA_URL)
+
+    .then(function(response) {
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load cocubes-2027.json"
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(function(data) {
+
+        DATA =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        window.DATA =
+            DATA;
+
+        populate2027Filters();
+
+        update2027Dashboard();
+
+        console.log(
+            "CoCubes 2027 loaded:",
+            DATA.length
+        );
+
+    })
+
+    .catch(function(error) {
+
+        console.error(
+            "2027 DATA ERROR:",
+            error
+        );
+
+    });
+
+</script>
+
+<script>
+/* ============================================================
+   DATA PULSE — COCUBES 2027 FINAL DATA ENGINE
+   2027 = ONLY cocubes-2027.json
+   Stages = Pre 1 + Post 1
+   No Post 2
+   ============================================================ */
+
+(function () {
+
+    const DATA_URL = "../data/cocubes-2027.json";
+
+    const ASSESSMENTS = [
+        {
+            key: "Domain Test",
+            title: "Domain Test"
+        },
+        {
+            key: "English Usage",
+            title: "English Usage"
+        },
+        {
+            key: "Analytical Reasoning",
+            title: "Analytical Reasoning"
+        },
+        {
+            key: "Quantitative Aptitude",
+            title: "Quantitative Ability"
+        },
+        {
+            key: "Computer Fundamentals",
+            title: "Computer Fundamentals"
+        },
+        {
+            key: "Written English Test",
+            title: "Written English"
+        },
+        {
+            key: "Coding",
+            title: "Coding"
+        }
+    ];
+
+    const STAGES = ["Pre 1", "Post 1"];
+
+    const STATUSES = [
+        "Good to Go",
+        "Need Training",
+        "Need Practice",
+        "Not Appeared"
+    ];
+
+    let DATA27 = [];
+
+    function text(v) {
+        return v === null || v === undefined
+            ? ""
+            : String(v).trim();
+    }
+
+    function getStatus(row, assessment, stage) {
+
+        if (!row || !row[assessment]) {
+            return "Not Appeared";
+        }
+
+        const value = row[assessment][stage];
+
+        if (
+            value === null ||
+            value === undefined ||
+            text(value) === ""
+        ) {
+            return "Not Appeared";
+        }
+
+        return text(value);
+    }
+
+    /*
+       IMPORTANT:
+       "Not Appeared" is a status, not automatically
+       the same as "Absent".
+
+       For the Present/Absent table:
+       Present = Good to Go + Need Training + Need Practice
+       Absent  = Not Appeared
+    */
+
+    function isPresent(status) {
+        return (
+            status === "Good to Go" ||
+            status === "Need Training" ||
+            status === "Need Practice"
+        );
+    }
+
+    function countPresent(rows, assessment, stage) {
+
+        return rows.filter(function (row) {
+
+            return isPresent(
+                getStatus(
+                    row,
+                    assessment,
+                    stage
+                )
+            );
+
+        }).length;
+
+    }
+
+    function countAbsent(rows, assessment, stage) {
+
+        return rows.length -
+            countPresent(
+                rows,
+                assessment,
+                stage
+            );
+
+    }
+
+    function countStatus(
+        rows,
+        assessment,
+        stage,
+        status
+    ) {
+
+        return rows.filter(function (row) {
+
+            return (
+                getStatus(
+                    row,
+                    assessment,
+                    stage
+                ) === status
+            );
+
+        }).length;
+
+    }
+
+    function pct(value, total) {
+
+        if (!total) {
+            return "0.0";
+        }
+
+        return (
+            value * 100 / total
+        ).toFixed(1);
+
+    }
+
+    function selectedRows() {
+
+        const campus =
+            document.getElementById("campusFilter")?.value || "";
+
+        const degree =
+            document.getElementById("degreeFilter")?.value || "";
+
+        const department =
+            document.getElementById("departmentFilter")?.value || "";
+
+        return DATA27.filter(function (row) {
+
+            return (
+                (!campus ||
+                    text(row.Location) === text(campus))
+                &&
+                (!degree ||
+                    text(row.Degree) === text(degree))
+                &&
+                (!department ||
+                    text(row.Department) === text(department))
+            );
+
+        });
+
+    }
+
+    /* =========================================================
+       ASSESSMENT CARD
+       ========================================================= */
+
+    function updateAssessmentCard(rows, assessment) {
+
+        const title =
+            document.getElementById("examTitle");
+
+        if (title) {
+            title.textContent =
+                assessment.title;
+        }
+
+        const card =
+            document.getElementById("assessmentCard");
+
+        if (card) {
+
+            const heading =
+                card.querySelector(".assessment-title p");
+
+            if (heading) {
+
+                heading.textContent =
+                    "Actual student performance from " +
+                    rows.length.toLocaleString() +
+                    " records";
+
+            }
+
+        }
+
+    }
+
+    /* =========================================================
+       PRESENT / ABSENT
+       ========================================================= */
+
+    function updatePresentAbsent(
+        rows,
+        assessment
+    ) {
+
+        const table =
+            document.querySelector(
+                "#assessmentCard .attendance-table"
+            );
+
+        if (!table) {
+            return;
+        }
+
+        let tbody =
+            table.querySelector("tbody");
+
+        if (!tbody) {
+
+            tbody =
+                document.createElement("tbody");
+
+            table.appendChild(tbody);
+
+        }
+
+        /*
+           ALWAYS rebuild with exactly TWO rows.
+        */
+
+        tbody.innerHTML = "";
+
+        STAGES.forEach(function (stage) {
+
+            const present =
+                countPresent(
+                    rows,
+                    assessment.key,
+                    stage
+                );
+
+            const absent =
+                countAbsent(
+                    rows,
+                    assessment.key,
+                    stage
+                );
+
+            const tr =
+                document.createElement("tr");
+
+            tr.innerHTML = `
+                <td><b>${stage}</b></td>
+                <td><b>${present.toLocaleString()}</b></td>
+                <td><b>${absent.toLocaleString()}</b></td>
+            `;
+
+            tbody.appendChild(tr);
+
+        });
+
+    }
+
+    /* =========================================================
+       PERFORMANCE TABLE
+       ========================================================= */
+
+    function updatePerformanceTable(
+        rows,
+        assessment
+    ) {
+
+        const tbody =
+            document.getElementById(
+                "tableBody"
+            );
+
+        if (!tbody) {
+            return;
+        }
+
+        /*
+           EXACTLY TWO ROWS.
+        */
+
+        tbody.innerHTML = "";
+
+        STAGES.forEach(function (stage) {
+
+            const tr =
+                document.createElement("tr");
+
+            let html =
+                `<td><b>${stage}</b></td>`;
+
+            STATUSES.forEach(function (status) {
+
+                const count =
+                    countStatus(
+                        rows,
+                        assessment.key,
+                        stage,
+                        status
+                    );
+
+                const present =
+                    countPresent(
+                        rows,
+                        assessment.key,
+                        stage
+                    );
+
+                const percentage =
+                    pct(
+                        count,
+                        present
+                    );
+
+                html += `
+                    <td>
+                        <b>${count.toLocaleString()}</b>
+                        <span>${percentage}%</span>
+                    </td>
+                `;
+
+            });
+
+            tr.innerHTML = html;
+
+            tbody.appendChild(tr);
+
+        });
+
+    }
+
+    /* =========================================================
+       DEGREE-WISE STUDENT COUNT
+       2027 ONLY HAS BTECH
+       ========================================================= */
+
+    function updateDegreeStudentCount(rows) {
+
+        const tbody =
+            document.getElementById(
+                "degreeTableBody"
+            );
+
+        if (!tbody) {
+            return;
+        }
+
+        tbody.innerHTML = "";
+
+        /*
+           Do NOT use 2026 degree columns.
+           Build directly from 2027 JSON.
+        */
+
+        const degrees =
+            [...new Set(
+                rows
+                    .map(r => text(r.Degree))
+                    .filter(Boolean)
+            )];
+
+        degrees.forEach(function (degree) {
+
+            const count =
+                rows.filter(function (row) {
+
+                    return (
+                        text(row.Degree) === degree
+                    );
+
+                }).length;
+
+            const tr =
+                document.createElement("tr");
+
+            tr.innerHTML = `
+                <td><b>${degree}</b></td>
+                <td><b>${count.toLocaleString()}</b></td>
+            `;
+
+            tbody.appendChild(tr);
+
+        });
+
+    }
+
+    /* =========================================================
+       DEGREE-WISE PRESENT COUNT
+       ONLY BTECH + PRE 1 / POST 1
+       ========================================================= */
+
+    function updateDegreePresentCount(
+        rows,
+        assessment
+    ) {
+
+        const tbody =
+            document.getElementById(
+                "degreePresentCountTableBody"
+            );
+
+        if (!tbody) {
+            return;
+        }
+
+        tbody.innerHTML = "";
+
+        const degrees =
+            [...new Set(
+                rows
+                    .map(r => text(r.Degree))
+                    .filter(Boolean)
+            )];
+
+        degrees.forEach(function (degree) {
+
+            const degreeRows =
+                rows.filter(function (row) {
+
+                    return (
+                        text(row.Degree) === degree
+                    );
+
+                });
+
+            const tr =
+                document.createElement("tr");
+
+            let html =
+                `<td><b>${degree}</b></td>`;
+
+            STAGES.forEach(function (stage) {
+
+                const present =
+                    countPresent(
+                        degreeRows,
+                        assessment.key,
+                        stage
+                    );
+
+                html += `
+                    <td>
+                        <b>${present.toLocaleString()}</b>
+                    </td>
+                `;
+
+            });
+
+            tr.innerHTML = html;
+
+            tbody.appendChild(tr);
+
+        });
+
+    }
+
+    /* =========================================================
+       REMOVE POST 2 FROM ALL TABLES
+       ========================================================= */
+
+    function removePost2() {
+
+        document
+            .querySelectorAll(
+                "table tbody tr"
+            )
+            .forEach(function (tr) {
+
+                const first =
+                    tr.children[0];
+
+                if (
+                    first &&
+                    text(first.textContent)
+                        .toLowerCase()
+                        .includes("post 2")
+                ) {
+                    tr.remove();
+                }
+
+            });
+
+    }
+
+    /* =========================================================
+       REMOVE 2026 DEGREE HEADERS
+       ========================================================= */
+
+    function cleanDegreeHeaders() {
+
+        document
+            .querySelectorAll(
+                ".degree-table"
+            )
+            .forEach(function (table) {
+
+                const rows =
+                    table.querySelectorAll(
+                        "thead tr"
+                    );
+
+                rows.forEach(function (row) {
+
+                    const cells =
+                        [...row.children];
+
+                    cells.forEach(function (cell) {
+
+                        const value =
+                            text(cell.textContent);
+
+                        if (
+                            /^(BCA|MSC|MSc|MCA|MTECH|M\.TECH|BCAM|SCM|CAM|TECH)$/i
+                                .test(value)
+                        ) {
+
+                            cell.remove();
+
+                        }
+
+                    });
+
+                });
+
+            });
+
+    }
+
+    /* =========================================================
+       GRAPH DATA
+       ONLY PRE 1 + POST 1
+       ========================================================= */
+
+    function buildGraphData(
+        rows,
+        assessment
+    ) {
+
+        return {
+
+            labels: STAGES,
+
+            good: STAGES.map(
+                stage =>
+                    countStatus(
+                        rows,
+                        assessment.key,
+                        stage,
+                        "Good to Go"
+                    )
+            ),
+
+            training: STAGES.map(
+                stage =>
+                    countStatus(
+                        rows,
+                        assessment.key,
+                        stage,
+                        "Need Training"
+                    )
+            ),
+
+            practice: STAGES.map(
+                stage =>
+                    countStatus(
+                        rows,
+                        assessment.key,
+                        stage,
+                        "Need Practice"
+                    )
+            ),
+
+            notAppeared: STAGES.map(
+                stage =>
+                    countStatus(
+                        rows,
+                        assessment.key,
+                        stage,
+                        "Not Appeared"
+                    )
+            )
+
+        };
+
+    }
+
+    /* =========================================================
+       REBUILD CHARTS
+       ========================================================= */
+
+    function updateCharts(
+        rows,
+        assessment
+    ) {
+
+        const graph =
+            buildGraphData(
+                rows,
+                assessment
+            );
+
+        /*
+           Destroy old charts so the 2026
+           Post-2 datasets cannot remain.
+        */
+
+        if (window.progressChart) {
+
+            try {
+                window.progressChart.destroy();
+            } catch (e) {}
+
+            window.progressChart = null;
+
+        }
+
+        if (window.comparisonChart) {
+
+            try {
+                window.comparisonChart.destroy();
+            } catch (e) {}
+
+            window.comparisonChart = null;
+
+        }
+
+        const progressCanvas =
+            document.getElementById(
+                "progressChart"
+            );
+
+        if (
+            progressCanvas &&
+            window.Chart
+        ) {
+
+            window.progressChart =
+                new Chart(
+                    progressCanvas,
+                    {
+
+                        type: "bar",
+
+                        data: {
+
+                            labels:
+                                graph.labels,
+
+                            datasets: [
+
+                                {
+                                    label:
+                                        "Good to Go",
+                                    data:
+                                        graph.good
+                                },
+
+                                {
+                                    label:
+                                        "Need Training",
+                                    data:
+                                        graph.training
+                                },
+
+                                {
+                                    label:
+                                        "Need Practice",
+                                    data:
+                                        graph.practice
+                                },
+
+                                {
+                                    label:
+                                        "Not Appeared",
+                                    data:
+                                        graph.notAppeared
+                                }
+
+                            ]
+
+                        },
+
+                        options: {
+
+                            responsive: true,
+
+                            maintainAspectRatio:
+                                false,
+
+                            scales: {
+
+                                y: {
+                                    beginAtZero: true
+                                }
+
+                            }
+
+                        }
+
+                    }
+                );
+
+        }
+
+        const comparisonCanvas =
+            document.getElementById(
+                "comparisonChart"
+            );
+
+        if (
+            comparisonCanvas &&
+            window.Chart
+        ) {
+
+            window.comparisonChart =
+                new Chart(
+                    comparisonCanvas,
+                    {
+
+                        type: "line",
+
+                        data: {
+
+                            labels:
+                                graph.labels,
+
+                            datasets: [
+
+                                {
+                                    label:
+                                        "Good to Go",
+                                    data:
+                                        graph.good
+                                },
+
+                                {
+                                    label:
+                                        "Need Training",
+                                    data:
+                                        graph.training
+                                },
+
+                                {
+                                    label:
+                                        "Need Practice",
+                                    data:
+                                        graph.practice
+                                },
+
+                                {
+                                    label:
+                                        "Not Appeared",
+                                    data:
+                                        graph.notAppeared
+                                }
+
+                            ]
+
+                        },
+
+                        options: {
+
+                            responsive: true,
+
+                            maintainAspectRatio:
+                                false,
+
+                            scales: {
+
+                                y: {
+                                    beginAtZero: true
+                                }
+
+                            }
+
+                        }
+
+                    }
+                );
+
+        }
+
+    }
+
+    /* =========================================================
+       MAIN 2027 RENDER
+       ========================================================= */
+
+    function render2027() {
+
+        const rows =
+            selectedRows();
+
+        /*
+           Use the assessment currently selected
+           by the existing 2026-style dashboard.
+        */
+
+        let index =
+            Number(
+                window.currentAssessmentIndex
+            );
+
+        if (
+            !Number.isInteger(index) ||
+            index < 0 ||
+            index >= ASSESSMENTS.length
+        ) {
+            index = 0;
+        }
+
+        const assessment =
+            ASSESSMENTS[index];
+
+        updateAssessmentCard(
+            rows,
+            assessment
+        );
+
+        updatePresentAbsent(
+            rows,
+            assessment
+        );
+
+        updatePerformanceTable(
+            rows,
+            assessment
+        );
+
+        updateDegreeStudentCount(
+            rows
+        );
+
+        updateDegreePresentCount(
+            rows,
+            assessment
+        );
+
+        updateCharts(
+            rows,
+            assessment
+        );
+
+        removePost2();
+
+        cleanDegreeHeaders();
+
+    }
+
+    /* =========================================================
+       LOAD 2027 JSON
+       ========================================================= */
+
+    fetch(DATA_URL)
+
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Cannot load cocubes-2027.json"
+                );
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (!Array.isArray(data)) {
+
+                throw new Error(
+                    "2027 JSON is not an array"
+                );
+
+            }
+
+            DATA27 = data;
+
+            console.log(
+                "CoCubes 2027 records:",
+                DATA27.length
+            );
+
+            /*
+               Remove any old Post-2 rows first.
+            */
+
+            removePost2();
+
+            /*
+               Render after the original dashboard
+               has finished its initialization.
+            */
+
+            setTimeout(
+                render2027,
+                300
+            );
+
+            setTimeout(
+                render2027,
+                1000
+            );
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "2027 dashboard error:",
+                error
+            );
+
+        });
+
+    /*
+       Re-render when existing filters change.
+    */
+
+    [
+        "campusFilter",
+        "degreeFilter",
+        "departmentFilter"
+    ]
+    .forEach(function (id) {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+
+            element.addEventListener(
+                "change",
+                function () {
+
+                    setTimeout(
+                        render2027,
+                        50
+                    );
+
+                }
+            );
+
+        }
+
+    });
+
+    /*
+       Re-render when the existing dashboard
+       changes assessment.
+    */
+
+    setInterval(
+        function () {
+
+            if (DATA27.length) {
+                render2027();
+            }
+
+        },
+        1200
+    );
+
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

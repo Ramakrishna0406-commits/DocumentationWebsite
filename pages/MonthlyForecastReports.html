@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monthly Forecast Reports</title>
+
+<style>
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f5f7fa;
+    margin:20px;
+}
+
+
+h2{
+    color:#007367;
+    border-bottom:3px solid #007367;
+    padding-bottom:10px;
+}
+
+
+p{
+    color:#555;
+    margin-bottom:30px;
+}
+
+
+.section-title{
+    color:#007367;
+    margin-top:35px;
+    margin-bottom:15px;
+}
+
+
+.card-container{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+
+}
+
+
+/* Existing Cards */
+
+.card{
+
+    width:270px;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0px 4px 10px rgba(0,0,0,.15);
+    transition:.3s;
+    text-align:center;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-6px);
+    box-shadow:0px 8px 18px rgba(0,0,0,.25);
+
+}
+
+
+.card h3{
+
+    color:#007367;
+    margin-bottom:15px;
+
+}
+
+
+.card p{
+
+    font-size:14px;
+    color:#666;
+
+}
+
+
+.card a{
+
+    display:inline-block;
+    margin-top:15px;
+    background:#007367;
+    color:white;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:5px;
+
+}
+
+
+.card a:hover{
+
+    background:#005d53;
+
+}
+
+
+/* Google Sheet Navy Blue Card */
+
+.google-card{
+
+    width:270px;
+
+    background:#000080;
+
+    color:white;
+
+    border-radius:10px;
+
+    padding:25px;
+
+    box-shadow:0px 4px 10px rgba(0,0,0,.25);
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.google-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0px 8px 18px rgba(0,0,0,.35);
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<h2>Monthly Forecast Reports</h2>
+
+
+<p>
+Select a report below to view the monthly forecast dashboards.
+</p>
+
+
+
+<!-- Google Sheet Link -->
+
+<div class="card-container">
+
+
+<div class="google-card" onclick="openForecast()">
+
+    Monthly Forecast Google Sheet
+
+</div>
+
+
+</div>
+
+
+
+
+<h3 class="section-title">📊 Leadership View</h3>
+
+
+<div class="card-container">
+
+
+<div class="card">
+
+<h3>Leadership - Engineering</h3>
+
+<p>
+Engineering Monthly Leadership Forecast Dashboard.
+</p>
+
+<a href="leadership-engineering.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Leadership - Management</h3>
+
+<p>
+Management Monthly Leadership Forecast Dashboard.
+</p>
+
+<a href="LeadershipManagement.html">
+Open Report
+</a>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<h3 class="section-title">🏢 Operations</h3>
+
+
+
+<div class="card-container">
+
+
+
+<div class="card">
+
+<h3>Visakhapatnam Engineering</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsVSPEngineering.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Bengaluru Engineering</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsBLREngineering.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Hyderabad Engineering</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsHYDEngineering.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Visakhapatnam Management</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsVSPManagement.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Bengaluru Management</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsBLRManagement.html">
+Open Report
+</a>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Hyderabad Management</h3>
+
+<p>
+Monthly Forecast
+</p>
+
+<a href="OperationsHYDManagement.html">
+Open Report
+</a>
+
+</div>
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+function openForecast(){
+
+    window.open(
+
+    "https://docs.google.com/spreadsheets/d/1jloCtQZP7VL15Z4oErGOqmrKhe4d_u-7PZhkoPllfZ8/edit?usp=sharing",
+
+    "_blank"
+
+    );
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>

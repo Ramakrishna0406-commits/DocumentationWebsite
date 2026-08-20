@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Training Report 2027</title>
+
+<style>
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    margin: 20px;
+
+    background: #ffffff;
+
+}
+
+
+/* =====================================================
+   IMAGE TABLE
+===================================================== */
+
+.image-table {
+
+    border-collapse: collapse;
+
+}
+
+
+.image-table td {
+
+    padding: 10px;
+
+    text-align: center;
+
+    vertical-align: top;
+
+}
+
+
+/* =====================================================
+   EXISTING TRAINING IMAGES
+===================================================== */
+
+.image-table img {
+
+    width: 250px;
+
+    height: 180px;
+
+    cursor: pointer;
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   COMPANY SPECIFIC TRAINING CARD
+===================================================== */
+
+.company-card {
+
+    width: 250px;
+
+    height: 180px;
+
+    background: #007367;
+
+    color: #ffffff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    border-radius: 4px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+/* =====================================================
+   COMPANY CARD HOVER
+===================================================== */
+
+.company-card:hover {
+
+    background: #005f55;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* =====================================================
+   COMPANY TITLE
+===================================================== */
+
+.company-title {
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    line-height: 1.25;
+
+    margin-bottom: 10px;
+
+}
+
+
+/* =====================================================
+   COMPANY SUBTITLE
+===================================================== */
+
+.company-subtitle {
+
+    font-size: 14px;
+
+    opacity: 0.95;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<table class="image-table">
+
+<tr>
+
+
+<!-- =================================================
+     B1
+================================================== -->
+
+<td>
+
+<a
+    href="https://docs.google.com/spreadsheets/d/1HolZnieDgjqbNjySkPbUUYesD28MLvfR/edit?usp=drive_link&ouid=102127505874932138201&rtpof=true"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+
+<img
+    class="hover-img"
+    src="../images/b1off.jpg"
+    data-off="../images/b1off.jpg"
+    data-on="../images/b1on.jpg"
+    alt="B1"
+>
+
+</a>
+
+</td>
+
+
+
+<!-- =================================================
+     H1
+================================================== -->
+
+<td>
+
+<a
+    href="https://docs.google.com/spreadsheets/d/10Huj8E6lBfanBRUaJNQayfrsZYyKXxOu/edit?rtpof=true"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+
+<img
+    class="hover-img"
+    src="../images/h1off.jpg"
+    data-off="../images/h1off.jpg"
+    data-on="../images/h1on.jpg"
+    alt="H1"
+>
+
+</a>
+
+</td>
+
+
+
+<!-- =================================================
+     V1
+================================================== -->
+
+<td>
+
+<a
+    href="https://docs.google.com/spreadsheets/d/1PWQ8yzK4hldOFqSyirCXmLXw32nab2Ww/edit?gid=1771582900#gid=1771582900"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+
+<img
+    class="hover-img"
+    src="../images/v1off.jpg"
+    data-off="../images/v1off.jpg"
+    data-on="../images/v1on.jpg"
+    alt="V1"
+>
+
+</a>
+
+</td>
+
+
+
+<!-- =================================================
+     COMPANY SPECIFIC TRAINING
+================================================== -->
+
+<td>
+
+<div
+    id="companySpecificTraining"
+    class="company-card"
+    role="button"
+    tabindex="0"
+    title="Company Specific Training"
+>
+
+    <div class="company-title">
+        Company Specific Training
+    </div>
+
+    <div class="company-subtitle">
+        TCS &amp; Other Companies
+    </div>
+
+</div>
+
+</td>
+
+
+</tr>
+
+</table>
+
+
+
+<script>
+
+/* =====================================================
+   EXISTING IMAGE HOVER EFFECT
+===================================================== */
+
+const images =
+    document.querySelectorAll(".hover-img");
+
+
+images.forEach(function(img) {
+
+    img.addEventListener(
+        "mouseenter",
+        function() {
+
+            const onImage =
+                img.getAttribute("data-on");
+
+            if (onImage) {
+
+                img.src = onImage;
+
+            }
+
+        }
+    );
+
+
+    img.addEventListener(
+        "mouseleave",
+        function() {
+
+            const offImage =
+                img.getAttribute("data-off");
+
+            if (offImage) {
+
+                img.src = offImage;
+
+            }
+
+        }
+    );
+
+});
+
+
+
+/* =====================================================
+   COMPANY SPECIFIC TRAINING
+===================================================== */
+
+const companySpecificTraining =
+    document.getElementById(
+        "companySpecificTraining"
+    );
+
+
+function openCompanySpecificTraining() {
+
+    window.location.href =
+        "Company_Specific_Training.html";
+
+}
+
+
+companySpecificTraining.addEventListener(
+    "click",
+    openCompanySpecificTraining
+);
+
+
+companySpecificTraining.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+
+            event.preventDefault();
+
+            openCompanySpecificTraining();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

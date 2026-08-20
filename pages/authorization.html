@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DATA PULSE Authorization</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            height: 100%;
+
+        }
+
+
+        body {
+
+            background: #ffffff;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+
+        .authorization-container {
+
+            width: 380px;
+
+            max-width:
+                calc(100% - 30px);
+
+            text-align: center;
+
+        }
+
+
+        .authorization-title {
+
+            margin-bottom: 18px;
+
+            color: #007367;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+        }
+
+
+        .authorization-subtitle {
+
+            margin-bottom: 24px;
+
+            color: #555555;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+
+        #authenticatedEmail {
+
+            width: 100%;
+
+            min-height: 46px;
+
+            padding: 13px;
+
+            border:
+                1px solid #cccccc;
+
+            border-radius: 4px;
+
+            background: #f5f5f5;
+
+            color: #555555;
+
+            font-size: 15px;
+
+            text-align: left;
+
+            word-break: break-word;
+
+        }
+
+
+        #statusMessage {
+
+            margin-top: 20px;
+
+            color: #555555;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+
+        #accessDeniedMessage {
+
+            display: none;
+
+            margin-top: 20px;
+
+            color: #d00000;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            line-height: 1.5;
+
+        }
+
+
+        #errorMessage {
+
+            display: none;
+
+            margin-top: 20px;
+
+            color: #d00000;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+
+        }
+
+
+        #successMessage {
+
+            display: none;
+
+            margin-top: 20px;
+
+            color: #007367;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="authorization-container">
+
+
+        <div class="authorization-title">
+            DATA PULSE Authorization
+        </div>
+
+
+        <div class="authorization-subtitle">
+            Your Google account is already authenticated.
+            DATA PULSE is checking your authorization.
+        </div>
+
+
+        <div id="authenticatedEmail">
+            Checking authenticated account...
+        </div>
+
+
+        <div id="statusMessage">
+            Checking authorization...
+        </div>
+
+
+        <div id="successMessage">
+            Authorization successful.
+        </div>
+
+
+        <div id="accessDeniedMessage">
+            User Access Denied
+        </div>
+
+
+        <div id="errorMessage">
+            Unable to verify authorization.
+            Please try again.
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         FIREBASE AUTHORIZATION LOGIC
+    ===================================================== -->
+
+    <script
+        type="module"
+        src="../js/authorization.js"
+    ></script>
+
+
+</body>
+
+</html>

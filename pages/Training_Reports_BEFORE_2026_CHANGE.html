@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - Training Reports</title>
+
+<style>
+    :root {
+        --teal: #007367;
+        --blue: #5b9bd5;
+        --blue2: #3f7fb7;
+        --bg: #f5f7f7;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--bg);
+        color: #18312f;
+    }
+
+    .header {
+        background: #ffffff;
+        border-bottom: 3px solid var(--teal);
+        padding: 20px;
+    }
+
+    .title {
+        text-align: center;
+        color: var(--teal);
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    .year-tabs,
+    .sub-tabs {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+    }
+
+    .year-tabs {
+        justify-content: center;
+    }
+
+    .year-tab {
+        padding: 12px 35px;
+        border: 1px solid #4d88bd;
+        background: var(--blue);
+        color: #ffffff;
+        border-radius: 7px 7px 0 0;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .year-tab:hover {
+        background: var(--blue2);
+    }
+
+    .year-tab.active {
+        background: var(--blue2);
+    }
+
+    .sub-tab {
+        padding: 11px 20px;
+        border: 1px solid #bbb;
+        background: #ffffff;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .sub-tab:hover {
+        background: #f0f7f6;
+    }
+
+    .sub-tab.active {
+        background: var(--teal);
+        color: #ffffff;
+        border-color: var(--teal);
+    }
+
+    .panel {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 18px;
+    }
+
+    .viewer {
+        width: 100%;
+        height: 850px;
+        border: 0;
+        background: #ffffff;
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .info {
+        text-align: center;
+        padding: 35px;
+        color: #777;
+    }
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="title">
+        DATA PULSE — Training Reports
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- YEAR TABS -->
+    <div class="year-tabs">
+
+        <button
+            class="year-tab active"
+            onclick="showYear('2027', this)">
+            2027
+        </button>
+
+        <button
+            class="year-tab"
+            onclick="showYear('2028', this)">
+            2028
+        </button>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- 2027 TRAINING REPORTS -->
+    <!-- ========================= -->
+
+    <section id="year2027">
+
+        <div class="sub-tabs">
+
+            <button
+                class="sub-tab active"
+                onclick="openReport('CoCubes_DATA_PULSE_V3_FIXED.html', this)">
+                CoCubes Dashboard
+            </button>
+
+            <button
+                class="sub-tab"
+                onclick="openReport('CoCubes_Student_Details_V3_FIXED.html', this)">
+                CoCubes Student Details
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <iframe
+                id="reportFrame"
+                class="viewer"
+                src="CoCubes_DATA_PULSE_V3_FIXED.html"
+                title="Training Report">
+            </iframe>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- 2028 TRAINING REPORTS -->
+    <!-- ========================= -->
+
+    <section id="year2028" class="hidden">
+
+        <div class="panel">
+
+            <div class="info">
+
+                <h2>2028</h2>
+
+                <p>
+                    2028 Training Reports will be added here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+function showYear(year, button) {
+
+    /*
+     * Remove active state from all year buttons
+     */
+    document
+        .querySelectorAll(".year-tab")
+        .forEach(function(tab) {
+            tab.classList.remove("active");
+        });
+
+    /*
+     * Activate selected year
+     */
+    button.classList.add("active");
+
+
+    /*
+     * Show / hide year sections
+     */
+    document
+        .getElementById("year2027")
+        .classList.toggle("hidden", year !== "2027");
+
+    document
+        .getElementById("year2028")
+        .classList.toggle("hidden", year !== "2028");
+
+}
+
+
+/*
+ * Open selected 2027 report
+ */
+function openReport(fileName, button) {
+
+    /*
+     * Remove active state from CoCubes tabs
+     */
+    document
+        .querySelectorAll(".sub-tab")
+        .forEach(function(tab) {
+            tab.classList.remove("active");
+        });
+
+    /*
+     * Activate selected report tab
+     */
+    button.classList.add("active");
+
+
+    /*
+     * Load selected HTML file
+     * Both files are inside the same pages folder.
+     */
+    document
+        .getElementById("reportFrame")
+        .src = fileName;
+
+}
+
+</script>
+
+</body>
+</html>

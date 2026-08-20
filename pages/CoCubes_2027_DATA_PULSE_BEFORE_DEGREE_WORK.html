@@ -1,0 +1,561 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CoCubes 2027 - DATA PULSE</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f6;
+    color: #222;
+}
+
+/* HEADER */
+
+.header {
+    background: #007367;
+    color: white;
+    padding: 16px 24px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* MAIN */
+
+.container {
+    width: 100%;
+    padding: 18px 24px;
+}
+
+/* KPI CARDS */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.kpi-card {
+    background: white;
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-left: 5px solid;
+}
+
+.kpi-card:nth-child(1) {
+    border-color: #007367;
+}
+
+.kpi-card:nth-child(2) {
+    border-color: #357abd;
+}
+
+.kpi-card:nth-child(3) {
+    border-color: #2e8b57;
+}
+
+.kpi-card:nth-child(4) {
+    border-color: #c94f6d;
+}
+
+.kpi-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.kpi-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007367;
+}
+
+.kpi-subtitle {
+    font-size: 11px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* TABLE */
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.10);
+}
+
+.exam-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    min-width: 850px;
+}
+
+.exam-table thead th {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 11px 6px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.35);
+}
+
+.exam-table thead th:first-child {
+    background: #007367;
+    width: 145px;
+}
+
+.exam-table thead th:nth-child(2) {
+    background: #007367;
+}
+
+.exam-table thead th:nth-child(3) {
+    background: #357abd;
+}
+
+.exam-table thead th:nth-child(4) {
+    background: #8e44ad;
+}
+
+.exam-table thead th:nth-child(5) {
+    background: #e67e22;
+}
+
+.exam-table thead th:nth-child(6) {
+    background: #2e8b57;
+}
+
+.exam-table thead th:nth-child(7) {
+    background: #c94f6d;
+}
+
+.exam-table thead th:nth-child(8) {
+    background: #5b5fc7;
+}
+
+.exam-table tbody td {
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #e2e5e5;
+}
+
+.status-cell {
+    text-align: left !important;
+    padding-left: 15px !important;
+    font-size: 12px !important;
+}
+
+.good-row .status-cell {
+    color: #177245;
+    background: #eaf7ef;
+}
+
+.training-row .status-cell {
+    color: #b36b00;
+    background: #fff5df;
+}
+
+.practice-row .status-cell {
+    color: #b52d45;
+    background: #fff0f3;
+}
+
+.good-row td:not(.status-cell) {
+    background: #f4fbf6;
+}
+
+.training-row td:not(.status-cell) {
+    background: #fffaf0;
+}
+
+.practice-row td:not(.status-cell) {
+    background: #fff7f8;
+}
+
+.exam-table tbody tr:hover td {
+    filter: brightness(0.97);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.error {
+    background: #fff0f0;
+    color: #a00;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>CoCubes 2027 Assessment Dashboard</h1>
+
+    <p>DATA PULSE</p>
+
+</div>
+
+
+<div class="container">
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Total Students
+            </div>
+
+            <div id="kpiStudents" class="kpi-value">
+                Loading...
+            </div>
+
+            <div class="kpi-subtitle">
+                Students assessed
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-title">
+                Total Examinations
+            </div>
+
+            <div class="kpi-value">
+                7
+            </div>
+
+            <div class="kpi-subtitle">
+                Assessment areas
+            </div>    </div>
+
+    <div id="dashboard">
+
+        <div class="loading">
+            Loading CoCubes 2027 data...
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const JSON_FILE = "../data/cocubes-2027.json";
+
+const EXAMS = [
+    "Domain",
+    "English Usage",
+    "Analytical Reasoning",
+    "Quantitative Ability",
+    "Computer Fundamentals",
+    "Written English",
+    "Coding"
+];
+
+
+async function loadDashboard() {
+
+    try {
+
+        const response = await fetch(JSON_FILE);
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load cocubes-2027.json"
+            );
+        }
+
+
+        const students = await response.json();
+
+
+        /*
+         * STEP 1
+         * Create independent counts for every examination.
+         */
+
+        const counts = {};
+
+
+        EXAMS.forEach(exam => {
+
+            counts[exam] = {
+                "Good to Go": 0,
+                "Need Training": 0,
+                "Need Practice": 0
+            };
+
+        });
+
+
+        /*
+         * STEP 2
+         * Count every student independently for every exam.
+         */
+
+        students.forEach(student => {
+
+            EXAMS.forEach(exam => {
+
+                const status = student[exam];
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        counts[exam],
+                        status
+                    )
+                ) {
+
+                    counts[exam][status]++;
+
+                }
+
+            });
+
+        });
+
+
+        /*
+         * STEP 3
+         * Calculate KPI information.
+         */
+
+        let bestExam = "";
+        let bestGoodCount = -1;
+
+        let attentionExam = "";
+        let highestTrainingCount = -1;
+
+
+        EXAMS.forEach(exam => {
+
+            const goodCount =
+                counts[exam]["Good to Go"];
+
+            const trainingCount =
+                counts[exam]["Need Training"];
+
+
+            if (goodCount > bestGoodCount) {
+
+                bestGoodCount = goodCount;
+                bestExam = exam;
+
+            }
+
+
+            if (trainingCount > highestTrainingCount) {
+
+                highestTrainingCount = trainingCount;
+                attentionExam = exam;
+
+            }
+
+        });
+
+
+        /*
+         * STEP 4
+         * Update KPI cards.
+         */
+
+        document.getElementById(
+            "kpiStudents"
+        ).textContent =
+            students.length.toLocaleString();
+
+
+        document.getElementById(
+            "kpiBest"
+        ).textContent =
+            bestExam;
+
+
+        document.getElementById(
+            "kpiBestSub"
+        ).textContent =
+            bestGoodCount.toLocaleString() +
+            " Good to Go";
+
+
+        document.getElementById(
+            "kpiAttention"
+        ).textContent =
+            attentionExam;
+
+
+        document.getElementById(
+            "kpiAttentionSub"
+        ).textContent =
+            highestTrainingCount.toLocaleString() +
+            " Need Training";
+
+
+        /*
+         * STEP 5
+         * Build examination table.
+         */
+
+        const tableHTML = `
+
+            <div class="table-container">
+
+                <table class="exam-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Status</th>
+
+                            ${EXAMS.map(
+                                exam =>
+                                `<th>${exam}</th>`
+                            ).join("")}
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr class="good-row">
+
+                            <td class="status-cell">
+                                Good to Go
+                            </td>
+
+                            ${EXAMS.map(
+                                exam =>
+                                `<td>${
+                                    counts[exam]["Good to Go"]
+                                    .toLocaleString()
+                                }</td>`
+                            ).join("")}
+
+                        </tr>
+
+
+                        <tr class="training-row">
+
+                            <td class="status-cell">
+                                Need Training
+                            </td>
+
+                            ${EXAMS.map(
+                                exam =>
+                                `<td>${
+                                    counts[exam]["Need Training"]
+                                    .toLocaleString()
+                                }</td>`
+                            ).join("")}
+
+                        </tr>
+
+
+                        <tr class="practice-row">
+
+                            <td class="status-cell">
+                                Need Practice
+                            </td>
+
+                            ${EXAMS.map(
+                                exam =>
+                                `<td>${
+                                    counts[exam]["Need Practice"]
+                                    .toLocaleString()
+                                }</td>`
+                            ).join("")}
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "dashboard"
+        ).innerHTML = tableHTML;
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "dashboard"
+        ).innerHTML = `
+
+            <div class="error">
+
+                <strong>
+                    Error loading dashboard:
+                </strong>
+
+                <br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+        console.error(error);
+
+    }
+
+}
+
+
+loadDashboard();
+
+</script>
+
+</body>
+
+</html>
+
+

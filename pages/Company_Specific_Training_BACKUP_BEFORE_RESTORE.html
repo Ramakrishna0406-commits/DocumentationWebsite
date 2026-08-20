@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Company Specific Training</title>
+
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f7f7;
+
+    color: #17322f;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+
+    background: #007367;
+
+    color: #ffffff;
+
+    padding: 20px 28px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+}
+
+
+.header p {
+
+    margin: 6px 0 0;
+
+    opacity: 0.9;
+
+}
+
+
+/* =====================================================
+   COMPANY SELECTOR
+===================================================== */
+
+.company-selector {
+
+    background: #ffffff;
+
+    color: #17322f;
+
+    padding: 10px 12px;
+
+    border-radius: 9px;
+
+    min-width: 200px;
+
+}
+
+
+.company-selector label {
+
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+
+}
+
+
+.company-selector select {
+
+    width: 100%;
+
+    padding: 8px;
+
+    border: 1px solid #d5dfdd;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+
+    max-width: 1500px;
+
+    margin: auto;
+
+    padding: 22px;
+
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.07);
+
+    padding: 18px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.card h3 {
+
+    margin-top: 0;
+
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap: 12px;
+
+}
+
+
+.filter label {
+
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #53615f;
+
+}
+
+
+.filter select {
+
+    width: 100%;
+
+    margin-top: 6px;
+
+    padding: 10px;
+
+    border: 1px solid #d7e1df;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-row {
+
+    display: flex;
+
+    gap: 12px;
+
+    align-items: end;
+
+    margin-top: 14px;
+
+}
+
+
+.search-box {
+
+    flex: 1;
+
+}
+
+
+.search-box label {
+
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: #53615f;
+
+}
+
+
+.search-box input {
+
+    width: 100%;
+
+    margin-top: 6px;
+
+    padding: 10px;
+
+    border: 1px solid #d7e1df;
+
+    border-radius: 7px;
+
+}
+
+
+button {
+
+    padding: 10px 16px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: #007367;
+
+    color: #ffffff;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    background: #005f55;
+
+}
+
+
+button.secondary {
+
+    background: #e8f1ef;
+
+    color: #007367;
+
+}
+
+
+/* =====================================================
+   KPI CARDS
+===================================================== */
+
+.kpis {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 14px;
+
+}
+
+
+.kpi {
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    background: #f7fbfa;
+
+    border-left:
+        4px solid #007367;
+
+}
+
+
+.kpi small {
+
+    display: block;
+
+    color: #667;
+
+    font-size: 12px;
+
+}
+
+
+.kpi strong {
+
+    display: block;
+
+    font-size: 25px;
+
+    margin-top: 8px;
+
+}
+
+
+/* =====================================================
+   CHART SECTION
+===================================================== */
+
+.charts {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+
+}
+
+
+/* =====================================================
+   BAR
+===================================================== */
+
+.bar-row {
+
+    display: grid;
+
+    grid-template-columns:
+        235px 1fr 65px;
+
+    gap: 10px;
+
+    align-items: center;
+
+    margin: 13px 0;
+
+    font-size: 13px;
+
+}
+
+
+.bar-background {
+
+    height: 16px;
+
+    background: #e8eeee;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+.bar {
+
+    height: 100%;
+
+    background: #007367;
+
+    border-radius: 10px;
+
+    transition: width 0.3s ease;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper {
+
+    overflow: auto;
+
+    max-height: 520px;
+
+}
+
+
+table {
+
+    border-collapse: collapse;
+
+    width: 100%;
+
+    font-size: 13px;
+
+}
+
+
+th,
+td {
+
+    padding: 10px;
+
+    border-bottom:
+        1px solid #e8eeee;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+}
+
+
+th {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #eef5f3;
+
+    color: #23534d;
+
+    z-index: 1;
+
+}
+
+
+.score {
+
+    font-weight: bold;
+
+}
+
+
+.muted {
+
+    color: #7a8886;
+
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #667;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .filters {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .kpis {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .charts {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .company-selector {
+
+        width: 100%;
+
+    }
+
+
+    .filters {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .kpis {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .search-row {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div>
+
+        <h1>
+            Company Specific Training
+        </h1>
+
+        <p id="subtitle">
+            Select a company to view its training analytics
+        </p>
+
+    </div>
+
+
+    <div class="company-selector">
+
+        <label for="company">
+            COMPANY
+        </label>
+
+        <select id="company">
+
+            <option value="">
+                Select Company
+            </option>
+
+            <option value="TCS">
+                TCS
+            </option>
+
+        </select>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<main
+    id="dashboard"
+    class="container"
+    style="display:none;"
+>
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <div class="card">
+
+        <div class="filters">
+
+
+            <div class="filter">
+
+                <label for="school">
+                    School
+                </label>
+
+                <select id="school">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="filter">
+
+                <label for="degree">
+                    Degree
+                </label>
+
+                <select id="degree">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="filter">
+
+                <label for="course">
+                    Course
+                </label>
+
+                <select id="course">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="filter">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <select id="department">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="filter">
+
+                <label for="batchName">
+                    Batch Name
+                </label>
+
+                <select id="batchName">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+
+            <div class="filter">
+
+                <label for="batchNumber">
+                    Batch Number
+                </label>
+
+                <select id="batchNumber">
+                    <option value="">
+                        All
+                    </option>
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =============================================
+             SEARCH
+        ============================================== -->
+
+        <div class="search-row">
+
+            <div class="search-box">
+
+                <label for="search">
+                    Student Search
+                </label>
+
+                <input
+                    id="search"
+                    type="text"
+                    placeholder="Search by name or roll number"
+                >
+
+            </div>
+
+
+            <button
+                id="reset"
+                class="secondary"
+                type="button"
+            >
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         KPI
+    ================================================== -->
+
+    <div class="kpis">
+
+
+        <div class="kpi">
+
+            <small>
+                Students
+            </small>
+
+            <strong id="students">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="kpi">
+
+            <small>
+                Average Percentage
+            </small>
+
+            <strong id="average">
+                0%
+            </strong>
+
+        </div>
+
+
+
+        <div class="kpi">
+
+            <small>
+                Top Performers ≥80%
+            </small>
+
+            <strong id="topPerformers">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="kpi">
+
+            <small>
+                Batch Groups
+            </small>
+
+            <strong id="batchGroups">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="kpi">
+
+            <small>
+                Mock Tests
+            </small>
+
+            <strong>
+                12
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         PERFORMANCE
+    ================================================== -->
+
+    <div class="charts">
+
+
+        <!-- =============================================
+             OVERALL SKILL PERFORMANCE
+        ============================================== -->
+
+        <div class="card">
+
+            <h3>
+                Overall Skill Performance
+            </h3>
+
+            <div id="skills"></div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             MOCK TEST PERFORMANCE
+        ============================================== -->
+
+        <div class="card">
+
+            <h3>
+                Mock Test Average
+            </h3>
+
+            <div id="mockTests"></div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         STUDENT TABLE
+    ================================================== -->
+
+    <div class="card">
+
+        <h3>
+            Student Performance
+        </h3>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Roll Number
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            School
+                        </th>
+
+                        <th>
+                            Course
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Batch
+                        </th>
+
+                        <th>
+                            Batch Number
+                        </th>
+
+                        <th>
+                            Overall %
+                        </th>
+
+                        <th>
+                            Candidate Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="studentRows"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
+
+let DATA = [];
+
+let FILTERED = [];
+
+
+/* =====================================================
+   SKILL NAMES
+===================================================== */
+
+const skillNames = {
+
+    advancedCoding:
+        "Advanced Coding",
+
+    advancedQuantReasoning:
+        "Advanced Quantitative & Reasoning",
+
+    numerical:
+        "Numerical Ability",
+
+    reasoning:
+        "Reasoning Ability",
+
+    verbal:
+        "Verbal Ability"
+
+};
+
+
+/* =====================================================
+   FILTER IDS
+===================================================== */
+
+const filterIds = [
+
+    "school",
+
+    "degree",
+
+    "course",
+
+    "department",
+
+    "batchName",
+
+    "batchNumber"
+
+];
+
+
+/* =====================================================
+   COMPANY SELECTOR
+===================================================== */
+
+document
+    .getElementById("company")
+    .addEventListener(
+        "change",
+        handleCompanyChange
+    );
+
+
+async function handleCompanyChange() {
+
+    const company =
+        document.getElementById(
+            "company"
+        ).value;
+
+
+    const dashboard =
+        document.getElementById(
+            "dashboard"
+        );
+
+
+    /* ---------------------------------------------
+       No company selected
+    --------------------------------------------- */
+
+    if (company === "") {
+
+        dashboard.style.display =
+            "none";
+
+        document.getElementById(
+            "subtitle"
+        ).textContent =
+            "Select a company to view its training analytics";
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------
+       TCS
+    --------------------------------------------- */
+
+    if (company === "TCS") {
+
+        await loadTCSData();
+
+        return;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD TCS DATA
+===================================================== */
+
+async function loadTCSData() {
+
+    const dashboard =
+        document.getElementById(
+            "dashboard"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "../data/tcs_training_data.json"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load TCS data. HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        DATA =
+            Array.isArray(data.students)
+                ? data.students
+                : [];
+
+
+        if (DATA.length === 0) {
+
+            throw new Error(
+                "TCS data file contains no student records."
+            );
+
+        }
+
+
+        dashboard.style.display =
+            "block";
+
+
+        document.getElementById(
+            "subtitle"
+        ).textContent =
+            "TCS · Vizag Campus · Mock Test Performance Dashboard";
+
+
+        initialiseFilters();
+
+        renderDashboard();
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "TCS data loading error:",
+            error
+        );
+
+
+        dashboard.style.display =
+            "block";
+
+
+        dashboard.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty-state">
+
+                    <h3>
+                        TCS data could not be loaded
+                    </h3>
+
+                    <p>
+                        Please verify that
+                        <strong>
+                            data/tcs_training_data.json
+                        </strong>
+                        exists in the DATA PULSE project.
+                    </p>
+
+                    <p class="muted">
+                        Expected path:
+                        ../data/tcs_training_data.json
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALISE FILTERS
+===================================================== */
+
+function initialiseFilters() {
+
+    filterIds.forEach(
+        function(id) {
+
+            populateFilter(
+                id,
+                getUniqueValues(id)
+            );
+
+        }
+    );
+
+
+    filterIds.forEach(
+        function(id) {
+
+            document
+                .getElementById(id)
+                .onchange =
+                renderDashboard;
+
+        }
+    );
+
+
+    document
+        .getElementById("search")
+        .oninput =
+        renderDashboard;
+
+
+    document
+        .getElementById("reset")
+        .onclick =
+        resetFilters;
+
+}
+
+
+/* =====================================================
+   UNIQUE FILTER VALUES
+===================================================== */
+
+function getUniqueValues(
+    key
+) {
+
+    return [
+
+        ...new Set(
+
+            DATA
+
+                .map(
+                    function(student) {
+
+                        return student[key];
+
+                    }
+                )
+
+                .filter(
+                    function(value) {
+
+                        return (
+                            value !== null &&
+                            value !== undefined &&
+                            value !== ""
+                        );
+
+                    }
+                )
+
+        )
+
+    ].sort(
+        function(a, b) {
+
+            return String(a)
+                .localeCompare(
+                    String(b),
+                    undefined,
+                    {
+                        numeric: true,
+                        sensitivity: "base"
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   POPULATE FILTER
+===================================================== */
+
+function populateFilter(
+    id,
+    values
+) {
+
+    const select =
+        document.getElementById(id);
+
+
+    select.innerHTML =
+        '<option value="">All</option>';
+
+
+    values.forEach(
+        function(value) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                String(value);
+
+
+            option.textContent =
+                String(value);
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILTER DATA
+===================================================== */
+
+function getFilteredData() {
+
+    const search =
+        document
+            .getElementById("search")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    return DATA.filter(
+        function(student) {
+
+
+            /* -----------------------------------------
+               Dropdown filters
+            ----------------------------------------- */
+
+            for (
+                const filterId of filterIds
+            ) {
+
+                const selected =
+                    document
+                        .getElementById(
+                            filterId
+                        )
+                        .value;
+
+
+                if (
+                    selected &&
+                    String(
+                        student[filterId]
+                    ) !== selected
+                ) {
+
+                    return false;
+
+                }
+
+            }
+
+
+            /* -----------------------------------------
+               Student search
+            ----------------------------------------- */
+
+            if (!search) {
+
+                return true;
+
+            }
+
+
+            const name =
+                String(
+                    student.name || ""
+                ).toLowerCase();
+
+
+            const rollNumber =
+                String(
+                    student.rollNumber || ""
+                ).toLowerCase();
+
+
+            return (
+                name.includes(search) ||
+                rollNumber.includes(search)
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   NUMBER CONVERSION
+===================================================== */
+
+function toNumber(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return null;
+
+    }
+
+
+    const number =
+        Number(value);
+
+
+    return Number.isFinite(number)
+        ? number
+        : null;
+
+}
+
+
+/* =====================================================
+   AVERAGE
+===================================================== */
+
+function calculateAverage(
+    values
+) {
+
+    const numbers =
+        values
+
+            .map(toNumber)
+
+            .filter(
+                function(value) {
+
+                    return value !== null;
+
+                }
+            );
+
+
+    if (
+        numbers.length === 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return numbers.reduce(
+        function(total, value) {
+
+            return total + value;
+
+        },
+        0
+    ) / numbers.length;
+
+}
+
+
+/* =====================================================
+   RENDER DASHBOARD
+===================================================== */
+
+function renderDashboard() {
+
+    FILTERED =
+        getFilteredData();
+
+
+    updateKPI();
+
+    renderSkills();
+
+    renderMockTests();
+
+    renderStudentTable();
+
+}
+
+
+/* =====================================================
+   KPI
+===================================================== */
+
+function updateKPI() {
+
+    const percentages =
+        FILTERED
+
+            .map(
+                function(student) {
+
+                    return toNumber(
+                        student
+                            .overall
+                            ?.percentage
+                    );
+
+                }
+            )
+
+            .filter(
+                function(value) {
+
+                    return value !== null;
+
+                }
+            );
+
+
+    const average =
+        calculateAverage(
+            percentages
+        );
+
+
+    const topPerformers =
+        percentages.filter(
+            function(value) {
+
+                return value >= 80;
+
+            }
+        ).length;
+
+
+    const batchGroups =
+        new Set(
+
+            FILTERED
+
+                .map(
+                    function(student) {
+
+                        return student.batchNumber;
+
+                    }
+                )
+
+                .filter(
+                    function(value) {
+
+                        return (
+                            value !== null &&
+                            value !== undefined &&
+                            value !== ""
+                        );
+
+                    }
+                )
+
+        ).size;
+
+
+    document.getElementById(
+        "students"
+    ).textContent =
+        FILTERED.length.toLocaleString();
+
+
+    document.getElementById(
+        "average"
+    ).textContent =
+        average.toFixed(1) + "%";
+
+
+    document.getElementById(
+        "topPerformers"
+    ).textContent =
+        topPerformers.toLocaleString();
+
+
+    document.getElementById(
+        "batchGroups"
+    ).textContent =
+        batchGroups.toLocaleString();
+
+}
+
+
+/* =====================================================
+   BAR CREATOR
+===================================================== */
+
+function createBar(
+    label,
+    value
+) {
+
+    let percentage =
+        toNumber(value);
+
+
+    if (percentage === null) {
+
+        percentage = 0;
+
+    }
+
+
+    percentage =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                percentage
+            )
+        );
+
+
+    return `
+
+        <div class="bar-row">
+
+            <div>
+                ${escapeHTML(label)}
+            </div>
+
+            <div class="bar-background">
+
+                <div
+                    class="bar"
+                    style="width:${percentage}%"
+                ></div>
+
+            </div>
+
+            <strong>
+                ${percentage.toFixed(1)}%
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OVERALL SKILL PERFORMANCE
+===================================================== */
+
+function renderSkills() {
+
+    const container =
+        document.getElementById(
+            "skills"
+        );
+
+
+    let html = "";
+
+
+    Object.entries(
+        skillNames
+    ).forEach(
+        function([
+            key,
+            label
+        ]) {
+
+            const values =
+                FILTERED.map(
+                    function(student) {
+
+                        return student
+                            .overall
+                            ?.[
+                                key
+                            ]
+                            ?.percentage;
+
+                    }
+                );
+
+
+            const average =
+                calculateAverage(
+                    values
+                );
+
+
+            html +=
+                createBar(
+                    label,
+                    average
+                );
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   MOCK TEST PERFORMANCE
+===================================================== */
+
+function renderMockTests() {
+
+    const container =
+        document.getElementById(
+            "mockTests"
+        );
+
+
+    let html = "";
+
+
+    for (
+        let i = 1;
+        i <= 12;
+        i++
+    ) {
+
+        const testName =
+            "Mock Test " + i;
+
+
+        const values =
+            FILTERED.map(
+                function(student) {
+
+                    return student
+                        .mockTests
+                        ?.[
+                            testName
+                        ]
+                        ?.percentage;
+
+                }
+            );
+
+
+        const average =
+            calculateAverage(
+                values
+            );
+
+
+        html +=
+            createBar(
+                testName,
+                average
+            );
+
+    }
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   STUDENT TABLE
+===================================================== */
+
+function renderStudentTable() {
+
+    const tbody =
+        document.getElementById(
+            "studentRows"
+        );
+
+
+    if (
+        FILTERED.length === 0
+    ) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="9"
+                    class="muted"
+                    style="text-align:center;padding:30px;"
+                >
+
+                    No students match
+                    the selected filters.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        FILTERED.map(
+            function(student) {
+
+
+                const percentage =
+                    toNumber(
+                        student
+                            .overall
+                            ?.percentage
+                    );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${escapeHTML(
+                                student.rollNumber
+                            )}
+                        </td>
+
+
+                        <td>
+                            <b>
+                                ${escapeHTML(
+                                    student.name
+                                )}
+                            </b>
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student.school
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student.course
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student.department
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student.batchName
+                            )}
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student.batchNumber
+                            )}
+                        </td>
+
+
+                        <td class="score">
+
+                            ${
+                                percentage === null
+                                    ? "—"
+                                    : percentage.toFixed(1) + "%"
+                            }
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHTML(
+                                student
+                                    .overall
+                                    ?.candidateTotal
+                            )}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetFilters() {
+
+    filterIds.forEach(
+        function(id) {
+
+            document.getElementById(
+                id
+            ).value = "";
+
+        }
+    );
+
+
+    document.getElementById(
+        "search"
+    ).value = "";
+
+
+    renderDashboard();
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    ).replace(
+        /[&<>"']/g,
+        function(character) {
+
+            const replacements = {
+
+                "&": "&amp;",
+
+                "<": "&lt;",
+
+                ">": "&gt;",
+
+                '"': "&quot;",
+
+                "'": "&#039;"
+
+            };
+
+
+            return replacements[
+                character
+            ];
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

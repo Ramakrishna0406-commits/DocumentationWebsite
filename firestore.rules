@@ -1,0 +1,112 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // ========================================================
+    // ADMIN HELPER
+    // ========================================================
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'rkolluri@gitam.edu';
+    }
+
+
+    // ========================================================
+    // LOGIN HISTORY
+    // ========================================================
+
+    match /loginHistory/{document} {
+
+      allow create: if
+        request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.matches('.*@gitam\\.edu$')
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.uid == request.auth.uid;
+
+      allow read: if
+        isAdmin();
+
+      allow update, delete: if false;
+    }
+
+
+    // ========================================================
+    // LEGACY AUTHORIZATION
+    // ========================================================
+
+    match /authorization/{uid} {
+
+      allow read: if
+        request.auth != null
+        && request.auth.uid == uid;
+
+      allow create, update, delete: if false;
+    }
+
+
+    // ========================================================
+    // NEW SCALABLE AUTHORIZATION
+    // ========================================================
+
+    match /authorizedUsers/{email} {
+
+      allow read: if
+        request.auth != null
+        && (
+          request.auth.token.email == email
+          || isAdmin()
+        );
+
+      allow create, update, delete: if
+        isAdmin();
+    }
+
+
+    // ========================================================
+    // ACCESS REQUESTS
+    // ========================================================
+
+    match /accessRequests/{requestId} {
+
+      allow create: if
+        request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.matches('.*@gitam\\.edu$')
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.permission is string
+        && request.resource.data.page is string
+        && request.resource.data.status == 'PENDING'
+        && request.resource.data.createdAt == request.time;
+
+      allow read: if
+        request.auth != null
+        && (
+          request.auth.uid == resource.data.uid
+          || isAdmin()
+        );
+
+      allow create: if
+        isAdmin();
+
+      allow update: if
+        isAdmin();
+
+      allow delete: if
+        isAdmin();
+    }
+
+
+    // ========================================================
+    // DEFAULT DENY
+    // ========================================================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

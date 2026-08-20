@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Training Report</title>
+
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+    background:#fff;
+}
+
+
+.image-table{
+    border-collapse:collapse;
+}
+
+
+.image-table td{
+    padding:10px;
+    text-align:center;
+}
+
+
+.image-table img{
+
+    width:250px;
+    height:180px;
+    cursor:pointer;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<table class="image-table">
+
+
+<tr>
+
+
+<td>
+
+<a href="https://docs.google.com/spreadsheets/d/1MUl0reuHMH9ZKj_ZgIjVPzBkIJ2r8X1X/edit?usp=drive_link&ouid=102127505874932138201&rtpof=true&sd=true">
+
+
+<img 
+class="hover-img"
+src="../images/b1off.jpg"
+data-off="../images/b1off.jpg"
+data-on="../images/b1on.jpg"
+alt="B1">
+
+</a>
+
+</td>
+
+
+
+<td>
+
+<a href="https://docs.google.com/spreadsheets/d/1RnbKSZhT-OIhaM06Dvh_Mzf66F9W5Qfc/edit?usp=drive_link&ouid=102127505874932138201&rtpof=true&sd=true">
+
+
+<img 
+class="hover-img"
+src="../images/h1off.jpg"
+data-off="../images/h1off.jpg"
+data-on="../images/h1on.jpg"
+alt="H1">
+
+</a>
+
+</td>
+
+
+
+<td>
+
+<a href="https://docs.google.com/spreadsheets/d/1LIXnFQ0DicJvkirX4PS7e1XJ7KFltdfO/edit?usp=drive_link&ouid=102127505874932138201&rtpof=true&sd=true">
+
+
+<img 
+class="hover-img"
+src="../images/v1off.jpg"
+data-off="../images/v1off.jpg"
+data-on="../images/v1on.jpg"
+alt="V1">
+
+</a>
+
+</td>
+
+
+
+</tr>
+
+
+</table>
+
+
+
+<script>
+
+
+const images = document.querySelectorAll(".hover-img");
+
+
+images.forEach(function(img){
+
+
+    img.addEventListener("mouseenter", function(){
+
+        img.src = img.getAttribute("data-on");
+
+    });
+
+
+
+    img.addEventListener("mouseleave", function(){
+
+        img.src = img.getAttribute("data-off");
+
+    });
+
+
+});
+
+
+</script>
+
+
+
+</body>
+
+</html>

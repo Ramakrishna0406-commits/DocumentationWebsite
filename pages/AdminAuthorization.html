@@ -1,0 +1,2389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DATA PULSE - Admin Authorization Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background: #f5f7f7;
+            color: #333;
+        }
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .header {
+            background: #007367;
+            color: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           ADMIN INFORMATION
+           ===================================================== */
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .admin-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e8eeee;
+        }
+
+        .admin-details {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .admin-name {
+            font-weight: bold;
+            color: #007367;
+        }
+
+        .admin-email {
+            font-size: 13px;
+            color: #777;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+           ===================================================== */
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007367;
+            margin: 25px 0 12px;
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+           ===================================================== */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(180px, 1fr));
+
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid #007367;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007367;
+        }
+
+
+        /* =====================================================
+           PANELS
+           ===================================================== */
+
+        .panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        /* =====================================================
+           TOOLBAR
+           ===================================================== */
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            width: 300px;
+            max-width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #007367;
+        }
+
+
+        /* =====================================================
+           TABLE
+           ===================================================== */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #007367;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #f7faf9;
+        }
+
+
+        /* =====================================================
+           STATUS
+           ===================================================== */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #e7f5ef;
+            color: #16704c;
+        }
+
+        .status-inactive {
+            background: #f4eaea;
+            color: #9b3333;
+        }
+
+        .status-pending {
+            background: #fff4d6;
+            color: #8a6500;
+        }
+
+        .status-approved {
+            background: #e7f5ef;
+            color: #16704c;
+        }
+
+        .status-rejected {
+            background: #f4eaea;
+            color: #9b3333;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+           ===================================================== */
+
+        button {
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #007367;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: #e9eeee;
+            color: #333;
+        }
+
+        .btn-approve {
+            background: #007367;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .btn-reject {
+            background: #a33b3b;
+            color: white;
+        }
+
+
+        /* =====================================================
+           MANAGE BUTTON
+           ===================================================== */
+
+        .btn-manage {
+            background: #007367;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            border: 1px solid #005f56;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .btn-manage:hover {
+            background: #005f56;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           ROLE / PERMISSION SET
+           ===================================================== */
+
+        .role-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(250px, 1fr));
+
+            gap: 15px;
+        }
+
+        .role-card {
+            border: 1px solid #e0e5e4;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafcfc;
+        }
+
+        .role-card h3 {
+            margin: 0 0 8px;
+            color: #007367;
+            font-size: 16px;
+        }
+
+        .role-card p {
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .permission-list {
+            margin: 8px 0 0;
+            padding-left: 18px;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+        .empty-state {
+            padding: 30px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           MANAGEMENT MODAL
+           ===================================================== */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            background: #007367;
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: transparent;
+            color: white;
+            font-size: 22px;
+            padding: 2px 8px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 12px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #007367;
+        }
+
+        .detail-value {
+            word-break: break-word;
+        }
+
+        .legacy-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f7faf9;
+            border: 1px solid #dce7e5;
+            border-radius: 8px;
+        }
+
+        .legacy-box h3 {
+            margin: 0 0 10px;
+            color: #007367;
+            font-size: 16px;
+        }
+
+        .legacy-field {
+            padding: 5px 0;
+            font-size: 13px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .read-only-note {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff8e6;
+            color: #755900;
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, minmax(160px, 1fr));
+            }
+
+            .role-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .admin-info {
+                align-items: flex-start;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 4px;
+                margin-bottom: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="header">
+
+        <h1>
+            Admin Authorization Management
+        </h1>
+
+        <p>
+            Manage DATA PULSE user authorization, roles,
+            permission sets and access requests.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADMIN INFORMATION
+         ===================================================== -->
+
+    <div class="admin-info">
+
+        <img
+            id="adminPhoto"
+            class="admin-photo"
+            src="../images/tmcg-logo.png"
+            alt="Admin">
+
+        <div class="admin-details">
+
+            <div
+                id="adminName"
+                class="admin-name">
+                Administrator
+            </div>
+
+            <div
+                id="adminEmail"
+                class="admin-email">
+                rkolluri@gitam.edu
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         AUTHORIZATION OVERVIEW
+         ===================================================== -->
+
+    <div class="section-title">
+        Authorization Overview
+    </div>
+
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Total Authorized Users
+            </div>
+
+            <div
+                id="totalUsers"
+                class="summary-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Active Users
+            </div>
+
+            <div
+                id="activeUsers"
+                class="summary-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Inactive Users
+            </div>
+
+            <div
+                id="inactiveUsers"
+                class="summary-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Pending Access Requests
+            </div>
+
+            <div
+                id="pendingRequests"
+                class="summary-value">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         AUTHORIZED USERS
+         ===================================================== -->
+
+    <div class="section-title">
+        Authorized Users
+    </div>
+
+
+    <div class="panel">
+
+        <div class="toolbar">
+
+            <input
+                type="text"
+                id="userSearch"
+                class="search-box"
+                placeholder="Search by email, role or permission set...">
+
+            <button
+                type="button"
+                class="btn-primary"
+                id="refreshUsersButton">
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Permission Set</th>
+                        <th>Permissions</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="authorizedUsersTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            <div class="empty-state">
+
+                                Authorization data will be
+                                loaded here.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PENDING ACCESS REQUESTS
+         ===================================================== -->
+
+    <div class="section-title">
+        Pending Access Requests
+    </div>
+
+
+    <div class="panel">
+
+        <div class="toolbar">
+
+            <div>
+                Requests requiring administrator action
+            </div>
+
+            <button
+                type="button"
+                class="btn-primary"
+                id="refreshRequestsButton">
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Email</th>
+                        <th>UID</th>
+                        <th>Permission</th>
+                        <th>Page</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="accessRequestsTableBody">
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="empty-state">
+
+                                No access requests loaded yet.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ROLES AND PERMISSION SETS
+         ===================================================== -->
+
+    <div class="section-title">
+        Roles & Permission Sets
+    </div>
+
+
+    <div class="panel">
+
+        <div class="role-grid">
+
+            <div class="role-card">
+
+                <h3>
+                    Roles
+                </h3>
+
+                <p>
+                    Existing roles used by the scalable
+                    authorization architecture.
+                </p>
+
+                <ul
+                    id="rolesList"
+                    class="permission-list">
+
+                    <li>ADMIN</li>
+                    <li>USER</li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="role-card">
+
+                <h3>
+                    Permission Sets
+                </h3>
+
+                <p>
+                    Existing permission sets assigned
+                    to authorized users.
+                </p>
+
+                <ul
+                    id="permissionSetsList"
+                    class="permission-list">
+
+                    <li>FULL_ACCESS</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         USER MANAGEMENT AREA
+         ===================================================== -->
+
+    <div class="section-title">
+        User Management
+    </div>
+
+
+    <div class="panel">
+
+        <div class="empty-state">
+
+            Select <strong>Manage</strong> for an authorized
+            user to view that user's authorization details.
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MANAGEMENT MODAL
+         ===================================================== -->
+
+    <div
+        id="managementModalOverlay"
+        class="modal-overlay">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>
+                    User Authorization Details
+                </h2>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    id="closeManagementModal">
+                    Ã—
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="detail-grid">
+
+                    <div class="detail-label">
+                        Email
+                    </div>
+
+                    <div
+                        id="manageEmail"
+                        class="detail-value">
+                        -
+                    </div>
+
+
+                    <div class="detail-label">
+                        Role
+                    </div>
+
+                    <div
+                        id="manageRole"
+                        class="detail-value">
+                        -
+                    </div>
+
+
+                    <div class="detail-label">
+                        Permission Set
+                    </div>
+
+                    <div
+                        id="managePermissionSet"
+                        class="detail-value">
+                        -
+                    </div>
+
+
+                    <div class="detail-label">
+                        Active
+                    </div>
+
+                    <div
+                        id="manageActive"
+                        class="detail-value">
+                        -
+                    </div>
+
+
+                    <div class="detail-label">
+                        UID
+                    </div>
+
+                    <div
+                        id="manageUID"
+                        class="detail-value">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="legacy-box">
+
+                    <h3>
+                        Existing / Legacy Fields
+                    </h3>
+
+                    <div id="legacyFieldsContainer">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="read-only-note">
+
+                    <strong>Read-only mode:</strong>
+                    No changes will be made to Firestore in
+                    this version.
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    id="closeManagementButton">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FIREBASE + FIRESTORE
+         ===================================================== -->
+
+    <script type="module">
+
+        import {
+            db
+        } from "../js/firebase-config.js";
+
+        import { collection, getDocs, doc, updateDoc, setDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+        /* =====================================================
+           GLOBAL DATA
+           ===================================================== */
+
+        let authorizedUsers = [];
+
+        let accessRequests = [];
+
+
+        /* =====================================================
+           LOAD AUTHORIZED USERS
+           ===================================================== */
+
+        async function loadAuthorizedUsers() {
+
+            try {
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "authorizedUsers"
+                        )
+                    );
+
+
+                authorizedUsers = [];
+
+
+                snapshot.forEach(
+                    function(doc) {
+
+                        authorizedUsers.push({
+
+                            id: doc.id,
+
+                            data: doc.data()
+
+                        });
+
+                    }
+                );
+
+
+                renderAuthorizedUsers(
+                    authorizedUsers
+                );
+
+
+                updateSummaryCards(
+                    authorizedUsers
+                );
+
+
+                console.log(
+                    "Authorized users loaded:",
+                    authorizedUsers
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error loading authorized users:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD ACCESS REQUESTS
+           ===================================================== */
+
+        async function loadAccessRequests() {
+
+            const tbody =
+                document.getElementById(
+                    "accessRequestsTableBody"
+                );
+
+
+            if (!tbody) {
+
+                console.error(
+                    "Access requests table body not found."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "accessRequests"
+                        )
+                    );
+
+
+                accessRequests = [];
+
+
+                snapshot.forEach(
+                    function(doc) {
+
+                        accessRequests.push({
+
+                            id: doc.id,
+
+                            data: doc.data()
+
+                        });
+
+                    }
+                );
+
+
+                renderAccessRequests(
+                    accessRequests
+                );
+
+
+                updatePendingRequests(
+                    accessRequests
+                );
+
+
+                console.log(
+                    "Access requests loaded:",
+                    accessRequests
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error loading access requests:",
+                    error
+                );
+
+
+                accessRequests = [];
+
+
+                updatePendingRequests(
+                    accessRequests
+                );
+
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                Unable to load access requests.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RENDER ACCESS REQUESTS
+           ===================================================== */
+
+        function renderAccessRequests(
+            requests
+        ) {
+
+            const tbody =
+                document.getElementById(
+                    "accessRequestsTableBody"
+                );
+
+
+            if (!tbody) {
+
+                return;
+
+            }
+
+
+            tbody.innerHTML = "";
+
+
+            if (
+                requests.length === 0
+            ) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                No access requests found.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            requests.forEach(
+                function(request) {
+
+                    const data =
+                        request.data || {};
+
+                    const id =
+                        request.id ||
+                        "";
+
+
+                    const email =
+                        data.email ||
+                        "-";
+
+
+                    const uid =
+                        data.uid ||
+                        "-";
+
+
+                    const permission =
+                        data.permission ||
+                        "-";
+
+
+                    const page =
+                        data.page ||
+                        "-";
+
+
+                    const status =
+                        data.status ||
+                        "-";
+
+
+                    const createdAt =
+                        formatCreatedAt(
+                            data.createdAt
+                        );
+
+
+                    const statusClass =
+                        getRequestStatusClass(
+                            status
+                        );
+
+
+                    const tr =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    tr.innerHTML = `
+
+                        <td>
+                            ${escapeHtml(
+                                email
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                uid
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                permission
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                page
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span class="
+                                status
+                                ${statusClass}
+                            ">
+
+                                ${escapeHtml(
+                                    String(status).toUpperCase()
+                                )}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                createdAt
+                            )}
+                        </td>
+                        <td>
+                            ${
+                                String(status).toUpperCase() === "PENDING"
+                                    ? `
+                                        <button
+                                            onclick="approveAccessRequest('${escapeHtml(id)}','${escapeHtml(email)}','${escapeHtml(permission)}')"
+                                            style="margin-right:6px;padding:6px 10px;border:0;border-radius:5px;background:#007367;color:white;cursor:pointer;"
+                                        >
+                                            Approve
+                                        </button>
+
+                                        <button
+                                            onclick="rejectAccessRequest('${escapeHtml(id)}')"
+                                            style="padding:6px 10px;border:0;border-radius:5px;background:#b42318;color:white;cursor:pointer;"
+                                        >
+                                            Reject
+                                        </button>
+                                    `
+                                    : String(status).toUpperCase() === "APPROVED"
+                                        ? `
+                                            <button
+                                                onclick="revokeAccessRequest('${escapeHtml(email)}','${escapeHtml(permission)}','${escapeHtml(id)}')"
+                                                style="padding:6px 10px;border:0;border-radius:5px;background:#8a1c1c;color:white;cursor:pointer;"
+                                            >
+                                                Revoke
+                                            </button>
+                                        `
+                                        : "—"
+                            }
+                        </td>
+
+                    `;
+
+                    tbody.appendChild(
+                        tr
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           APPROVE / REJECT ACCESS REQUEST
+           ===================================================== */
+
+        window.revokeAccessRequest = async function revokeAccessRequest(
+            email,
+            permission,
+            requestId
+        ) {
+
+            try {
+
+                const confirmed =
+                    confirm(
+                        "Revoke " +
+                        permission +
+                        " access from " +
+                        email +
+                        "?"
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+                const userRef =
+                    doc(
+                        db,
+                        "authorizedUsers",
+                        email
+                    );
+
+                await updateDoc(
+                    userRef,
+                    {
+                        permissions:
+                            arrayRemove(permission)
+                    }
+                );
+
+                if (requestId) {
+
+                    await updateDoc(
+                        doc(
+                            db,
+                            "accessRequests",
+                            requestId
+                        ),
+                        {
+                            status: "REVOKED"
+                        }
+                    );
+
+                }
+
+                alert(
+                    "Access revoked successfully for " +
+                    email
+                );
+
+                await loadAuthorizedUsers();
+                await loadAccessRequests();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error revoking access:",
+                    error
+                );
+
+                alert(
+                    "Failed to revoke access. " +
+                    error.message
+                );
+
+            }
+
+        };
+
+        window.approveAccessRequest = async function approveAccessRequest(
+            requestId,
+            email,
+            permission
+        ) {
+
+            try {
+
+                const userRef =
+                    doc(
+                        db,
+                        "authorizedUsers",
+                        email
+                    );
+
+                await setDoc(
+                    userRef,
+                    {
+                        email: email,
+                        permissions:
+                            arrayUnion(permission),
+                        active: true
+                    },
+                    { merge: true }
+                );
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "accessRequests",
+                        requestId
+                    ),
+                    {
+                        status: "APPROVED"
+                    }
+                );
+
+                alert(
+                    "Access approved successfully for " +
+                    email
+                );
+
+                await loadAuthorizedUsers();
+                await loadAccessRequests();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error approving access request:",
+                    error
+                );
+
+                alert(
+                    "Failed to approve access request. Check the console for details."
+                );
+
+            }
+
+        }
+
+
+        window.rejectAccessRequest = async function rejectAccessRequest(
+            requestId
+        ) {
+
+            try {
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "accessRequests",
+                        requestId
+                    ),
+                    {
+                        status: "REJECTED"
+                    }
+                );
+
+                alert(
+                    "Access request rejected."
+                );
+
+                await loadAccessRequests();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Error rejecting access request:",
+                    error
+                );
+
+                alert(
+                    "Failed to reject access request. Check the console for details."
+                );
+
+            }
+
+        }
+
+        /* =====================================================
+           REQUEST STATUS CLASS
+           ===================================================== */
+
+        function getRequestStatusClass(
+            status
+        ) {
+
+            const normalized =
+                String(
+                    status || ""
+                )
+                .trim()
+                .toUpperCase();
+
+
+            if (
+                normalized === "PENDING"
+            ) {
+
+                return "status-pending";
+
+            }
+
+
+            if (
+                normalized === "APPROVED"
+            ) {
+
+                return "status-approved";
+
+            }
+
+
+            if (
+                normalized === "REJECTED"
+            ) {
+
+                return "status-rejected";
+
+            }
+
+
+            return "";
+
+        }
+
+
+        /* =====================================================
+           FORMAT CREATED AT
+           ===================================================== */
+
+        function formatCreatedAt(
+            value
+        ) {
+
+            if (!value) {
+
+                return "-";
+
+            }
+
+
+            try {
+
+                if (
+                    typeof value.toDate ===
+                    "function"
+                ) {
+
+                    return value
+                        .toDate()
+                        .toLocaleString();
+
+                }
+
+
+                if (
+                    value instanceof Date
+                ) {
+
+                    return value.toLocaleString();
+
+                }
+
+
+                if (
+                    typeof value === "string" ||
+                    typeof value === "number"
+                ) {
+
+                    const date =
+                        new Date(value);
+
+
+                    if (
+                        !Number.isNaN(
+                            date.getTime()
+                        )
+                    ) {
+
+                        return date.toLocaleString();
+
+                    }
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.warn(
+                    "Unable to format createdAt:",
+                    error
+                );
+
+            }
+
+
+            return String(value);
+
+        }
+
+
+        /* =====================================================
+           GET FIELD VALUE
+           ===================================================== */
+
+        function getField(
+            data,
+            modernName,
+            legacyName
+        ) {
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    data,
+                    modernName
+                )
+            ) {
+
+                return data[modernName];
+
+            }
+
+
+            if (
+                legacyName &&
+                Object.prototype.hasOwnProperty.call(
+                    data,
+                    legacyName
+                )
+            ) {
+
+                return data[legacyName];
+
+            }
+
+
+            return null;
+
+        }
+
+
+        /* =====================================================
+           RENDER AUTHORIZED USERS
+           ===================================================== */
+
+        function renderAuthorizedUsers(
+            users
+        ) {
+
+            const tbody =
+                document.getElementById(
+                    "authorizedUsersTableBody"
+                );
+
+
+            if (!tbody) {
+
+                return;
+
+            }
+
+
+            tbody.innerHTML = "";
+
+
+            if (
+                users.length === 0
+            ) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                No authorized users found.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            users.forEach(
+                function(user) {
+
+                    const data =
+                        user.data || {};
+
+
+                    const email =
+                        data.email ||
+                        user.id ||
+                        "-";
+
+
+                    const role =
+                        data.role ||
+                        "-";
+
+
+                    const permissionSet =
+                        data.permissionSet ||
+                        "-";
+
+
+                    const permissions =
+                        Array.isArray(
+                            data.permissions
+                        )
+                        ? data.permissions.join(", ")
+                        : "Permissions are defined by the assigned permission set.";
+
+
+                    const active =
+                        getField(
+                            data,
+                            "active",
+                            "Active"
+                        );
+
+
+                    const isActive =
+                        active === true;
+
+
+                    const tr =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    tr.innerHTML = `
+
+                        <td>
+                            ${escapeHtml(
+                                email
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                role
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                permissionSet
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                permissions
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span class="
+                                status
+                                ${isActive
+                                    ? "status-active"
+                                    : "status-inactive"}
+                            ">
+
+                                ${isActive
+                                    ? "ACTIVE"
+                                    : "INACTIVE"}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="btn-manage"
+                                data-user-id="${escapeHtml(
+                                    user.id
+                                )}">
+
+                                Manage
+
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    const manageButton =
+                        tr.querySelector(
+                            ".btn-manage"
+                        );
+
+
+                    if (manageButton) {
+
+                        manageButton.addEventListener(
+                            "click",
+                            function() {
+
+                                openManagementModal(
+                                    user
+                                );
+
+                            }
+                        );
+
+                    }
+
+
+                    tbody.appendChild(
+                        tr
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+           ===================================================== */
+
+        function updateSummaryCards(
+            users
+        ) {
+
+            const total =
+                users.length;
+
+
+            let active = 0;
+
+
+            users.forEach(
+                function(user) {
+
+                    const data =
+                        user.data || {};
+
+
+                    const value =
+                        getField(
+                            data,
+                            "active",
+                            "Active"
+                        );
+
+
+                    if (
+                        value === true
+                    ) {
+
+                        active++;
+
+                    }
+
+                }
+            );
+
+
+            const inactive =
+                total - active;
+
+
+            document.getElementById(
+                "totalUsers"
+            ).textContent =
+                total;
+
+
+            document.getElementById(
+                "activeUsers"
+            ).textContent =
+                active;
+
+
+            document.getElementById(
+                "inactiveUsers"
+            ).textContent =
+                inactive;
+
+        }
+
+
+        /* =====================================================
+           UPDATE PENDING REQUEST COUNT
+           ===================================================== */
+
+        function updatePendingRequests(
+            requests
+        ) {
+
+            const pending =
+                requests.filter(
+                    function(request) {
+
+                        const status =
+                            String(
+                                request.data?.status || ""
+                            )
+                            .trim()
+                            .toUpperCase();
+
+
+                        return status === "PENDING";
+
+                    }
+                ).length;
+
+
+            const element =
+                document.getElementById(
+                    "pendingRequests"
+                );
+
+
+            if (element) {
+
+                element.textContent =
+                    pending;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           OPEN MANAGEMENT MODAL
+           ===================================================== */
+
+        function openManagementModal(
+            user
+        ) {
+
+            const data =
+                user.data || {};
+
+
+            const email =
+                data.email ||
+                user.id ||
+                "-";
+
+
+            const role =
+                data.role ||
+                "-";
+
+
+            const permissionSet =
+                data.permissionSet ||
+                "-";
+
+
+            const active =
+                getField(
+                    data,
+                    "active",
+                    "Active"
+                );
+
+
+            const uid =
+                data.uid ||
+                "-";
+
+
+            document.getElementById(
+                "manageEmail"
+            ).textContent =
+                email;
+
+
+            document.getElementById(
+                "manageRole"
+            ).textContent =
+                role;
+
+
+            document.getElementById(
+                "managePermissionSet"
+            ).textContent =
+                permissionSet;
+
+
+            document.getElementById(
+                "manageActive"
+            ).textContent =
+                active === true
+                    ? "TRUE"
+                    : active === false
+                        ? "FALSE"
+                        : "-";
+
+
+            document.getElementById(
+                "manageUID"
+            ).textContent =
+                uid;
+
+
+            const legacyContainer =
+                document.getElementById(
+                    "legacyFieldsContainer"
+                );
+
+
+            legacyContainer.innerHTML = "";
+
+
+            const modernFields = [
+                "email",
+                "role",
+                "permissionSet",
+                "active",
+                "uid"
+            ];
+
+
+            const legacyKeys =
+                Object.keys(data)
+                    .filter(
+                        function(key) {
+
+                            return !modernFields.includes(
+                                key
+                            );
+
+                        }
+                    );
+
+
+            if (
+                legacyKeys.length === 0
+            ) {
+
+                legacyContainer.innerHTML =
+                    "<div class='legacy-field'>No additional legacy fields.</div>";
+
+            }
+
+            else {
+
+                legacyKeys.forEach(
+                    function(key) {
+
+                        const value =
+                            data[key];
+
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        div.className =
+                            "legacy-field";
+
+
+                        let displayValue;
+
+
+                        if (
+                            Array.isArray(
+                                value
+                            )
+                        ) {
+
+                            displayValue =
+                                value.join(
+                                    ", "
+                                );
+
+                        }
+
+                        else if (
+                            typeof value ===
+                            "object" &&
+                            value !== null
+                        ) {
+
+                            displayValue =
+                                JSON.stringify(
+                                    value
+                                );
+
+                        }
+
+                        else {
+
+                            displayValue =
+                                String(
+                                    value
+                                );
+
+                        }
+
+
+                        div.innerHTML =
+                            "<strong>" +
+                            escapeHtml(
+                                key
+                            ) +
+                            ":</strong> " +
+                            escapeHtml(
+                                displayValue
+                            );
+
+
+                        legacyContainer.appendChild(
+                            div
+                        );
+
+                    }
+                );
+
+            }
+
+
+            document.getElementById(
+                "managementModalOverlay"
+            ).classList.add(
+                "show"
+            );
+
+        }
+
+
+        /* =====================================================
+           CLOSE MODAL
+           ===================================================== */
+
+        function closeManagementModal() {
+
+            document.getElementById(
+                "managementModalOverlay"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+        document.getElementById(
+            "closeManagementModal"
+        ).addEventListener(
+            "click",
+            closeManagementModal
+        );
+
+
+        document.getElementById(
+            "closeManagementButton"
+        ).addEventListener(
+            "click",
+            closeManagementModal
+        );
+
+
+        document.getElementById(
+            "managementModalOverlay"
+        ).addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeManagementModal();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           SEARCH
+           ===================================================== */
+
+        document.getElementById(
+            "userSearch"
+        ).addEventListener(
+            "input",
+            function() {
+
+                const search =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const filtered =
+                    authorizedUsers.filter(
+                        function(user) {
+
+                            const data =
+                                user.data || {};
+
+
+                            const text =
+                                JSON.stringify(
+                                    data
+                                ).toLowerCase();
+
+
+                            return text.includes(
+                                search
+                            );
+
+                        }
+                    );
+
+
+                renderAuthorizedUsers(
+                    filtered
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           REFRESH USERS
+           ===================================================== */
+
+        document.getElementById(
+            "refreshUsersButton"
+        ).addEventListener(
+            "click",
+            loadAuthorizedUsers
+        );
+
+
+        /* =====================================================
+           REFRESH ACCESS REQUESTS
+           ===================================================== */
+
+        document.getElementById(
+            "refreshRequestsButton"
+        ).addEventListener(
+            "click",
+            loadAccessRequests
+        );
+
+
+        /* =====================================================
+           ESCAPE HTML
+           ===================================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIAL LOAD
+           ===================================================== */
+
+        loadAuthorizedUsers();
+
+        loadAccessRequests();
+
+    </script>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

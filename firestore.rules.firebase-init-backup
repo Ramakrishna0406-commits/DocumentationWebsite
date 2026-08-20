@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // =========================================================
+    // LOGIN HISTORY
+    // =========================================================
+
+    match /loginHistory/{document} {
+
+      allow create: if
+        request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.matches('.*@gitam\\.edu$')
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.uid == request.auth.uid;
+
+      allow read: if
+        request.auth != null
+        && request.auth.token.email == 'rkolluri@gitam.edu';
+
+      allow update, delete: if false;
+    }
+
+
+    // =========================================================
+    // AUTHORIZATION
+    // =========================================================
+
+    match /authorization/{uid} {
+
+      allow read: if
+        request.auth != null
+        && request.auth.uid == uid;
+
+      allow create, update, delete: if false;
+    }
+
+
+    // =========================================================
+    // AUTHORIZED USERS
+    // =========================================================
+
+    match /authorizedUsers/{email} {
+
+      allow read: if
+        request.auth != null
+        && request.auth.token.email == email;
+
+      allow create, update, delete: if false;
+    }
+
+
+    // =========================================================
+    // EVERYTHING ELSE
+    // =========================================================
+
+    match /{document=**} {
+
+      allow read, write: if false;
+    }
+  }
+}

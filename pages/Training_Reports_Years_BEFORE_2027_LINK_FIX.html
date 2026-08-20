@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DATA PULSE — Training Reports</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+h1 {
+    margin-bottom: 35px;
+    color: #007367;
+}
+
+.year-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.year-button {
+    border: none;
+    background: #007367;
+    color: white;
+    padding: 18px 35px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.year-button:hover {
+    background: #005c52;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>TRAINING REPORTS</h1>
+
+    <div class="year-buttons">
+
+        <button class="year-button"
+                onclick="window.open('Training_Reports_2026.html', '_blank');">
+            2026
+        </button>
+
+        <button class="year-button"
+                onclick="window.open('2027.HTML', '_blank');">
+            2027
+        </button>
+
+        <button class="year-button"
+                onclick="window.open('2028.HTML', '_blank');">
+            2028
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+

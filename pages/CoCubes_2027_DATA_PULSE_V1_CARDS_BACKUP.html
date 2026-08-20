@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CoCubes 2027 - DATA PULSE</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        background: #f5f7f7;
+        color: #222;
+    }
+
+    .header {
+        background: #007367;
+        color: white;
+        padding: 22px 30px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .header p {
+        margin: 6px 0 0;
+        opacity: 0.9;
+    }
+
+    .container {
+        padding: 30px;
+        max-width: 1400px;
+        margin: auto;
+    }
+
+    .overall-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .overall-card h2 {
+        margin-top: 0;
+        color: #007367;
+    }
+
+    .student-count {
+        font-size: 42px;
+        font-weight: bold;
+        color: #007367;
+    }
+
+    .exam-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .exam-card {
+        background: white;
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .exam-card h3 {
+        color: #007367;
+        margin-top: 0;
+        min-height: 48px;
+    }
+
+    .status-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .status-row:last-child {
+        border-bottom: none;
+    }
+
+    .status-name {
+        font-weight: 600;
+    }
+
+    .status-count {
+        font-weight: bold;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 50px;
+        color: #666;
+    }
+
+    .error {
+        background: #fff0f0;
+        color: #a00;
+        padding: 20px;
+        border-radius: 8px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>CoCubes 2027 Assessment Dashboard</h1>
+    <p>DATA PULSE</p>
+</div>
+
+<div class="container">
+
+    <div id="overall" class="overall-card">
+        <h2>Total Students</h2>
+        <div id="studentCount" class="student-count">Loading...</div>
+    </div>
+
+    <div id="dashboard">
+        <div class="loading">Loading CoCubes 2027 data...</div>
+    </div>
+
+</div>
+
+<script>
+
+const JSON_FILE = "../data/cocubes-2027.json";
+
+const EXAMS = [
+    "Domain",
+    "English Usage",
+    "Analytical Reasoning",
+    "Quantitative Ability",
+    "Computer Fundamentals",
+    "Written English",
+    "Coding"
+];
+
+const STATUS = [
+    "Good to Go",
+    "Need Training",
+    "Need Practice"
+];
+
+async function loadDashboard() {
+
+    try {
+
+        const response = await fetch(JSON_FILE);
+
+        if (!response.ok) {
+            throw new Error("Unable to load cocubes-2027.json");
+        }
+
+        const students = await response.json();
+
+        document.getElementById("studentCount").textContent =
+            students.length.toLocaleString();
+
+        const dashboard = document.getElementById("dashboard");
+
+        dashboard.innerHTML = "";
+
+        const grid = document.createElement("div");
+        grid.className = "exam-grid";
+
+        EXAMS.forEach(exam => {
+
+            const counts = {
+                "Good to Go": 0,
+                "Need Training": 0,
+                "Need Practice": 0
+            };
+
+            students.forEach(student => {
+
+                const value = student[exam];
+
+                if (counts.hasOwnProperty(value)) {
+                    counts[value]++;
+                }
+
+            });
+
+            const card = document.createElement("div");
+            card.className = "exam-card";
+
+            card.innerHTML = `
+                <h3>${exam}</h3>
+
+                <div class="status-row">
+                    <span class="status-name">Good to Go</span>
+                    <span class="status-count">${counts["Good to Go"].toLocaleString()}</span>
+                </div>
+
+                <div class="status-row">
+                    <span class="status-name">Need Training</span>
+                    <span class="status-count">${counts["Need Training"].toLocaleString()}</span>
+                </div>
+
+                <div class="status-row">
+                    <span class="status-name">Need Practice</span>
+                    <span class="status-count">${counts["Need Practice"].toLocaleString()}</span>
+                </div>
+            `;
+
+            grid.appendChild(card);
+
+        });
+
+        dashboard.appendChild(grid);
+
+    } catch (error) {
+
+        document.getElementById("dashboard").innerHTML = `
+            <div class="error">
+                <strong>Error loading dashboard:</strong><br>
+                ${error.message}
+            </div>
+        `;
+
+        console.error(error);
+
+    }
+
+}
+
+loadDashboard();
+
+</script>
+
+</body>
+</html>
+
+
+
+

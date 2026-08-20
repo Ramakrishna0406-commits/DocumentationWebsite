@@ -1,0 +1,164 @@
+/* =====================================
+   TREE MENU
+===================================== */
+
+#treeMenu{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+/* =====================================
+   FOLDER
+===================================== */
+
+.folder{
+    position:relative;
+    overflow:hidden;
+    padding:12px 15px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    color:#ffffff;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border-radius:8px;
+    background:#007367;
+    margin-bottom:6px;
+    transition:all .45s ease;
+}
+
+/* Folder Arrow */
+
+.folder::before{
+    content:"❯";
+    font-size:14px;
+    width:18px;
+    transition:all .4s ease;
+}
+
+/* Open Folder */
+
+.folder.open::before{
+    content:"❮";
+}
+
+/* Water Hover Effect */
+
+.folder::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:120%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,.35) 50%,
+        rgba(255,255,255,0) 100%
+    );
+    transition:left .8s ease;
+}
+
+.folder:hover::after{
+    left:120%;
+}
+
+.folder:hover{
+    transform:translateX(6px);
+    box-shadow:0 8px 18px rgba(0,115,103,.35);
+}
+
+/* =====================================
+   CHILD MENU
+===================================== */
+
+.children{
+    list-style:none;
+    padding-left:22px;
+    display:none;
+    margin-top:5px;
+    border-left:2px solid #007367;
+}
+
+.children.show{
+    display:block;
+}
+
+/* =====================================
+   PAGE ITEMS
+===================================== */
+
+.page{
+    position:relative;
+    overflow:hidden;
+    padding:10px 12px;
+    cursor:pointer;
+    font-size:14px;
+    color:#444;
+    border-radius:8px;
+    transition:all .45s ease;
+    margin:4px 0;
+}
+
+/* Water Hover */
+
+.page::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:120%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        rgba(0,115,103,0) 0%,
+        rgba(0,115,103,.15) 50%,
+        rgba(0,115,103,0) 100%
+    );
+    transition:left .8s ease;
+}
+
+.page:hover::after{
+    left:120%;
+}
+
+.page:hover{
+    background:#007367;
+    color:#ffffff;
+    transform:translateX(5px);
+    box-shadow:0 5px 15px rgba(0,115,103,.25);
+}
+
+/* =====================================
+   ACTIVE PAGE
+===================================== */
+
+.page.active{
+    background:#ffffff;
+    color:#000000;
+    font-weight:600;
+    border-left:4px solid #007367;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+/* =====================================
+   COLLAPSED SIDEBAR
+===================================== */
+
+.sidebar:not(:hover) .folder,
+.sidebar:not(:hover) .page{
+    font-size:0;
+}
+
+.sidebar:not(:hover) .folder::before{
+    font-size:18px;
+}
+
+.sidebar:hover .folder,
+.sidebar:hover .page{
+    font-size:14px;
+    transition:.3s;
+}

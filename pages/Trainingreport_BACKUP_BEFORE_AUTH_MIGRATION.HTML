@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Training Report</title>
+
+
+<style>
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    margin: 20px;
+
+    padding: 0;
+
+    background: #ffffff;
+
+}
+
+
+/* =====================================================
+   IMAGE CONTAINER
+===================================================== */
+
+.image-container {
+
+    display: flex;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+
+}
+
+
+/* =====================================================
+   IMAGE BOX
+===================================================== */
+
+.image-box {
+
+    text-align: left;
+
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.image-box img {
+
+    width: 400px;
+
+    height: 300px;
+
+    cursor: pointer;
+
+    display: block;
+
+}
+
+
+/* =====================================================
+   COMPANY SPECIFIC TRAINING BOX
+===================================================== */
+
+.company-training-box {
+
+    width: 400px;
+
+    height: 300px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    background: #007367;
+
+    color: #ffffff;
+
+    border-radius: 4px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+/* =====================================================
+   COMPANY SPECIFIC TRAINING HOVER
+===================================================== */
+
+.company-training-box:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.18);
+
+    background: #005f55;
+
+}
+
+
+/* =====================================================
+   COMPANY TITLE
+===================================================== */
+
+.company-training-title {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    margin-bottom: 12px;
+
+}
+
+
+/* =====================================================
+   COMPANY SUBTITLE
+===================================================== */
+
+.company-training-subtitle {
+
+    font-size: 16px;
+
+    opacity: 0.95;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TRAINING REPORT OPTIONS
+===================================================== -->
+
+<div class="image-container">
+
+
+    <!-- =================================================
+         2027
+    ================================================== -->
+
+    <div class="image-box">
+
+        <img
+
+            id="img2027"
+
+            src="../images/img12off.jpg"
+
+            alt="Training Report 2027"
+
+        >
+
+    </div>
+
+
+
+    <!-- =================================================
+         2028
+    ================================================== -->
+
+    <div class="image-box">
+
+        <img
+
+            id="img2028"
+
+            src="../images/img13off.jpg"
+
+            alt="Training Report 2028"
+
+        >
+
+    </div>
+
+
+
+    <!-- =================================================
+         COMPANY SPECIFIC TRAINING
+    ================================================== -->
+
+    <div class="image-box">
+
+        <div
+
+            id="companyTraining"
+
+            class="company-training-box"
+
+            title="Company Specific Training"
+
+        >
+
+            <div class="company-training-title">
+
+                Company Specific Training
+
+            </div>
+
+
+            <div class="company-training-subtitle">
+
+                TCS and Other Companies
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   2027
+===================================================== */
+
+const img2027 =
+    document.getElementById(
+        "img2027"
+    );
+
+
+/*
+ * IMPORTANT:
+ *
+ * DO NOT use:
+ *
+ * window.parent.loadPage()
+ *
+ * because loadPage() starts authorization.
+ *
+ * 2027 is an INTERNAL PAGE of Training Reports.
+ *
+ * Therefore it opens directly.
+ */
+
+img2027.addEventListener(
+
+    "click",
+
+    function () {
+
+        console.log(
+            "Opening Training Report 2027"
+        );
+
+
+        window.location.href =
+            "2027.HTML";
+
+    }
+
+);
+
+
+
+/* =====================================================
+   2027 HOVER
+===================================================== */
+
+img2027.addEventListener(
+
+    "mouseenter",
+
+    function () {
+
+        img2027.src =
+            "../images/img12on.jpg";
+
+    }
+
+);
+
+
+img2027.addEventListener(
+
+    "mouseleave",
+
+    function () {
+
+        img2027.src =
+            "../images/img12off.jpg";
+
+    }
+
+);
+
+
+
+/* =====================================================
+   2028
+===================================================== */
+
+const img2028 =
+    document.getElementById(
+        "img2028"
+    );
+
+
+/*
+ * IMPORTANT:
+ *
+ * 2028 is also an INTERNAL PAGE.
+ *
+ * Therefore it opens directly.
+ */
+
+img2028.addEventListener(
+
+    "click",
+
+    function () {
+
+        console.log(
+            "Opening Training Report 2028"
+        );
+
+
+        window.location.href =
+            "2028.HTML";
+
+    }
+
+);
+
+
+
+/* =====================================================
+   2028 HOVER
+===================================================== */
+
+img2028.addEventListener(
+
+    "mouseenter",
+
+    function () {
+
+        img2028.src =
+            "../images/img13on.jpg";
+
+    }
+
+);
+
+
+img2028.addEventListener(
+
+    "mouseleave",
+
+    function () {
+
+        img2028.src =
+            "../images/img13off.jpg";
+
+    }
+
+);
+
+
+
+/* =====================================================
+   COMPANY SPECIFIC TRAINING
+===================================================== */
+
+const companyTraining =
+    document.getElementById(
+        "companyTraining"
+    );
+
+
+/*
+ * IMPORTANT:
+ *
+ * Company Specific Training is an INTERNAL PAGE
+ * of Training Reports.
+ *
+ * Therefore it opens directly.
+ *
+ * Authorization has already been completed at
+ * Training_Reports.html level.
+ */
+
+companyTraining.addEventListener(
+
+    "click",
+
+    function () {
+
+        console.log(
+            "Opening Company Specific Training"
+        );
+
+
+        window.location.href =
+            "Company_Specific_Training.html";
+
+    }
+
+);
+
+
+</script>
+
+
+</body>
+
+</html>

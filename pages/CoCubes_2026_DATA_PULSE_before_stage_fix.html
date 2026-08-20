@@ -1,0 +1,259 @@
+﻿<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DATA PULSE - CoCubes</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f5f7f7;color:#18312f}.header{background:#fff;border-bottom:3px solid #007367;padding:18px 24px 0}.brand{text-align:center;color:#007367;font-size:25px;font-weight:bold;margin-bottom:16px}.tabs{display:flex;justify-content:center;gap:14px}.tab{padding:12px 28px;background:#5b9bd5;color:white;border:0;border-radius:7px 7px 0 0;font-weight:bold}.tab.active{background:#3f7fb7}.container{max-width:1400px;margin:auto;padding:22px}.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:18px}h2{color:#007367;margin:0 0 15px}.filters{display:flex;gap:15px;align-items:end;flex-wrap:wrap}.filter{width:220px}.filter label{display:block;font-weight:bold;font-size:13px;margin-bottom:6px;color:#555}.filter select{display:block!important;width:100%!important;height:42px!important;padding:8px 12px!important;background:#fff!important;color:#222!important;border:1px solid #999!important;border-radius:6px!important;font-size:14px!important}.btn{height:42px;padding:0 17px;background:#007367;color:#fff;border:0;border-radius:6px;font-weight:bold;cursor:pointer}.btn.blue{background:#5b9bd5}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.kpi{background:white;padding:15px;border-left:4px solid #007367;border-radius:8px}.kpi small{color:#666}.kpi b{display:block;color:#007367;font-size:25px;margin-top:5px}.chart{height:430px}.table{overflow:auto}table{border-collapse:collapse;width:100%;min-width:850px}th,td{border:1px solid #222;padding:8px;font-size:13px;text-align:center}th{background:#8b0000;color:#fff}td:first-child{text-align:left;font-weight:bold}.note{background:#eef7f5;border-left:4px solid #007367;padding:11px;margin-bottom:15px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}.filter{width:100%}}</style></head>
+<body><header class="header"><div class="brand">DATA PULSE â€” CoCubes</div><div class="tabs"><button class="tab active">CoCubes</button><button class="tab">Training Performance</button><button class="tab" onclick="window.location.href='Company_Specific_Training.html';">Company Specific Training</button></div></header>
+<main class="container">
+<div class="panel"><h2>CoCubes Performance</h2><div class="note"></div>
+<div class="filters">
+<div class="filter"><label for="campusFilter">Campus</label><select id="campusFilter"><option value="">All Campuses</option></select></div>
+<div class="filter"><label for="courseFilter">Course</label><select id="courseFilter"><option value="">All Courses</option></select></div>
+<div class="filter"><label for="deptFilter">Department</label><select id="deptFilter"><option value="">All Departments</option></select></div>
+<button class="btn" id="resetBtn">Reset</button><button class="btn blue" id="studentsBtn">View Student Details</button>
+</div></div>
+<div class="kpis"><div class="kpi"><small>Students</small><b id="studentCount">0</b></div><div class="kpi"><small>Good to Go</small><b id="goodCount">0</b></div><div class="kpi"><small>Need Practice</small><b id="practiceCount">0</b></div><div class="kpi"><small>Need Training</small><b id="trainingCount">0</b></div></div>
+<div class="panel"><h2 id="chartTitle">All Campuses â€” All Courses</h2><div class="chart"><canvas id="chartCanvas"></canvas></div></div>
+<div class="panel"><h2>CoCubes Summary</h2><div class="table"><table><thead><tr><th>Parameter</th><th>Good to Go</th><th>Need Practice</th><th>Need Training</th><th>Total</th></tr></thead><tbody id="summaryBody"></tbody></table></div></div>
+</main>
+<script>
+let DATA=[];
+const campusEl=document.getElementById("campusFilter");
+const courseEl=document.getElementById("courseFilter");
+const deptEl=document.getElementById("deptFilter");
+const params=["Domain","English Usage","Analytical Reasoning","Quantitative Aptitude","Coding","Written English Test","Computer Fundamentals"];
+let myChart=null;
+function clean(v){return v==null?"":String(v).trim();}
+function unique(values){return [...new Set(values.map(clean).filter(Boolean))].sort();}
+function addOptions(el,values,allText){unique(values).forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;el.appendChild(o);});}
+function filteredRows(){const ca=campusEl.value,co=courseEl.value,de=deptEl.value;return DATA.filter(r=>(!ca||clean(r.Campus)===ca)&&(!co||clean(r.Course)===co)&&(!de||clean(r.Dept)===de));}
+function countStatus(rows,p){let a={good:0,practice:0,training:0};rows.forEach(r=>{const v=clean(r[p]);if(v==="Good to Go")a.good++;if(v==="Need Practice")a.practice++;if(v==="Need Training")a.training++;});return a;}
+function update(){
+    const rows = filteredRows();
+
+    // =====================================================
+    // KPI COUNTS
+    // =====================================================
+
+    document.getElementById("studentCount").textContent = rows.length;
+
+    let total = {
+        good: 0,
+        practice: 0,
+        training: 0
+    };
+
+    const vals = params.map(function(parameter){
+        const result = countStatus(rows, parameter);
+
+        total.good += result.good;
+        total.practice += result.practice;
+        total.training += result.training;
+
+        return result;
+    });
+
+    document.getElementById("goodCount").textContent = total.good;
+    document.getElementById("practiceCount").textContent = total.practice;
+    document.getElementById("trainingCount").textContent = total.training;
+
+
+    // =====================================================
+    // CHART TITLE
+    // =====================================================
+
+    const ca = campusEl.value || "All Campuses";
+    const co = courseEl.value || "All Courses";
+    const de = deptEl.value;
+
+    document.getElementById("chartTitle").textContent =
+        ca + " â€” " + co + (de ? " â€” " + de : "");
+
+
+    // =====================================================
+    // DESTROY PREVIOUS CHART
+    // =====================================================
+
+    if (myChart) {
+        myChart.destroy();
+    }
+
+
+    // =====================================================
+    // CREATE BAR CHART WITH DATA LABELS
+    // =====================================================
+
+    myChart = new Chart(
+        document.getElementById("chartCanvas"),
+        {
+            type: "bar",
+
+            data: {
+                labels: params,
+
+                datasets: [
+                    {
+                        label: "Good to Go",
+                        data: vals.map(function(x){
+                            return x.good;
+                        }),
+                        backgroundColor: "#5b9bd5"
+                    },
+
+                    {
+                        label: "Need Practice",
+                        data: vals.map(function(x){
+                            return x.practice;
+                        }),
+                        backgroundColor: "#f2b134"
+                    },
+
+                    {
+                        label: "Need Training",
+                        data: vals.map(function(x){
+                            return x.training;
+                        }),
+                        backgroundColor: "#d9534f"
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                layout: {
+                    padding: {
+                        top: 28
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        position: "top"
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            },
+
+            // =================================================
+            // DATA LABEL PLUGIN
+            // =================================================
+
+            plugins: [
+                {
+                    id: "barValueLabels",
+
+                    afterDatasetsDraw: function(chart) {
+                        const ctx = chart.ctx;
+
+                        chart.data.datasets.forEach(
+                            function(dataset, datasetIndex) {
+
+                                const meta =
+                                    chart.getDatasetMeta(datasetIndex);
+
+                                meta.data.forEach(
+                                    function(bar, index) {
+
+                                        const value =
+                                            dataset.data[index];
+
+                                        // Do not show zero or empty values.
+                                        if (
+                                            value === 0 ||
+                                            value === null ||
+                                            value === undefined ||
+                                            value === ""
+                                        ) {
+                                            return;
+                                        }
+
+                                        ctx.save();
+
+                                        ctx.font = "bold 11px Arial";
+                                        ctx.fillStyle = "#18312f";
+                                        ctx.textAlign = "center";
+                                        ctx.textBaseline = "bottom";
+
+                                        // Display the value above the bar.
+                                        ctx.fillText(
+                                            Number(value).toLocaleString("en-IN"),
+                                            bar.x,
+                                            bar.y - 6
+                                        );
+
+                                        ctx.restore();
+                                    }
+                                );
+                            }
+                        );
+                    }
+                }
+            ]
+        }
+    );
+
+
+    // =====================================================
+    // SUMMARY TABLE
+    // =====================================================
+
+    document.getElementById("summaryBody").innerHTML =
+        params.map(function(parameter, index) {
+            const x = vals[index];
+            const tot = x.good + x.practice + x.training;
+
+            return "<tr>" +
+                "<td>" + parameter + "</td>" +
+                "<td>" + x.good + "</td>" +
+                "<td>" + x.practice + "</td>" +
+                "<td>" + x.training + "</td>" +
+                "<td>" + tot + "</td>" +
+                "</tr>";
+        }).join("");
+}
+
+function openStudents(){let q=[];if(campusEl.value)q.push("campus="+encodeURIComponent(campusEl.value));if(courseEl.value)q.push("course="+encodeURIComponent(courseEl.value));if(deptEl.value)q.push("dept="+encodeURIComponent(deptEl.value));window.open("CoCubes_Student_Details_V3_FIXED.html?"+q.join("&"),"_blank");}
+
+fetch("../data/cocubes-2026.json")
+    .then(function(response){
+        if(!response.ok) throw new Error("Failed to load cocubes-2026.json");
+        return response.json();
+    })
+    .then(function(rows){
+        DATA = Array.isArray(rows) ? rows : [];
+
+        console.log("2026 CoCubes records loaded:", DATA.length);
+
+        addOptions(campusEl,DATA.map(r=>r.Campus));
+        addOptions(courseEl,DATA.map(r=>r.Course));
+        addOptions(deptEl,DATA.map(r=>r.Dept));
+
+        campusEl.addEventListener("change",update);
+        courseEl.addEventListener("change",update);
+        deptEl.addEventListener("change",update);
+
+        document.getElementById("resetBtn").addEventListener("click",()=>{
+            campusEl.value="";
+            courseEl.value="";
+            deptEl.value="";
+            update();
+        });
+
+        document.getElementById("studentsBtn").addEventListener("click",openStudents);
+
+        update();
+    })
+    .catch(function(error){
+        console.error("2026 CoCubes JSON load error:",error);
+        document.getElementById("summaryBody").innerHTML =
+            "<tr><td colspan='5'>Unable to load 2026 CoCubes data.</td></tr>";
+    });
+</script></body></html>
+
+

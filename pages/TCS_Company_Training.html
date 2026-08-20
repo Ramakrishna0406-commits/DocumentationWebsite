@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCS – Company Specific Training</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f7;color:#17322f}
+.header{background:#007367;color:#fff;padding:22px 28px;display:flex;justify-content:space-between;align-items:center}
+.header h1{margin:0;font-size:24px}.header p{margin:6px 0 0;opacity:.9}
+.badge{background:#fff;color:#007367;padding:9px 15px;border-radius:20px;font-weight:700}
+.wrap{padding:22px;max-width:1500px;margin:auto}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 10px #00000012;padding:18px;margin-bottom:18px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kpi{padding:18px;border-radius:10px;background:#f7fbfa;border-left:4px solid #007367}
+.kpi small{display:block;color:#667;font-size:12px}.kpi strong{display:block;font-size:25px;margin-top:8px}
+.filters{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+label{font-size:12px;font-weight:700;color:#53615f}select,input{width:100%;margin-top:6px;padding:10px;border:1px solid #d7e1df;border-radius:7px;background:#fff}
+button{padding:10px 16px;border:0;border-radius:7px;background:#007367;color:#fff;font-weight:700;cursor:pointer}
+button.secondary{background:#e8f1ef;color:#007367}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bar-row{display:grid;grid-template-columns:230px 1fr 55px;gap:10px;align-items:center;margin:13px 0;font-size:13px}
+.bar-bg{height:16px;background:#e8eeee;border-radius:10px;overflow:hidden}.bar{height:100%;background:#007367;border-radius:10px}
+.table-wrap{overflow:auto;max-height:520px}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:10px;border-bottom:1px solid #e8eeee;text-align:left;white-space:nowrap}
+th{position:sticky;top:0;background:#eef5f3;color:#23534d}
+.score{font-weight:700}.muted{color:#7a8886}
+@media(max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div><h1>TCS – Company Specific Training</h1><p>Vizag Campus · Mock Test Performance Dashboard</p></div>
+  <div class="badge">TCS</div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <div class="filters">
+      <div><label>School</label><select id="school"></select></div>
+      <div><label>Degree</label><select id="degree"></select></div>
+      <div><label>Course</label><select id="course"></select></div>
+      <div><label>Department</label><select id="department"></select></div>
+      <div><label>Batch Name</label><select id="batchName"></select></div>
+      <div><label>Batch Number</label><select id="batchNumber"></select></div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+      <div style="flex:1"><label>Student Search</label><input id="search" placeholder="Search by name or roll number"></div>
+      <button class="secondary" onclick="resetFilters()">Reset</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><small>Students</small><strong id="students">0</strong></div>
+    <div class="kpi"><small>Average Percentage</small><strong id="avg">0%</strong></div>
+    <div class="kpi"><small>Top Performers ≥ 80%</small><strong id="top">0</strong></div>
+    <div class="kpi"><small>Batch Groups</small><strong id="batches">0</strong></div>
+    <div class="kpi"><small>Mock Tests</small><strong id="tests">12</strong></div>
+  </div>
+
+  <div class="charts">
+    <div class="card"><h3>Overall Skill Performance</h3><div id="skills"></div></div>
+    <div class="card"><h3>Mock Test Average</h3><div id="mocks"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>Student Performance</h3>
+    <div class="table-wrap">
+      <table><thead><tr>
+        <th>Roll Number</th><th>Name</th><th>School</th><th>Course</th><th>Department</th>
+        <th>Batch</th><th>Batch Number</th><th>Overall %</th><th>Candidate Total</th>
+      </tr></thead><tbody id="rows"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<script>
+let DATA=[], FILTERED=[];
+const skillNames={
+ advancedCoding:"Advanced Coding",
+ advancedQuantReasoning:"Advanced Quantitative & Reasoning",
+ numerical:"Numerical Ability",
+ reasoning:"Reasoning Ability",
+ verbal:"Verbal Ability"
+};
+const filterIds=["school","degree","course","department","batchName","batchNumber"];
+
+fetch("../data/tcs_training_data.json")
+.then(r=>r.json()).then(d=>{DATA=d.students||[]; init();})
+.catch(e=>document.body.innerHTML="<div style='padding:40px;font-family:Arial'>Unable to load TCS training data. Put <b>tcs_training_data.json</b> inside <b>data/</b>.</div>");
+
+function unique(key, list=DATA){
+ return [...new Set(list.map(x=>x[key]).filter(x=>x!==null&&x!==undefined&&x!==""))].sort();
+}
+function fill(id, values){
+ const el=document.getElementById(id);
+ el.innerHTML='<option value="">All</option>'+values.map(v=>`<option>${esc(v)}</option>`).join("");
+ el.onchange=render;
+}
+function init(){
+ filterIds.forEach(id=>fill(id,unique(id)));
+ render();
+}
+function render(){
+ FILTERED=DATA.filter(x=>{
+   for(const id of filterIds){const v=document.getElementById(id).value;if(v && String(x[id])!==v)return false;}
+   const q=document.getElementById("search").value.toLowerCase().trim();
+   return !q || String(x.name||"").toLowerCase().includes(q) || String(x.rollNumber||"").toLowerCase().includes(q);
+ });
+ updateKpis(); drawSkills(); drawMocks(); drawTable();
+}
+document.getElementById("search").addEventListener("input",render);
+
+function pct(v){return typeof v==="number"&&isFinite(v)?v:0}
+function average(arr){const a=arr.filter(v=>typeof v==="number"&&isFinite(v));return a.length?a.reduce((x,y)=>x+y,0)/a.length:0}
+function updateKpis(){
+ const p=FILTERED.map(x=>pct(x.overall?.percentage)).filter(x=>x>0);
+ document.getElementById("students").textContent=FILTERED.length.toLocaleString();
+ document.getElementById("avg").textContent=average(p).toFixed(1)+"%";
+ document.getElementById("top").textContent=p.filter(x=>x>=80).length.toLocaleString();
+ document.getElementById("batches").textContent=new Set(FILTERED.map(x=>x.batchNumber).filter(Boolean)).size;
+}
+function bar(label,value){
+ value=Math.max(0,Math.min(100,value||0));
+ return `<div class="bar-row"><div>${label}</div><div class="bar-bg"><div class="bar" style="width:${value}%"></div></div><strong>${value.toFixed(1)}%</strong></div>`;
+}
+function drawSkills(){
+ let h="";
+ for(const [key,label] of Object.entries(skillNames)){
+   h+=bar(label,average(FILTERED.map(x=>x.overall?.[key]?.percentage)));
+ }
+ document.getElementById("skills").innerHTML=h||'<span class="muted">No data</span>';
+}
+function drawMocks(){
+ const names=DATA[0]?Object.keys(DATA[0].mockTests):[];
+ document.getElementById("mocks").innerHTML=names.map(n=>{
+   const a=average(FILTERED.map(x=>pct(x.mockTests?.[n]?.percentage)).filter(v=>v>0));
+   return bar(n,a);
+ }).join("")||'<span class="muted">No data</span>';
+}
+function drawTable(){
+ document.getElementById("rows").innerHTML=FILTERED.map(x=>`<tr>
+ <td>${esc(x.rollNumber)}</td><td><b>${esc(x.name)}</b></td><td>${esc(x.school)}</td>
+ <td>${esc(x.course)}</td><td>${esc(x.department)}</td><td>${esc(x.batchName)}</td>
+ <td>${esc(x.batchNumber)}</td><td class="score">${pct(x.overall?.percentage).toFixed(1)}%</td>
+ <td>${esc(x.overall?.candidateTotal)}</td></tr>`).join("") || `<tr><td colspan="9" class="muted">No students match the selected filters.</td></tr>`;
+}
+function resetFilters(){filterIds.forEach(id=>document.getElementById(id).value="");document.getElementById("search").value="";render();}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+</script>
+</body>
+</html>

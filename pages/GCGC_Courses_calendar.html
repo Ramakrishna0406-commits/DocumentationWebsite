@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GCGC Course Calendar</title>
+
+
+<style>
+
+body{
+
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+    background:#fff;
+
+}
+
+
+h1{
+
+    color:#007367;
+    border-bottom:3px solid #007367;
+    padding-bottom:10px;
+
+}
+
+
+.image-container{
+
+    display:flex;
+    gap:30px;
+    margin-top:40px;
+
+}
+
+
+.image-box{
+
+    text-align:left;
+
+}
+
+
+.image-box img{
+
+    width:400px;
+    height:300px;
+    cursor:pointer;
+    display:block;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<h1>
+GCGC Course Calendar
+</h1>
+
+
+
+<div class="image-container">
+
+
+<div class="image-box">
+
+
+<img
+
+id="img2027"
+
+src="../images/img12off.jpg"
+
+alt="GCGC Course Calendar 2027">
+
+
+</div>
+
+
+</div>
+
+
+
+
+<script>
+
+
+// 2027 Image
+
+const img2027 = document.getElementById("img2027");
+
+
+
+// Mouse ON
+
+img2027.addEventListener("mouseenter", function(){
+
+    img2027.src="../images/img12on.jpg";
+
+});
+
+
+
+
+// Mouse OFF
+
+img2027.addEventListener("mouseleave", function(){
+
+    img2027.src="../images/img12off.jpg";
+
+});
+
+
+
+
+// Click 2027 - Open Google Sheet
+
+img2027.addEventListener("click", function(){
+
+
+    window.open(
+
+    "https://docs.google.com/spreadsheets/d/1cAqXI2FMENQ71pSgrKrEvwTIpKiyDDZMDqfi0hw4sqM/edit?usp=sharing",
+
+    "_blank"
+
+    );
+
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1091 @@
+<script>
+
+
+let DATA = [];
+
+
+const campusEl =
+    document.getElementById(
+        "campusFilter"
+    );
+
+
+const courseEl =
+    document.getElementById(
+        "courseFilter"
+    );
+
+
+const deptEl =
+    document.getElementById(
+        "deptFilter"
+    );
+
+
+const stageEl =
+    document.getElementById(
+        "stageFilter"
+    );
+
+
+const params = [
+
+    "Domain",
+
+    "English Usage",
+
+    "Analytical Reasoning",
+
+    "Quantitative Aptitude",
+
+    "Coding",
+
+    "Written English Test",
+
+    "Computer Fundamentals"
+
+];
+
+
+let myChart = null;
+
+
+/* =====================================================
+   BASIC HELPERS
+===================================================== */
+
+function clean(v){
+
+    return v == null
+        ? ""
+        : String(v).trim();
+
+}
+
+
+function unique(values){
+
+    return [
+
+        ...new Set(
+
+            values
+                .map(clean)
+                .filter(Boolean)
+
+        )
+
+    ].sort();
+
+}
+
+
+function addOptions(
+    el,
+    values
+){
+
+    unique(values).forEach(
+
+        function(v){
+
+            const o =
+                document.createElement(
+                    "option"
+                );
+
+            o.value = v;
+
+            o.textContent = v;
+
+            el.appendChild(o);
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   FILTERED DATA
+===================================================== */
+
+function filteredRows(){
+
+    const ca =
+        campusEl.value;
+
+    const co =
+        courseEl.value;
+
+    const de =
+        deptEl.value;
+
+
+    return DATA.filter(
+
+        function(r){
+
+            return (
+
+                (!ca ||
+                    clean(r.Location) === ca)
+
+                &&
+
+                (!co ||
+                    clean(r.Degree) === co)
+
+                &&
+
+                (!de ||
+                    clean(r.Department) === de)
+
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   STATUS COUNT
+===================================================== */
+
+function countStatus(
+    rows,
+    p,
+    stage
+){
+
+    let a = {
+
+        good:0,
+
+        practice:0,
+
+        training:0,
+
+        notAppeared:0
+
+    };
+
+
+    const field =
+
+        p === "Domain"
+
+            ? "Domain Test"
+
+            : p;
+
+
+    rows.forEach(
+
+        function(r){
+
+            const obj =
+                r[field];
+
+
+            const v =
+
+                obj &&
+                typeof obj === "object"
+
+                ?
+
+                clean(
+                    obj[stage]
+                )
+
+                :
+
+                clean(obj);
+
+
+            if(v === "Good to Go")
+
+                a.good++;
+
+
+            else if(v === "Need Practice")
+
+                a.practice++;
+
+
+            else if(v === "Need Training")
+
+                a.training++;
+
+
+            else if(v === "Not Appeared")
+
+                a.notAppeared++;
+
+        }
+
+    );
+
+
+    return a;
+
+}
+
+
+/* =====================================================
+   UPDATE STAGE-WISE COUNT TABLE
+===================================================== */
+
+function updateStageSummary(rows){
+
+    const stages = [
+        "Pre 1",
+        "Post 1",
+        "Post 2"
+    ];
+
+    let html = "";
+
+    stages.forEach(function(stage){
+
+        let total = {
+            good: 0,
+            practice: 0,
+            training: 0,
+            notAppeared: 0
+        };
+
+        rows.forEach(function(r){
+
+            let statuses = [];
+
+            params.forEach(function(parameter){
+
+                const field =
+                    parameter === "Domain"
+                        ? "Domain Test"
+                        : parameter;
+
+                const obj = r[field];
+
+                const value =
+                    obj &&
+                    typeof obj === "object"
+                        ? clean(obj[stage])
+                        : clean(obj);
+
+                statuses.push(value);
+            });
+
+            const allNotAppeared =
+                statuses.length > 0 &&
+                statuses.every(function(v){
+                    return v === "Not Appeared";
+                });
+
+            if(allNotAppeared){
+
+                total.notAppeared++;
+
+            }
+            else if(statuses.includes("Need Training")){
+
+                total.training++;
+
+            }
+            else if(statuses.includes("Need Practice")){
+
+                total.practice++;
+
+            }
+            else{
+
+                total.good++;
+
+            }
+
+        });
+
+        const grandTotal =
+            total.good +
+            total.practice +
+            total.training +
+            total.notAppeared;
+
+        html +=
+            "<tr>" +
+            "<td>" + stage + "</td>" +
+            "<td>" + total.good + "</td>" +
+            "<td>" + total.practice + "</td>" +
+            "<td>" + total.training + "</td>" +
+            "<td>" + total.notAppeared + "</td>" +
+            "<td>" + grandTotal + "</td>" +
+            "</tr>";
+
+    });
+
+    document.getElementById(
+        "stageSummaryBody"
+    ).innerHTML = html;
+
+}
+/* =====================================================
+   MAIN UPDATE
+===================================================== */
+
+function update(){
+
+    const rows =
+        filteredRows();
+
+
+    /* =============================================
+       STAGE-WISE COUNT TABLE
+    ============================================= */
+
+    updateStageSummary(
+        rows
+    );
+
+
+    /* =============================================
+       CURRENT SELECTED STAGE
+    ============================================= */
+
+    const vals =
+
+        params.map(
+
+            function(parameter){
+
+                return countStatus(
+
+                    rows,
+
+                    parameter,
+
+                    stageEl.value
+
+                );
+
+            }
+
+        );
+
+
+    /* =============================================
+       CHART TITLE
+    ============================================= */
+
+    const ca =
+        campusEl.value ||
+        "All Campuses";
+
+
+    const co =
+        courseEl.value ||
+        "All Courses";
+
+
+    const de =
+        deptEl.value;
+
+
+    document.getElementById(
+        "chartTitle"
+    ).textContent =
+
+        ca +
+        " - " +
+        co +
+        (
+            de
+                ? " - " + de
+                : ""
+        );
+
+
+    /* =============================================
+       DESTROY PREVIOUS CHART
+    ============================================= */
+
+    if(myChart){
+
+        myChart.destroy();
+
+    }
+
+
+    /* =============================================
+       ORIGINAL SINGLE CHART
+    ============================================= */
+
+    myChart = new Chart(
+
+        document.getElementById(
+            "chartCanvas"
+        ),
+
+        {
+
+            type:"bar",
+
+
+            data:{
+
+                labels:params,
+
+
+                datasets:[
+
+                    {
+
+                        label:
+                            "Good to Go",
+
+
+                        data:
+
+                            vals.map(
+
+                                function(x){
+
+                                    return x.good;
+
+                                }
+
+                            ),
+
+
+                        backgroundColor:
+                            "#5b9bd5"
+
+                    },
+
+
+                    {
+
+                        label:
+                            "Need Practice",
+
+
+                        data:
+
+                            vals.map(
+
+                                function(x){
+
+                                    return x.practice;
+
+                                }
+
+                            ),
+
+
+                        backgroundColor:
+                            "#f2b134"
+
+                    },
+
+
+                    {
+
+                        label:
+                            "Need Training",
+
+
+                        data:
+
+                            vals.map(
+
+                                function(x){
+
+                                    return x.training;
+
+                                }
+
+                            ),
+
+
+                        backgroundColor:
+                            "#d9534f"
+
+                    }
+
+                ]
+
+            },
+
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+
+                layout:{
+
+                    padding:{
+
+                        top:28
+
+                    }
+
+                },
+
+
+                plugins:{
+
+                    legend:{
+
+                        position:"top"
+
+                    }
+
+                },
+
+
+                scales:{
+
+                    y:{
+
+                        beginAtZero:true,
+
+                        ticks:{
+
+                            precision:0
+
+                        }
+
+                    }
+
+                }
+
+            },
+
+
+            plugins:[
+
+                {
+
+                    id:
+                        "barValueLabels",
+
+
+                    afterDatasetsDraw:
+
+                        function(chart){
+
+                            const ctx =
+                                chart.ctx;
+
+
+                            chart.data.datasets.forEach(
+
+                                function(
+                                    dataset,
+                                    datasetIndex
+                                ){
+
+                                    const meta =
+
+                                        chart.getDatasetMeta(
+
+                                            datasetIndex
+
+                                        );
+
+
+                                    meta.data.forEach(
+
+                                        function(
+                                            bar,
+                                            index
+                                        ){
+
+                                            const value =
+
+                                                dataset.data[
+                                                    index
+                                                ];
+
+
+                                            if(
+
+                                                value === 0 ||
+
+                                                value === null ||
+
+                                                value === undefined ||
+
+                                                value === ""
+
+                                            ){
+
+                                                return;
+
+                                            }
+
+
+                                            ctx.save();
+
+
+                                            ctx.font =
+                                                "bold 11px Arial";
+
+
+                                            ctx.fillStyle =
+                                                "#18312f";
+
+
+                                            ctx.textAlign =
+                                                "center";
+
+
+                                            ctx.textBaseline =
+                                                "bottom";
+
+
+                                            ctx.fillText(
+
+                                                Number(
+                                                    value
+                                                ).toLocaleString(
+                                                    "en-IN"
+                                                ),
+
+
+                                                bar.x,
+
+
+                                                bar.y - 6
+
+                                            );
+
+
+                                            ctx.restore();
+
+                                        }
+
+                                    );
+
+                                }
+
+                            );
+
+                        }
+
+                }
+
+            ]
+
+        }
+
+    );
+
+
+    /* =============================================
+       EXISTING PARAMETER SUMMARY
+    ============================================= */
+
+    const summaryStages = [
+
+        "Pre 1",
+
+        "Post 1",
+
+        "Post 2"
+
+    ];
+
+
+    let summaryHTML = "";
+
+
+    params.forEach(
+
+        function(parameter){
+
+            summaryStages.forEach(
+
+                function(stage){
+
+                    const x =
+
+                        countStatus(
+
+                            rows,
+
+                            parameter,
+
+                            stage
+
+                        );
+
+
+                    const tot =
+
+                        x.good
+                        +
+                        x.practice
+                        +
+                        x.training
+                        +
+                        x.notAppeared;
+
+
+                    const displayParameter =
+
+                        parameter === "Domain"
+
+                            ? "Domain Test"
+
+                            : parameter;
+
+
+                    summaryHTML +=
+
+                        "<tr>" +
+
+                        "<td>" +
+                        displayParameter +
+                        "</td>" +
+
+                        "<td>" +
+                        stage +
+                        "</td>" +
+
+                        "<td>" +
+                        x.good +
+                        "</td>" +
+
+                        "<td>" +
+                        x.practice +
+                        "</td>" +
+
+                        "<td>" +
+                        x.training +
+                        "</td>" +
+
+                        "<td>" +
+                        x.notAppeared +
+                        "</td>" +
+
+                        "<td>" +
+                        tot +
+                        "</td>" +
+
+                        "</tr>";
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+    document.getElementById(
+        "summaryBody"
+    ).innerHTML =
+        summaryHTML;
+
+}
+
+
+/* =====================================================
+   STUDENT DETAILS
+===================================================== */
+
+function openStudents(){
+
+    let q = [];
+
+
+    if(campusEl.value){
+
+        q.push(
+
+            "campus=" +
+
+            encodeURIComponent(
+
+                campusEl.value
+
+            )
+
+        );
+
+    }
+
+
+    if(courseEl.value){
+
+        q.push(
+
+            "course=" +
+
+            encodeURIComponent(
+
+                courseEl.value
+
+            )
+
+        );
+
+    }
+
+
+    if(deptEl.value){
+
+        q.push(
+
+            "dept=" +
+
+            encodeURIComponent(
+
+                deptEl.value
+
+            )
+
+        );
+
+    }
+
+
+    window.open(
+
+        "CoCubes_2026_Student_Details.html?" +
+
+        q.join("&"),
+
+        "_blank"
+
+    );
+
+}
+
+
+/* =====================================================
+   LOAD 2026 JSON
+===================================================== */
+
+fetch(
+
+    "../data/cocubes-2026.json"
+
+)
+
+.then(
+
+    function(response){
+
+        if(!response.ok){
+
+            throw new Error(
+
+                "Failed to load cocubes-2026.json"
+
+            );
+
+        }
+
+
+        return response.json();
+
+    }
+
+)
+
+.then(
+
+    function(rows){
+
+        DATA =
+
+            Array.isArray(rows)
+
+                ? rows
+
+                : [];
+
+
+        console.log(
+
+            "2026 CoCubes records loaded:",
+
+            DATA.length
+
+        );
+
+
+        /* =============================================
+           CAMPUS OPTIONS
+        ============================================= */
+
+        addOptions(
+
+            campusEl,
+
+            DATA.map(
+
+                function(r){
+
+                    return r.Location;
+
+                }
+
+            )
+
+        );
+
+
+        /* =============================================
+           COURSE OPTIONS
+        ============================================= */
+
+        addOptions(
+
+            courseEl,
+
+            DATA.map(
+
+                function(r){
+
+                    return r.Degree;
+
+                }
+
+            )
+
+        );
+
+
+        /* =============================================
+           DEPARTMENT OPTIONS
+        ============================================= */
+
+        addOptions(
+
+            deptEl,
+
+            DATA.map(
+
+                function(r){
+
+                    return r.Department;
+
+                }
+
+            )
+
+        );
+
+
+        /* =============================================
+           EVENTS
+        ============================================= */
+
+        campusEl.addEventListener(
+
+            "change",
+
+            update
+
+        );
+
+
+        courseEl.addEventListener(
+
+            "change",
+
+            update
+
+        );
+
+
+        deptEl.addEventListener(
+
+            "change",
+
+            update
+
+        );
+
+
+        stageEl.addEventListener(
+
+            "change",
+
+            update
+
+        );
+
+
+        /* =============================================
+           RESET
+        ============================================= */
+
+        document
+
+            .getElementById(
+
+                "resetBtn"
+
+            )
+
+            .addEventListener(
+
+                "click",
+
+                function(){
+
+                    campusEl.value = "";
+
+                    courseEl.value = "";
+
+                    deptEl.value = "";
+
+                    stageEl.value = "Post 2";
+
+
+                    update();
+
+                }
+
+            );
+
+
+        /* =============================================
+           STUDENT DETAILS
+        ============================================= */
+
+        document
+
+            .getElementById(
+
+                "studentsBtn"
+
+            )
+
+            .addEventListener(
+
+                "click",
+
+                openStudents
+
+            );
+
+
+        /* =============================================
+           INITIAL UPDATE
+        ============================================= */
+
+        update();
+
