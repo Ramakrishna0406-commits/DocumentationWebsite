@@ -10,7 +10,7 @@
 
     <title>DATA PULSE</title>
 
-
+    
     <!-- =========================================================
          DATA PULSE CSS
          ========================================================= -->
@@ -328,7 +328,6 @@
                                     }
                                 </strong>
 
-
                                 <span
                                     style="
                                         color:#666;
@@ -340,12 +339,72 @@
 
                             </div>
 
+                            <button
+                                id="dataPulseLogoutBtn"
+                                type="button"
+                                style="
+                                    margin-left:12px;
+                                    padding:8px 14px;
+                                    border:none;
+                                    border-radius:6px;
+                                    background:#007367;
+                                    color:white;
+                                    font-weight:bold;
+                                    cursor:pointer;
+                                "
+                            >
+                                Logout
+                            </button>
+
                         </div>
 
                     `;
 
                 }
 
+
+                // =================================================
+                // MAIN HEADER LOGOUT
+                // =================================================
+
+                const dataPulseLogoutBtn =
+                    document.getElementById("dataPulseLogoutBtn");
+
+                if (dataPulseLogoutBtn) {
+
+                    dataPulseLogoutBtn.addEventListener(
+                        "click",
+                        async function () {
+
+                            try {
+
+                                await signOut(auth);
+
+                                localStorage.removeItem("dataPulseFirebaseLoggedIn");
+                                localStorage.removeItem("dataPulseUserEmail");
+                                localStorage.removeItem("dataPulseUserName");
+                                localStorage.removeItem("dataPulseUserPhoto");
+                                localStorage.removeItem("dataPulseFirebaseUID");
+
+                                window.location.href = "index.html";
+
+                            } catch (error) {
+
+                                console.error(
+                                    "Logout error:",
+                                    error
+                                );
+
+                                alert(
+                                    "Logout failed. Please try again."
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
 
                 // =================================================
                 // AUTHENTICATION SUCCESS
@@ -869,3 +928,6 @@
 </body>
 
 </html>
+
+
+

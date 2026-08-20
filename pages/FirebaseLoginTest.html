@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -923,7 +923,7 @@
 
         <div class="login-footer">
 
-            TMCG • DATA PULSE
+            TMCG â€¢ DATA PULSE
 
         </div>
 
@@ -1610,7 +1610,7 @@ import {
 
     signInWithPopup,
     setPersistence,
-    browserLocalPersistence,
+    browserSessionPersistence,
     signOut
 
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
@@ -2010,7 +2010,7 @@ async function initializeLogin() {
 
             auth,
 
-            browserLocalPersistence
+            browserSessionPersistence
 
         );
 
@@ -2066,8 +2066,7 @@ loginButton.addEventListener(
 
             googleProvider.setCustomParameters({
 
-                prompt:
-                    "select_account"
+                prompt: "select_account"
 
             });
 
@@ -2360,3 +2359,5 @@ initializeLogin();
 </body>
 
 </html>
+
+

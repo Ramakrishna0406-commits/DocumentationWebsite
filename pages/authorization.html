@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -144,6 +144,46 @@
         }
 
 
+        #requestAccessButton {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 11px 24px;
+
+            border: none;
+
+            border-radius: 5px;
+
+            background: #007367;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+        }
+
+
+        #requestAccessButton:hover {
+
+            background: #005f57;
+
+        }
+
+
+        #requestAccessButton:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+        }
+
         #errorMessage {
 
             display: none;
@@ -219,6 +259,14 @@
         </div>
 
 
+        <button
+            id="requestAccessButton"
+            type="button"
+        >
+            Request Access
+        </button>
+
+
         <div id="errorMessage">
             Unable to verify authorization.
             Please try again.
@@ -241,3 +289,4 @@
 </body>
 
 </html>
+

@@ -667,6 +667,36 @@ MONTHLY FORECAST DASHBOARD
 
 
 <script src="../js/editableDashboard.js"></script>
+<script type="module">
+import { signOut } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+import { auth } from "../js/firebase-config.js";
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", async function () {
+
+        try {
+            await signOut(auth);
+
+            localStorage.removeItem("dataPulseFirebaseLoggedIn");
+            localStorage.removeItem("dataPulseUserEmail");
+            localStorage.removeItem("dataPulseUserName");
+            localStorage.removeItem("dataPulseUserPhoto");
+            localStorage.removeItem("dataPulseFirebaseUID");
+
+            window.location.href = "../index.html";
+        }
+
+        catch (error) {
+            console.error("Logout error:", error);
+            alert("Logout failed. Please try again.");
+        }
+
+    });
+}
+</script>
+
 
 
 
@@ -674,3 +704,4 @@ MONTHLY FORECAST DASHBOARD
 
 
 </html>
+

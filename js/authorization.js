@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // DATA PULSE - AUTHORIZATION
 // ============================================================
 //
@@ -7,9 +7,9 @@
 // Architecture:
 //
 // User
-//   ↓
+//   â†“
 // authorizedUsers/{authenticatedEmail}
-//   ↓
+//   â†“
 // role
 // permissionSet
 // permissions[]
@@ -18,15 +18,15 @@
 // ACCESS REQUEST FLOW:
 //
 // User requests protected page
-//   ↓
+//   â†“
 // Authorization checked
-//   ↓
+//   â†“
 // If permission denied
-//   ↓
+//   â†“
 // Check for existing PENDING request
-//   ↓
+//   â†“
 // If none exists
-//   ↓
+//   â†“
 // Create accessRequests/{autoId}
 //
 // Access Request fields:
@@ -41,13 +41,13 @@
 // SPECIAL CASES:
 //
 // ADMIN
-//     → full access
+//     â†’ full access
 //
 // permissionSet = FULL_ACCESS
-//     → full access
+//     â†’ full access
 //
 // Normal users
-//     → ONLY permissions[] explicitly assigned
+//     â†’ ONLY permissions[] explicitly assigned
 //
 // MIGRATION SAFETY:
 //
@@ -330,6 +330,158 @@ function denyAccess() {
     );
 }
 
+
+// ============================================================
+// SHOW REQUEST ACCESS BUTTON
+// ============================================================
+//
+// The button is shown when authorization is denied.
+//
+// IMPORTANT:
+// Showing this button DOES NOT create a Firestore request.
+//
+// Firestore accessRequests is created ONLY when the user
+// clicks the Request Access button.
+// ============================================================
+
+function showRequestAccessButton(
+    user,
+    requestedPermission,
+    requestedPage
+) {
+
+    const requestButton =
+        document.getElementById(
+            "requestAccessButton"
+        );
+
+
+    if (!requestButton) {
+
+        console.error(
+            "Request Access button not found."
+        );
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // Show button
+    // --------------------------------------------------------
+
+    requestButton.style.display = "inline-block";
+
+
+    // --------------------------------------------------------
+    // Remove any previous click handler
+    // --------------------------------------------------------
+
+    requestButton.onclick = null;
+
+
+    // --------------------------------------------------------
+    // Handle Request Access button click
+    // --------------------------------------------------------
+
+    requestButton.onclick = async function () {
+
+        // Prevent multiple clicks
+        requestButton.disabled = true;
+
+        requestButton.textContent =
+            "Submitting Request...";
+
+
+        try {
+
+            const requestResult =
+                await createAccessRequest(
+                    user,
+                    requestedPermission,
+                    requestedPage
+                );
+
+
+            // ------------------------------------------------
+            // Request successfully created
+            // ------------------------------------------------
+
+            if (
+                requestResult.created === true
+            ) {
+
+                requestButton.style.display =
+                    "none";
+
+
+                showAccessRequestMessage(
+                    "Access request submitted to Admin."
+                );
+
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // Request already pending
+            // ------------------------------------------------
+
+            if (
+                requestResult.alreadyPending === true
+            ) {
+
+                requestButton.textContent =
+                    "Request Pending";
+
+
+                showAccessRequestMessage(
+                    "Your access request is already pending."
+                );
+
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // Request failed
+            // ------------------------------------------------
+
+            requestButton.disabled = false;
+
+            requestButton.textContent =
+                "Request Access";
+
+
+            showAccessRequestMessage(
+                "Unable to submit access request. Please try again."
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Request Access button error:",
+                error
+            );
+
+
+            requestButton.disabled = false;
+
+            requestButton.textContent =
+                "Request Access";
+
+
+            showAccessRequestMessage(
+                "Unable to submit access request. Please try again."
+            );
+        }
+
+    };
+
+}
 
 // ============================================================
 // CREATE ACCESS REQUEST
@@ -649,72 +801,30 @@ async function handleDeniedAccess(
 ) {
 
     // --------------------------------------------------------
-    // First show normal denial
+    // Show normal access denied state
     // --------------------------------------------------------
 
     denyAccess();
 
 
     // --------------------------------------------------------
-    // Create Access Request
-    // --------------------------------------------------------
-
-    const requestResult =
-        await createAccessRequest(
-            user,
-            requestedPermission,
-            requestedPage
-        );
-
-
-    // --------------------------------------------------------
-    // Request created
-    // --------------------------------------------------------
-
-    if (
-        requestResult.created === true
-    ) {
-
-        showAccessRequestMessage(
-            "User Access Denied. Access request submitted to Admin."
-        );
-
-
-        return requestResult;
-    }
-
-
-    // --------------------------------------------------------
-    // Existing pending request
-    // --------------------------------------------------------
-
-    if (
-        requestResult.alreadyPending === true
-    ) {
-
-        showAccessRequestMessage(
-            "User Access Denied. Your access request is already pending."
-        );
-
-
-        return requestResult;
-    }
-
-
-    // --------------------------------------------------------
-    // Request could not be created
+    // Show Request Access button
     // --------------------------------------------------------
     //
-    // Keep access denied as the final state.
+    // IMPORTANT:
+    // No Firestore access request is created here.
+    //
+    // The request will be created ONLY after the
+    // authenticated user clicks the Request Access button.
     //
     // --------------------------------------------------------
 
-    console.warn(
-        "Access Request was not created."
+    showRequestAccessButton(
+        user,
+        requestedPermission,
+        requestedPage
     );
 
-
-    return requestResult;
 }
 
 
@@ -1952,3 +2062,4 @@ onAuthStateChanged(
         );
     }
 );
+
