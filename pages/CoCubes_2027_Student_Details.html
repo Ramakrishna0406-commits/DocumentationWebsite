@@ -1,4 +1,4 @@
-ï»¿<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DATA PULSE - Student Details</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f5f7f7;color:#18312f}.header{background:#fff;border-bottom:3px solid #007367;padding:18px 24px 0}.brand{text-align:center;color:#007367;font-size:25px;font-weight:bold;margin-bottom:16px}.tabs{display:flex;justify-content:center;gap:14px}.tab{padding:12px 28px;background:#5b9bd5;color:white;border:0;border-radius:7px 7px 0 0;font-weight:bold}.tab.active{background:#3f7fb7}.container{max-width:1400px;margin:auto;padding:22px}.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:18px}h2{color:#007367;margin:0 0 15px}.filters{display:flex;gap:15px;align-items:end;flex-wrap:wrap}.filter{width:220px}.filter label{display:block;font-weight:bold;font-size:13px;margin-bottom:6px;color:#555}.filter select{display:block!important;width:100%!important;height:42px!important;padding:8px 12px!important;background:#fff!important;color:#222!important;border:1px solid #999!important;border-radius:6px!important;font-size:14px!important}.btn{height:42px;padding:0 17px;background:#007367;color:#fff;border:0;border-radius:6px;font-weight:bold;cursor:pointer}.btn.blue{background:#5b9bd5}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.kpi{background:white;padding:15px;border-left:4px solid #007367;border-radius:8px}.kpi small{color:#666}.kpi b{display:block;color:#007367;font-size:25px;margin-top:5px}.chart{height:430px}.table{overflow:auto}table{border-collapse:collapse;width:100%;min-width:850px}th,td{border:1px solid #222;padding:8px;font-size:13px;text-align:center}th{background:#8b0000;color:#fff}td:first-child{text-align:left;font-weight:bold}.note{background:#eef7f5;border-left:4px solid #007367;padding:11px;margin-bottom:15px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}.filter{width:100%}}.student{min-width:1350px}</style></head><body><header class="header"><div class="brand">DATA PULSE - CoCubes Student Details</div></header><main class="container"><div class="panel"><button class="btn" onclick="history.back()">Back</button><h2 id="title"></h2><div class="filters"><div class="filter"><label>Campus</label><select id="campus"><option value="">All Campuses</option></select></div><div class="filter"><label>Degree</label><select id="course"><option value="">All Courses</option></select></div><div class="filter"><label>Department</label><select id="dept"><option value="">All Departments</option></select></div></div></div><div class="kpis"><div class="kpi"><small>Students</small><b id="count">0</b></div></div><div class="panel"><div class="table"><table class="student"><thead><tr><th>S.No</th><th>Roll Number</th><th>Name</th><th>Location</th><th>Degree</th><th>Department</th><th>Domain Pre</th><th>Domain Post</th><th>English Pre</th><th>English Post</th><th>Analytical Pre</th><th>Analytical Post</th><th>Quantitative Pre</th><th>Quantitative Post</th><th>Coding Pre</th><th>Coding Post</th><th>Written English Pre</th><th>Written English Post</th></tr></thead><tbody id="body"></tbody></table></div></div></main><script>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DATA PULSE - Student Details</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f5f7f7;color:#18312f}.header{background:#fff;border-bottom:3px solid #007367;padding:18px 24px 0}.brand{text-align:center;color:#007367;font-size:25px;font-weight:bold;margin-bottom:16px}.tabs{display:flex;justify-content:center;gap:14px}.tab{padding:12px 28px;background:#5b9bd5;color:white;border:0;border-radius:7px 7px 0 0;font-weight:bold}.tab.active{background:#3f7fb7}.container{max-width:1400px;margin:auto;padding:22px}.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:18px}h2{color:#007367;margin:0 0 15px}.filters{display:flex;gap:15px;align-items:end;flex-wrap:wrap}.filter{width:220px}.filter label{display:block;font-weight:bold;font-size:13px;margin-bottom:6px;color:#555}.filter select{display:block!important;width:100%!important;height:42px!important;padding:8px 12px!important;background:#fff!important;color:#222!important;border:1px solid #999!important;border-radius:6px!important;font-size:14px!important}.btn{height:42px;padding:0 17px;background:#007367;color:#fff;border:0;border-radius:6px;font-weight:bold;cursor:pointer}.btn.blue{background:#5b9bd5}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.kpi{background:white;padding:15px;border-left:4px solid #007367;border-radius:8px}.kpi small{color:#666}.kpi b{display:block;color:#007367;font-size:25px;margin-top:5px}.chart{height:430px}.table{overflow:auto}table{border-collapse:collapse;width:100%;min-width:850px}th,td{border:1px solid #222;padding:8px;font-size:13px;text-align:center}th{background:#8b0000;color:#fff}td:first-child{text-align:left;font-weight:bold}.note{background:#eef7f5;border-left:4px solid #007367;padding:11px;margin-bottom:15px}@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}.filter{width:100%}}.student{min-width:1350px}</style></head><body><header class="header"><div class="brand">DATA PULSE - CoCubes Student Details</div></header><main class="container"><div class="panel"><button class="btn" onclick="history.back()">Back</button><h2 id="title"></h2><div class="filters"><div class="filter"><label>Search Student</label><input id="studentSearch" type="text" placeholder="Roll Number or Name"></div><div class="filter"><label>Campus</label><select id="campus"><option value="">All Campuses</option></select></div><div class="filter"><label>Degree</label><select id="course"><option value="">All Courses</option></select></div><div class="filter"><label>Department</label><select id="dept"><option value="">All Departments</option></select></div></div></div><div class="kpis"><div class="kpi"><small>Students</small><b id="count">0</b></div></div><div class="panel"><div class="table"><table class="student"><thead><tr><th>S.No</th><th>Roll Number</th><th>Name</th><th>Location</th><th>Degree</th><th>Department</th><th>Domain Pre</th><th>Domain Post</th><th>English Pre</th><th>English Post</th><th>Analytical Pre</th><th>Analytical Post</th><th>Quantitative Pre</th><th>Quantitative Post</th><th>Coding Pre</th><th>Coding Post</th><th>Written English Pre</th><th>Written English Post</th></tr></thead><tbody id="body"></tbody></table></div></div></main><script>
 let DATA = [];
 
 function initStudentDetails(){
@@ -47,17 +47,17 @@ function initStudentDetails(){
     );
 
     document.getElementById("title").textContent=
-        (ca||"All Campuses")+" â€” "+
+        (ca||"All Campuses")+" — "+
         (dg||"All Degrees")+
-        (de?" â€” "+de:"")+
-        " â€” Student Details";
+        (de?" — "+de:"")+
+        " — Student Details";
 
     document.getElementById("count").textContent=rows.length;
 
     document.getElementById("body").innerHTML=rows.map((r,i)=>
         "<tr>"+
         "<td>"+(i+1)+"</td>"+
-        "<td>"+r["Roll Number"]+"</td>"+
+        "<td class='roll-number' data-roll='" + String(r["Roll Number"]).trim() + "'>" + r["Roll Number"] + "</td>"+
         "<td>"+r["Name"]+"</td>"+
         "<td>"+r["Location"]+"</td>"+
         "<td>"+r["Degree"]+"</td>"+
@@ -76,6 +76,45 @@ function initStudentDetails(){
         "<td>"+r["Written English Fitment - Post Assessment"]+"</td>"+
         "</tr>"
     ).join("");
+
+    const searchBox = document.getElementById("studentSearch");
+
+    if(searchBox){
+        searchBox.addEventListener("input", function(){
+            const search = this.value.trim().toLowerCase();
+            const rows = document.querySelectorAll("#body tr");
+            let visible = 0;
+
+            rows.forEach(row=>{
+                const roll = row.cells[1] ? row.cells[1].textContent.toLowerCase() : "";
+                const name = row.cells[2] ? row.cells[2].textContent.toLowerCase() : "";
+
+                const match =
+                    !search ||
+                    roll.includes(search) ||
+                    name.includes(search);
+
+                row.style.display = match ? "" : "none";
+
+                if(match) visible++;
+            });
+
+            document.getElementById("count").textContent = visible;
+        });
+    }
+
+    document.getElementById("body").addEventListener("click", function(e){
+        const cell = e.target.closest(".roll-number");
+        if(!cell) return;
+
+        const roll = cell.getAttribute("data-roll");
+        if(!roll) return;
+
+        window.open(
+            "CoCubes_2027_Student_Performance.html?roll=" + encodeURIComponent(roll),
+            "_blank"
+        );
+    });
 }
 
 fetch("../data/cocubes-2027.json")
@@ -89,6 +128,18 @@ fetch("../data/cocubes-2027.json")
     });
 
 </script></body></html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

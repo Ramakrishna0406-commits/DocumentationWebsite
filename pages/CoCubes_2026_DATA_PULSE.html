@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -459,7 +459,7 @@ td:first-child{
             CoCubes Performance: 03-July-2025 to 30th July 2025
         </p>
 <p>
-        Pre 1 → Post 1 → Post 2 | Assessment-wise Student Performance
+        Pre 1 ? Post 1 ? Post 2 | Assessment-wise Student Performance
     </p>
 
 </div>
@@ -504,6 +504,10 @@ td:first-child{
         <button class="tab computer"
                 onclick="showExam('computer',this)">
             Computer Fundamentals
+        <button class="tab overview"
+                onclick="window.open('CoCubes_Overview.html?year=2026', '_blank')">
+            Overview
+        </button>
         </button>
 
     </div>
@@ -780,7 +784,7 @@ td:first-child{
         <div class="graph-card">
 
             <h3>
-                Pre 1 → Post 1 → Post 2
+                Pre 1 ? Post 1 ? Post 2
             </h3>
 
             <div class="chart-container">
@@ -829,37 +833,37 @@ td:first-child{
     <div class="legend">
 
         <span class="green">
-            🟢 Increase in Good to Go = Positive
+            ?? Increase in Good to Go = Positive
         </span>
 
         &nbsp;&nbsp;
 
         <span class="green">
-            🟢 Decrease in Need Training = Positive
+            ?? Decrease in Need Training = Positive
         </span>
 
         &nbsp;&nbsp;
 
         <span class="red">
-            🔴 Increase in Need Training = Dip
+            ?? Increase in Need Training = Dip
         </span>
 
         &nbsp;&nbsp;
 
         <span class="red">
-            🔴 Increase in Not Appeared = Dip
+            ?? Increase in Not Appeared = Dip
         </span>
 
         <br><br>
 
         <span class="green">
-            🟢 ↑ Degree count increased
+            ?? ? Degree count increased
         </span>
 
         &nbsp;&nbsp;
 
         <span class="red">
-            🔴 ↓ Degree count decreased
+            ?? ? Degree count decreased
         </span>
 
     </div>
@@ -1230,10 +1234,10 @@ function tableCell(
 
     const arrow =
         change > 0
-            ? "↑"
+            ? "?"
             : change < 0
-                ? "↓"
-                : "→";
+                ? "?"
+                : "?";
 
     const changeText =
         change > 0
@@ -1649,7 +1653,7 @@ function degreeCell(
             ${formatNumber(current)}
 
             <span class="degree-change">
-                ↑ +${formatNumber(change)}
+                ? +${formatNumber(change)}
             </span>
 
         </td>`;
@@ -1664,7 +1668,7 @@ function degreeCell(
             ${formatNumber(current)}
 
             <span class="degree-change">
-                ↓ ${formatNumber(change)}
+                ? ${formatNumber(change)}
             </span>
 
         </td>`;
@@ -1677,7 +1681,7 @@ function degreeCell(
         ${formatNumber(current)}
 
         <span class="degree-change">
-            → 0
+            ? 0
         </span>
 
     </td>`;
@@ -2066,18 +2070,18 @@ function createSummary(data){
     const improvement =
         (post2Good - preGood).toFixed(1);
 
-    let arrow = "→";
+    let arrow = "?";
     let className = "";
 
     if(improvement > 0){
 
-        arrow = "↑";
+        arrow = "?";
         className = "green";
 
     }
     else if(improvement < 0){
 
-        arrow = "↓";
+        arrow = "?";
         className = "red";
 
     }
@@ -2088,10 +2092,10 @@ function createSummary(data){
 
     const trainingArrow =
         trainingChange < 0
-            ? "↓"
+            ? "?"
             : trainingChange > 0
-                ? "↑"
-                : "→";
+                ? "?"
+                : "?";
 
     document.getElementById(
         "summaryText"
@@ -2553,6 +2557,7 @@ loadData();
 
 </body>
 </html>
+
 
 
 

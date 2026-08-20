@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoCubes 2027 - Student Performance</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f7;
+    color:#1f2937;
+}
+
+.header{
+    background:#007367;
+    color:white;
+    padding:20px 30px;
+}
+
+.header h1{
+    margin:0 0 6px;
+    font-size:24px;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+.container{
+    max-width:1200px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.student-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.student-info{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.info-box{
+    background:#f7faf9;
+    padding:14px;
+    border-radius:8px;
+}
+
+.info-label{
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:700;
+}
+
+.chart-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.chart-title{
+    margin:0 0 5px;
+    font-size:19px;
+}
+
+.chart-subtitle{
+    margin:0 0 20px;
+    color:#6b7280;
+    font-size:13px;
+}
+
+.chart-container{
+    position:relative;
+    height:480px;
+}
+
+.legend{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.good{background:#16a34a;}
+.practice{background:#f59e0b;}
+.training{background:#dc2626;}
+.absent{background:#9ca3af;}
+
+.error{
+    background:white;
+    margin:30px auto;
+    max-width:700px;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#b91c1c;
+}
+
+@media(max-width:800px){
+    .student-info{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    .student-info{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>CoCubes 2027 Performance Comparison</h1>
+    <p>Vizag: Pre-assessment-19 Dec 2025 &amp; Post-Assessment-12 July 2026<br>Blr: Pre-Assessment-20 Dec 2025 &amp; Post-Assessment-25 July 2026<br>Hyd: Pre-Assessment-23 Dec 2025 &amp; Post Assessment-26 July 2026<br><br>Pre Assessment &#8594; Post Assessment | Assessment-wise Student Performance</p>
+</div>
+
+<div id="app" class="container"></div>
+
+<script>
+
+const fields = [
+    {
+        name:"Domain",
+        pre:"Domain Fitment - Pre Assessment",
+        post:"Domain Fitment - Post Assessment"
+    },
+    {
+        name:"English Usage",
+        pre:"English Usage Fitment - Pre Assessment",
+        post:"English Usage Fitment - Post Assessment"
+    },
+    {
+        name:"Analytical Reasoning",
+        pre:"Analytical Reasoning Fitment - Pre Assessment",
+        post:"Analytical Reasoning Fitment - Post Assessment"
+    },
+    {
+        name:"Quantitative Ability",
+        pre:"Quantitative Ability Fitment - Pre Assessment",
+        post:"Quantitative Ability Fitment - Post Assessment"
+    },
+    {
+        name:"Coding",
+        pre:"Coding Fitment - Pre Assessment",
+        post:"Coding Fitment - Post Assessment"
+    },
+    {
+        name:"Written English",
+        pre:"Written English Fitment - Pre Assessment",
+        post:"Written English Fitment - Post Assessment"
+    }
+];
+
+const statusValue = {
+    "Good to Go":4,
+    "Need Practice":3,
+    "Need Training":2,
+    "Not Attended":1
+};
+
+function clean(value){
+    return value === null || value === undefined
+        ? ""
+        : String(value).trim();
+}
+
+function statusColor(status){
+    status=clean(status);
+
+    if(status==="Good to Go") return "#16a34a";
+    if(status==="Need Practice") return "#f59e0b";
+    if(status==="Need Training") return "#dc2626";
+
+    return "#9ca3af";
+}
+
+const params = new URLSearchParams(window.location.search);
+const roll = clean(params.get("roll"));
+
+if(!roll){
+
+    document.getElementById("app").innerHTML=`
+        <div class="error">
+            <h2>Student not selected</h2>
+            <p>No Roll Number was provided.</p>
+        </div>
+    `;
+
+}else{
+
+    fetch("../data/cocubes-2027.json")
+    .then(response=>{
+        if(!response.ok){
+            throw new Error("Unable to load student data.");
+        }
+        return response.json();
+    })
+    .then(data=>{
+
+        const student=data.find(r=>
+            clean(r["Roll Number"])===roll
+        );
+
+        if(!student){
+
+            document.getElementById("app").innerHTML=`
+                <div class="error">
+                    <h2>Student not found</h2>
+                    <p>Roll Number: <strong>${roll}</strong></p>
+                </div>
+            `;
+
+            return;
+        }
+
+        document.getElementById("app").innerHTML=`
+
+            <div class="student-card">
+
+                <div class="student-info">
+
+                    <div class="info-box">
+                        <div class="info-label">Roll Number</div>
+                        <div class="info-value">${clean(student["Roll Number"])}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Student Name</div>
+                        <div class="info-value">${clean(student["Name"])}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Degree</div>
+                        <div class="info-value">${clean(student["Degree"])}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Department</div>
+                        <div class="info-value">${clean(student["Department"])}</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h2 class="chart-title">
+                    Examination-wise Performance
+                </h2>
+
+                <p class="chart-subtitle">
+                    Pre Assessment vs Post Assessment
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="dot good"></span>
+                        Good to Go
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot practice"></span>
+                        Need Practice
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot training"></span>
+                        Need Training
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot absent"></span>
+                        Not Attended
+                    </div>
+                </div>
+
+            </div>
+        `;
+
+        const labels=fields.map(f=>f.name);
+
+        const preValues=fields.map(f=>
+            statusValue[clean(student[f.pre])] || 1
+        );
+
+        const postValues=fields.map(f=>
+            statusValue[clean(student[f.post])] || 1
+        );
+
+        const preLabels=fields.map(f=>
+            clean(student[f.pre]) || "Not Attended"
+        );
+
+        const postLabels=fields.map(f=>
+            clean(student[f.post]) || "Not Attended"
+        );
+
+        new Chart(
+            document.getElementById("performanceChart"),
+            {
+                type:"bar",
+
+                data:{
+                    labels:labels,
+
+                    datasets:[
+                        {
+                            label:"Pre Assessment",
+                            data:preValues,
+                            backgroundColor:preLabels.map(statusColor),
+                            borderRadius:6
+                        },
+                        {
+                            label:"Post Assessment",
+                            data:postValues,
+                            backgroundColor:postLabels.map(statusColor),
+                            borderRadius:6
+                        }
+                    ]
+                },
+
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+
+                    scales:{
+                        y:{
+                            min:0,
+                            max:4,
+
+                            ticks:{
+                                stepSize:1,
+
+                                callback:function(value){
+                                    const map={
+                                        1:"Not Attended",
+                                        2:"Need Training",
+                                        3:"Need Practice",
+                                        4:"Good to Go"
+                                    };
+
+                                    return map[value] || "";
+                                }
+                            }
+                        }
+                    },
+
+                    plugins:{
+                        legend:{
+                            position:"top"
+                        },
+
+                        tooltip:{
+                            callbacks:{
+                                label:function(context){
+
+                                    const index=context.dataIndex;
+
+                                    if(context.datasetIndex===0){
+                                        return " Pre: "+preLabels[index];
+                                    }
+
+                                    return " Post: "+postLabels[index];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+    })
+    .catch(error=>{
+
+        document.getElementById("app").innerHTML=`
+            <div class="error">
+                <h2>Unable to load student performance</h2>
+                <p>${error.message}</p>
+            </div>
+        `;
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
+
+

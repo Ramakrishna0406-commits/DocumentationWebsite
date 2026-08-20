@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - CoCubes 2026 Student Performance</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f7;
+    color:#18312f;
+}
+
+.header{
+    background:#007367;
+    color:white;
+    padding:20px 30px;
+}
+
+.header h1{
+    margin:0 0 6px;
+    font-size:25px;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+.container{
+    max-width:1250px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.student-card,
+.chart-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.student-info{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.info-box{
+    background:#f7faf9;
+    padding:14px;
+    border-radius:8px;
+}
+
+.info-label{
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:700;
+}
+
+.chart-title{
+    margin:0 0 5px;
+    font-size:20px;
+}
+
+.chart-subtitle{
+    margin:0 0 20px;
+    color:#6b7280;
+    font-size:13px;
+}
+
+.chart-container{
+    position:relative;
+    height:520px;
+}
+
+.legend{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.good{background:#16a34a}
+.practice{background:#f59e0b}
+.training{background:#dc2626}
+.absent{background:#9ca3af}
+
+.error{
+    background:white;
+    margin:30px auto;
+    max-width:700px;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#b91c1c;
+}
+
+@media(max-width:800px){
+    .student-info{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    .student-info{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Student Performance</h1>
+    <p>CoCubes 2026 — Pre 1 vs Post 1 vs Post 2</p>
+</div>
+
+<div id="app" class="container"></div>
+
+<script>
+
+const exams = [
+    {
+        name:"Domain",
+        field:"Domain Test"
+    },
+    {
+        name:"English Usage",
+        field:"English Usage"
+    },
+    {
+        name:"Analytical Reasoning",
+        field:"Analytical Reasoning"
+    },
+    {
+        name:"Quantitative Aptitude",
+        field:"Quantitative Aptitude"
+    },
+    {
+        name:"Coding",
+        field:"Coding"
+    },
+    {
+        name:"Written English Test",
+        field:"Written English Test"
+    },
+    {
+        name:"Computer Fundamentals",
+        field:"Computer Fundamentals"
+    }
+];
+
+const stages = [
+    "Pre 1",
+    "Post 1",
+    "Post 2"
+];
+
+const statusValue = {
+    "Good to Go":4,
+    "Need Practice":3,
+    "Need Training":2,
+    "Not Appeared":1,
+    "Not Attended":1
+};
+
+function clean(value){
+    return value === null || value === undefined
+        ? ""
+        : String(value).trim();
+}
+
+function statusColor(status){
+
+    status=clean(status);
+
+    if(status==="Good to Go") return "#16a34a";
+    if(status==="Need Practice") return "#f59e0b";
+    if(status==="Need Training") return "#dc2626";
+
+    return "#9ca3af";
+}
+
+const params=new URLSearchParams(window.location.search);
+const roll=clean(params.get("roll"));
+
+if(!roll){
+
+    document.getElementById("app").innerHTML=`
+        <div class="error">
+            <h2>Student not selected</h2>
+            <p>No Roll Number was provided.</p>
+        </div>
+    `;
+
+}else{
+
+    fetch("../data/cocubes-2026.json")
+
+    .then(response=>{
+
+        if(!response.ok){
+            throw new Error("Unable to load cocubes-2026.json");
+        }
+
+        return response.json();
+
+    })
+
+    .then(data=>{
+
+        const student=data.find(r =>
+            clean(r["Roll Number"])===roll
+        );
+
+        if(!student){
+
+            document.getElementById("app").innerHTML=`
+                <div class="error">
+                    <h2>Student not found</h2>
+                    <p>Roll Number: <strong>${roll}</strong></p>
+                </div>
+            `;
+
+            return;
+        }
+
+        document.getElementById("app").innerHTML=`
+
+            <div class="student-card">
+
+                <div class="student-info">
+
+                    <div class="info-box">
+                        <div class="info-label">Roll Number</div>
+                        <div class="info-value">
+                            ${clean(student["Roll Number"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Student Name</div>
+                        <div class="info-value">
+                            ${clean(student["Name"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Degree</div>
+                        <div class="info-value">
+                            ${clean(student["Degree"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Department</div>
+                        <div class="info-value">
+                            ${clean(student["Department"])}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h2 class="chart-title">
+                    Examination-wise Performance
+                </h2>
+
+                <p class="chart-subtitle">
+                    Pre 1 vs Post 1 vs Post 2
+                </p>
+
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+
+                <div class="legend">
+
+                    <div class="legend-item">
+                        <span class="dot good"></span>
+                        Good to Go
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot practice"></span>
+                        Need Practice
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot training"></span>
+                        Need Training
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="dot absent"></span>
+                        Not Appeared
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        const labels=exams.map(e=>e.name);
+
+        const datasets=stages.map(stage=>({
+
+            label:stage,
+
+            data:exams.map(exam=>{
+
+                const obj=student[exam.field];
+
+                if(!obj || typeof obj!=="object"){
+                    return 1;
+                }
+
+                return statusValue[
+                    clean(obj[stage])
+                ] || 1;
+
+            }),
+
+            backgroundColor:exams.map(exam=>{
+
+                const obj=student[exam.field];
+
+                if(!obj || typeof obj!=="object"){
+                    return "#9ca3af";
+                }
+
+                return statusColor(
+                    clean(obj[stage])
+                );
+
+            }),
+
+            borderRadius:6
+
+        }));
+
+        const statusLabels=stages.map(stage =>
+            exams.map(exam=>{
+
+                const obj=student[exam.field];
+
+                if(!obj || typeof obj!=="object"){
+                    return "Not Appeared";
+                }
+
+                return clean(obj[stage]) || "Not Appeared";
+
+            })
+        );
+
+        new Chart(
+            document.getElementById("performanceChart"),
+            {
+                type:"bar",
+
+                data:{
+                    labels:labels,
+                    datasets:datasets
+                },
+
+                options:{
+
+                    responsive:true,
+                    maintainAspectRatio:false,
+
+                    scales:{
+
+                        y:{
+                            min:0,
+                            max:4,
+
+                            ticks:{
+                                stepSize:1,
+
+                                callback:function(value){
+
+                                    const map={
+                                        1:"Not Appeared",
+                                        2:"Need Training",
+                                        3:"Need Practice",
+                                        4:"Good to Go"
+                                    };
+
+                                    return map[value] || "";
+
+                                }
+
+                            }
+
+                        }
+
+                    },
+
+                    plugins:{
+
+                        legend:{
+                            position:"top"
+                        },
+
+                        tooltip:{
+
+                            callbacks:{
+
+                                label:function(context){
+
+                                    const stageIndex=context.datasetIndex;
+                                    const examIndex=context.dataIndex;
+
+                                    return " "+
+                                        context.dataset.label+
+                                        ": "+
+                                        statusLabels[
+                                            stageIndex
+                                        ][
+                                            examIndex
+                                        ];
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    })
+
+    .catch(error=>{
+
+        document.getElementById("app").innerHTML=`
+            <div class="error">
+                <h2>Unable to load student performance</h2>
+                <p>${error.message}</p>
+            </div>
+        `;
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>

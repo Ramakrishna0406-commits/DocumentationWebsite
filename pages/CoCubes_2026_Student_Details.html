@@ -1393,7 +1393,7 @@ function createStudentRow(
     /* ROLL NUMBER */
 
     html +=
-        "<td>" +
+        "<td class='roll-number' data-roll='" + clean(row["Roll Number"]) + "'>" +
         clean(row["Roll Number"]) +
         "</td>";
 
@@ -1941,9 +1941,28 @@ fetch(
 );
 
 
+document.getElementById("studentBody").addEventListener("click", function(e){
+
+    const cell = e.target.closest(".roll-number");
+
+    if(!cell) return;
+
+    const roll = cell.getAttribute("data-roll");
+
+    if(!roll) return;
+
+    window.open(
+        "CoCubes_2026_Student_Performance.html?roll=" +
+        encodeURIComponent(roll),
+        "_blank"
+    );
+
+});
 </script>
 
 
 </body>
 
 </html>
+
+
