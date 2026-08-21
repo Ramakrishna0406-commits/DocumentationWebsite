@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE - CoCubes Overview</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6f8;
+    color:#243333;
+}
+
+.header{
+    background:white;
+    padding:18px;
+    text-align:center;
+    border-bottom:3px solid #007367;
+}
+
+.header h1{
+    margin:0;
+    color:#007367;
+    font-size:25px;
+}
+
+.header p{
+    margin:6px 0 0;
+    color:#666;
+    font-size:13px;
+}
+
+.content{
+    max-width:1250px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    margin-bottom:25px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#007367;
+}
+
+.chart-container{
+    position:relative;
+    height:450px;
+}
+
+.status{
+    text-align:center;
+    padding:15px;
+    color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>DATA PULSE - CoCubes Overview</h1>
+    <p id="yearTitle">Overall Examination Performance Overview</p>
+</div>
+
+<div class="content">
+
+    <div class="overview-grid">
+
+        <div class="overview-card">
+            <h3>Domain</h3>
+            <div class="overview-chart">
+                <canvas id="domainChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>English Usage</h3>
+            <div class="overview-chart">
+                <canvas id="englishChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>Quantitative Aptitude</h3>
+            <div class="overview-chart">
+                <canvas id="quantChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>Analytical Reasoning</h3>
+            <div class="overview-chart">
+                <canvas id="analyticalChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>Coding</h3>
+            <div class="overview-chart">
+                <canvas id="codingChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>Written English Test</h3>
+            <div class="overview-chart">
+                <canvas id="writtenChart"></canvas>
+            </div>
+        </div>
+
+        <div class="overview-card">
+            <h3>Computer Fundamentals</h3>
+            <div class="overview-chart">
+                <canvas id="computerChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="status" class="status">
+        Loading data...
+    </div>
+
+</div>
+
+<script>
+
+let comparisonChart = null;
+
+
+/* ==========================================================
+   GET YEAR
+========================================================== */
+
+const params = new URLSearchParams(window.location.search);
+
+const year = params.get("year") || "2027";
+
+const dataFile =
+    year === "2026"
+        ? "../data/cocubes-2026.json"
+        : "../data/cocubes-2027.json";
+
+
+document.getElementById("yearTitle").textContent =
+    "Overall Examination Performance Overview - " + year;
+
+
+/* ==========================================================
+   CLEAN VALUE
+========================================================== */
+
+function clean(value){
+
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value).trim();
+
+}
+
+
+/* ==========================================================
+   EXAMINATION DEFINITIONS
+========================================================== */
+
+const exams = {
+
+    domain:{
+        title:"Domain Test",
+        preField:"Domain Fitment - Pre Assessment",
+        postField:"Domain Fitment - Post Assessment"
+    },
+
+    english:{
+        title:"English Usage",
+        preField:"English Usage Fitment - Pre Assessment",
+        postField:"English Usage Fitment - Post Assessment"
+    },
+
+    analytical:{
+        title:"Analytical Reasoning",
+        preField:"Analytical Reasoning Fitment - Pre Assessment",
+        postField:"Analytical Reasoning Fitment - Post Assessment"
+    },
+
+    quant:{
+        title:"Quantitative Ability",
+        preField:"Quantitative Ability Fitment - Pre Assessment",
+        postField:"Quantitative Ability Fitment - Post Assessment"
+    },
+
+    coding:{
+        title:"Coding",
+        preField:"Coding Fitment - Pre Assessment",
+        postField:"Coding Fitment - Post Assessment"
+    },
+
+    written:{
+        title:"Written English",
+        preField:"Written English Fitment - Pre Assessment",
+        postField:"Written English Fitment - Post Assessment"
+    }
+
+};
+
+
+/* ==========================================================
+   GET STATUS
+========================================================== */
+
+function getStatus(row, exam, stage){
+
+    const definition = exams[exam];
+
+    if(!definition){
+        return "";
+    }
+
+    const field =
+        stage === "Pre Assessment"
+            ? definition.preField
+            : definition.postField;
+
+    return clean(row[field]);
+
+}
+
+
+/* ==========================================================
+   EXISTING COUNT LOGIC
+========================================================== */
+
+function countExam(rows, exam, stage){
+
+    const result = {
+        good:0,
+        training:0,
+        practice:0,
+        notAppeared:0
+    };
+
+    rows.forEach(function(row){
+
+        const status =
+            getStatus(row, exam, stage);
+
+        if(status === "Good to Go"){
+            result.good++;
+        }
+        else if(status === "Need Training"){
+            result.training++;
+        }
+        else if(status === "Need Practice"){
+            result.practice++;
+        }
+        else if(status === "Not Attended"){
+            result.notAppeared++;
+        }
+
+    });
+
+    return result;
+
+}
+
+
+/* ==========================================================
+   OVERVIEW CALCULATION
+========================================================== */
+
+function calculateOverview(rows){
+
+    /*
+       Overview uses the same Pre/Post status calculation
+       already used in the existing dashboard.
+
+       All examination records are combined.
+    */
+
+    const result = {
+
+        pre:{
+            good:0,
+            training:0,
+            practice:0,
+            notAppeared:0
+        },
+
+        post:{
+            good:0,
+            training:0,
+            practice:0,
+            notAppeared:0
+        }
+
+    };
+
+
+    Object.keys(exams).forEach(function(exam){
+
+        const pre =
+            countExam(
+                rows,
+                exam,
+                "Pre Assessment"
+            );
+
+        const post =
+            countExam(
+                rows,
+                exam,
+                "Post Assessment"
+            );
+
+
+        result.pre.good += pre.good;
+        result.pre.training += pre.training;
+        result.pre.practice += pre.practice;
+        result.pre.notAppeared += pre.notAppeared;
+
+        result.post.good += post.good;
+        result.post.training += post.training;
+        result.post.practice += post.practice;
+        result.post.notAppeared += post.notAppeared;
+
+    });
+
+
+    return result;
+
+}
+
+
+/* ==========================================================
+   GRAPH
+========================================================== */
+
+function createComparisonChart(data){
+
+    if(comparisonChart){
+
+        comparisonChart.destroy();
+
+    }
+
+
+    comparisonChart =
+        new Chart(
+
+            document.getElementById(
+                "comparisonChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+
+                        "Good to Go",
+
+                        "Need Training",
+
+                        "Need Practice",
+
+                        "Not Appeared"
+
+                    ],
+
+                    datasets:[
+
+                        {
+
+                            label:"Pre Assessment",
+
+                            data:[
+
+                                data.pre.good,
+
+                                data.pre.training,
+
+                                data.pre.practice,
+
+                                data.pre.notAppeared
+
+                            ],
+
+                            backgroundColor:"#9bc5bf"
+
+                        },
+
+                        {
+
+                            label:"Post Assessment",
+
+                            data:[
+
+                                data.post.good,
+
+                                data.post.training,
+
+                                data.post.practice,
+
+                                data.post.notAppeared
+
+                            ],
+
+                            backgroundColor:"#007367"
+
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            position:"bottom"
+                        }
+
+                    },
+
+                    scales:{
+
+                        y:{
+
+                            beginAtZero:true,
+
+                            ticks:{
+                                precision:0
+                            },
+
+                            title:{
+                                display:true,
+                                text:"Number of Students"
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+}
+
+
+/* ==========================================================
+   LOAD CURRENT YEAR DATA
+========================================================== */
+
+fetch(dataFile)
+
+    .then(function(response){
+
+        if(!response.ok){
+
+            throw new Error(
+                "Unable to load " + dataFile
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(function(rows){
+
+        if(!Array.isArray(rows)){
+
+            throw new Error(
+                "JSON does not contain an array"
+            );
+
+        }
+
+
+        const data =
+            calculateOverview(rows);
+
+
+        createComparisonChart(data);
+
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "Current " + year + " data loaded successfully.";
+
+    })
+
+    .catch(function(error){
+
+        console.error(
+            "CoCubes Overview error:",
+            error
+        );
+
+        document.getElementById(
+            "status"
+        ).textContent =
+            "Unable to load CoCubes " + year + " data.";
+
+    });
+
+</script>
+
+</body>
+</html>
+

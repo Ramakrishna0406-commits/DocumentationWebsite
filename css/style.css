@@ -277,3 +277,307 @@ ZERO VALUE HIGHLIGHT
     color: red !important;
     font-weight: bold !important;
 }
+
+/* TMCG HEADER - FINAL */
+.tmcg-brand{
+    width:200px;
+    height:200px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#ffffff;
+}
+
+.tmcg-text{
+    font-size:64px;
+    font-weight:800;
+    line-height:1;
+    letter-spacing:2px;
+    color:#ffffff;
+}
+
+.tmcg-subtitle{
+    margin-top:10px;
+    font-size:13px;
+    font-style:italic;
+    font-weight:400;
+    line-height:1.3;
+    max-width:195px;
+    color:#ffffff;
+}
+
+
+/* TMCG HEADER - SIDE BY SIDE */
+.tmcg-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.tmcg-text {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+
+.tmcg-subtitle {
+    margin-left: 15px;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #ffffff;
+    max-width: 220px;
+    white-space: normal;
+}
+
+
+/* TMCG HEADER - SINGLE LINE */
+.tmcg-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.tmcg-text {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.tmcg-subtitle {
+    margin-left: 15px;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: none;
+}
+
+
+/* ==========================================
+   DATA PULSE SIDEBAR BRAND
+========================================== */
+
+.datapulse-brand {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #007367;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+
+/* ==========================================
+   DATA PULSE SIDEBAR BRAND
+   ========================================== */
+
+.datapulse-brand {
+
+    width: 100%;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 24px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    color: #007367;
+
+    box-sizing: border-box;
+
+    margin-bottom: 10px;
+
+}
+
+
+/* ==========================================
+   FINAL TMCG HEADER
+   ========================================== */
+
+.tmcg-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+}
+
+.tmcg-text {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+
+.tmcg-subtitle {
+    margin-top: 10px;
+    margin-left: 0;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    max-width: 195px;
+    color: #ffffff;
+    white-space: normal;
+}
+
+/* ==========================================
+   FINAL DATA PULSE BRAND
+   ========================================== */
+
+.datapulse-brand {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.datapulse-text {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    color: #007367;
+}
+
+.datapulse-tagline {
+    margin-top: 4px;
+    font-size: 11px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #555555;
+}
+
+/* ==========================================
+   GITAM LOGO - FIXED BELOW DATA PULSE
+   ========================================== */
+
+.sidebar-footer {
+    padding: 10px;
+    border-top: 1px solid #e5e5e5;
+    background: #ffffff;
+    text-align: center;
+}
+
+.sidebar-footer img {
+    width: 90px;
+    height: auto;
+}
+
+
+/* ==========================================
+   TMCG HEADER - TEXT + TAGLINE SIDE BY SIDE
+   ========================================== */
+
+.tmcg-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tmcg-text {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.tmcg-subtitle {
+    margin-left: 15px;
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    max-width: 220px;
+    color: #ffffff;
+    white-space: normal;
+}
+
+
+/* ==========================================
+   TMCG - SINGLE LINE HEADER
+   ========================================== */
+
+.tmcg-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tmcg-text {
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #ffffff;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tmcg-subtitle {
+    margin-left: 15px;
+    margin-top: 0;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: none;
+    flex-shrink: 0;
+}
+

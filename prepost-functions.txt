@@ -1,0 +1,160 @@
+function createProgressChart(data){
+
+    if(progressChart){
+
+        progressChart.destroy();
+
+    }
+
+    progressChart =
+        new Chart(
+
+            document.getElementById(
+                "progressChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+                        "Pre Assessment",
+                        "Post Assessment"
+                    ],
+
+                    datasets:[
+
+                        {
+
+                            label:"Good to Go",
+
+                            data:[
+                                data.pre.good,
+                                data.post.good
+                            ],
+
+                            backgroundColor:"#16803b"
+
+                        },
+
+                        {
+
+                            label:"Need Training",
+
+                            data:[
+                                data.pre.training,
+                                data.post.training
+                            ],
+
+                            backgroundColor:"#e07b00"
+
+                        },
+
+                        {
+
+                            label:"Need Practice",
+
+                            data:[
+                                data.pre.practice,
+                                data.post.practice
+                            ],
+
+                            backgroundColor:"#2774c7"
+
+                        },
+
+                        {
+
+                            label:"Not Appeared",
+
+                            data:[
+                                data.pre.notAppeared,
+                                data.post.notAppeared
+                            ],
+
+                            backgroundColor:"#999999"
+
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            position:"bottom"
+                        }
+
+                    },
+
+                    scales:{
+
+                        y:{
+
+                            beginAtZero:true,
+
+                            ticks:{
+                                precision:0
+                            },
+
+                            title:{
+                                display:true,
+                                text:"Number of Students"
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                plugins:[
+                    percentageLabels
+                ]
+
+            }
+
+        );
+
+}
+/* ==========================================================
+   GRAPH 2
+========================================================== */
+
+function createComparisonChart(data){
+
+    if(comparisonChart){
+
+        comparisonChart.destroy();
+
+    }
+
+    comparisonChart =
+        new Chart(
+
+            document.getElementById(
+                "comparisonChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+
+                        "Good to Go",
+
+                        "Need Training",
+
+                        "Need Practice",

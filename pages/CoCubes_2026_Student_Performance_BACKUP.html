@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DATA PULSE - CoCubes 2026 Student Performance</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f7;
+    color:#18312f;
+}
+
+.header{
+    background:#007367;
+    color:white;
+    padding:20px 30px;
+}
+
+.header h1{
+    margin:0 0 6px;
+    font-size:25px;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+.container{
+    max-width:1300px;
+    margin:25px auto;
+    padding:0 20px;
+}
+
+.student-card,
+.performance-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.student-info{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.info-box{
+    background:#f7faf9;
+    padding:14px;
+    border-radius:8px;
+}
+
+.info-label{
+    font-size:12px;
+    color:#6b7280;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:700;
+}
+
+h2{
+    color:#007367;
+    margin-top:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,
+td{
+    border:1px solid #d1d5db;
+    padding:13px 12px;
+    text-align:center;
+    font-size:14px;
+}
+
+th{
+    background:#007367;
+    color:white;
+}
+
+td:first-child{
+    text-align:left;
+    font-weight:bold;
+}
+
+.status{
+    font-weight:bold;
+    border-radius:6px;
+}
+
+.good{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.practice{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.training{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.appeared{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+.error{
+    background:white;
+    max-width:700px;
+    margin:40px auto;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    color:#b91c1c;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-bottom:18px;
+    padding:10px 18px;
+    background:#007367;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+@media(max-width:900px){
+    .student-info{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .performance-card{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:800px;
+    }
+}
+
+@media(max-width:500px){
+    .student-info{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>CoCubes 2026 - Student Performance</h1>
+    <p>Pre 1 vs Post 1 vs Post 2</p>
+</div>
+
+<div id="app" class="container"></div>
+
+<script>
+
+const exams = [
+    {
+        name:"Domain",
+        field:"Domain Test"
+    },
+    {
+        name:"English Usage",
+        field:"English Usage"
+    },
+    {
+        name:"Analytical Reasoning",
+        field:"Analytical Reasoning"
+    },
+    {
+        name:"Quantitative Aptitude",
+        field:"Quantitative Aptitude"
+    },
+    {
+        name:"Coding",
+        field:"Coding"
+    },
+    {
+        name:"Written English Test",
+        field:"Written English Test"
+    },
+    {
+        name:"Computer Fundamentals",
+        field:"Computer Fundamentals"
+    }
+];
+
+const stages = [
+    "Pre 1",
+    "Post 1",
+    "Post 2"
+];
+
+function clean(value){
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value).trim();
+}
+
+function statusClass(status){
+
+    status = clean(status);
+
+    if(status === "Good to Go"){
+        return "good";
+    }
+
+    if(status === "Need Practice"){
+        return "practice";
+    }
+
+    if(status === "Need Training"){
+        return "training";
+    }
+
+    return "appeared";
+}
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const roll =
+    clean(params.get("roll"));
+
+if(!roll){
+
+    document.getElementById("app").innerHTML = `
+        <div class="error">
+            <h2>Student not selected</h2>
+            <p>No Roll Number was provided.</p>
+        </div>
+    `;
+
+}else{
+
+    fetch("../data/cocubes-2026.json")
+
+    .then(response=>{
+
+        if(!response.ok){
+            throw new Error(
+                "Unable to load CoCubes 2026 data."
+            );
+        }
+
+        return response.json();
+
+    })
+
+    .then(data=>{
+
+        const student =
+            data.find(row =>
+                clean(row["Roll Number"]) === roll
+            );
+
+        if(!student){
+
+            document.getElementById("app").innerHTML = `
+                <div class="error">
+                    <h2>Student not found</h2>
+                    <p>Roll Number:
+                        <strong>${roll}</strong>
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        let tableRows = "";
+
+        exams.forEach(exam=>{
+
+            const examData =
+                student[exam.field] || {};
+
+            let cells = "";
+
+            stages.forEach(stage=>{
+
+                const value =
+                    clean(examData[stage]);
+
+                cells += `
+                    <td class="status ${statusClass(value)}">
+                        ${value || "Not Appeared"}
+                    </td>
+                `;
+
+            });
+
+            tableRows += `
+                <tr>
+                    <td>${exam.name}</td>
+                    ${cells}
+                </tr>
+            `;
+
+        });
+
+        document.getElementById("app").innerHTML = `
+
+            <a
+                href="javascript:history.back()"
+                class="back-btn"
+            >
+                ? Back
+            </a>
+
+            <div class="student-card">
+
+                <div class="student-info">
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Roll Number
+                        </div>
+                        <div class="info-value">
+                            ${clean(student["Roll Number"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Student Name
+                        </div>
+                        <div class="info-value">
+                            ${clean(student["Name"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Degree
+                        </div>
+                        <div class="info-value">
+                            ${clean(student["Degree"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Department
+                        </div>
+                        <div class="info-value">
+                            ${clean(student["Department"])}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">
+                            Campus
+                        </div>
+                        <div class="info-value">
+                            ${clean(student["Location"])}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="performance-card">
+
+                <h2>
+                    Examination-wise Performance
+                </h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Examination</th>
+                            <th>Pre 1</th>
+                            <th>Post 1</th>
+                            <th>Post 2</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+
+                </table>
+
+            </div>
+        `;
+
+    })
+
+    .catch(error=>{
+
+        document.getElementById("app").innerHTML = `
+            <div class="error">
+                <h2>
+                    Unable to load student performance
+                </h2>
+                <p>${error.message}</p>
+            </div>
+        `;
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,624 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE — CT3 Assessment 2028</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f7;
+    color: #222;
+}
+
+.container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 25px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #007367;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    background: #dfeceb;
+    color: #007367;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background: #007367;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.placeholder {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+}
+
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+#performanceBandTable {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#performanceBandTable th,
+#performanceBandTable td {
+    font-weight: bold;
+    border: 1px solid #d5dddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#performanceBandTable th {
+    background: #007367;
+    color: white;
+    font-weight: bold;
+}
+
+#performanceBandTable td:first-child {
+    text-align: left;
+    font-weight: bold;
+}
+
+#performanceBandTable tr.group-row td {
+    background: #eef5f4;
+    font-weight: bold;
+    color: #007367;
+}
+
+#performanceBandTable tr.grand-total td {
+    font-weight: bold;
+    background: #e3eeee;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        CT3 ASSESSMENT REPORT - VSP, BLR &amp; HYD -
+        1st Week (12.08.2026 to 15.08.2026) - 2028
+    </h1>
+
+    <div class="tabs">
+
+        <button class="tab-button active"
+                onclick="showTab('performanceBand', this)">
+            Performance Band
+        </button>
+
+        <button class="tab-button"
+                onclick="showTab('weekPerformance', this)">
+            Week Wise Performance
+        </button>
+
+        <button class="tab-button"
+                onclick="showTab('graphs', this)">
+            Graphical Representation
+        </button>
+
+    </div>
+
+    <div id="performanceBand" class="tab-content active">
+
+        <h2>Performance Band</h2>
+
+        <div class="table-wrapper">
+
+            <table id="performanceBandTable">
+
+                <thead>
+                    <tr>
+                        <th colspan="8">Performance Band</th>
+                    </tr>
+                    <tr>
+                        <th>School Wise</th>
+                        <th>Department</th>
+                        <th>A</th>
+                        <th>A+</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>F</th>
+                        <th>Grand Total</th>
+                    </tr>
+                </thead>
+
+                <tbody id="performanceBandBody">
+
+                    <tr class="group-row">
+                        <td>GSCE</td>
+                        <td>BIOTECHNOLOGY</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td>32</td>
+                        <td>34</td>
+                    </tr>
+
+                    <tr>
+                        <td>CIVIL</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>EECE</td>
+                        <td>33</td>
+                        <td></td>
+                        <td>41</td>
+                        <td>54</td>
+                        <td>290</td>
+                        <td>418</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>MECH</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>11</td>
+                        <td>11</td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td></td>
+                        <td>33</td>
+                        <td>0</td>
+                        <td>41</td>
+                        <td>56</td>
+                        <td>335</td>
+                        <td>465</td>
+                    </tr>
+
+                    <tr class="group-row">
+                        <td>GSCSE</td>
+                        <td>AI_DatSci</td>
+                        <td>150</td>
+                        <td>9</td>
+                        <td>185</td>
+                        <td>194</td>
+                        <td>609</td>
+                        <td>1147</td>
+                    </tr>
+
+                    <tr>
+                        <td>CSE</td>
+                        <td></td>
+                        <td>243</td>
+                        <td>6</td>
+                        <td>327</td>
+                        <td>328</td>
+                        <td>1169</td>
+                        <td>2073</td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td></td>
+                        <td>Total</td>
+                        <td>393</td>
+                        <td>15</td>
+                        <td>512</td>
+                        <td>522</td>
+                        <td>1778</td>
+                        <td>3220</td>
+                    </tr>
+
+                    <tr class="group-row">
+                        <td>GSS</td>
+                        <td>CS</td>
+                        <td>5</td>
+                        <td></td>
+                        <td>4</td>
+                        <td>10</td>
+                        <td>56</td>
+                        <td>75</td>
+                    </tr>
+
+                    <tr>
+                        <td>MATHS</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>18</td>
+                        <td>18</td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td></td>
+                        <td>Total</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>4</td>
+                        <td>10</td>
+                        <td>74</td>
+                        <td>93</td>
+                    </tr>
+
+                    <tr class="grand-total">
+                        <td>Grand Total</td>
+                        <td></td>
+                        <td>431</td>
+                        <td>15</td>
+                        <td>557</td>
+                        <td>588</td>
+                        <td>2187</td>
+                        <td>3778</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div id="weekPerformance" class="tab-content">
+
+        <h2>Week Wise Performance</h2>
+
+        <div class="placeholder">
+            Week Wise Performance table will be added here.
+        </div>
+
+    </div>
+
+    <div id="graphs" class="tab-content">
+
+        <h2>Graphical Representation</h2>
+
+        <div class="placeholder">
+            Graphical representation will be added here.
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+<script>
+function showTab(tabId, button) {
+
+    document.querySelectorAll(".tab-content")
+        .forEach(function(tab) {
+            tab.classList.remove("active");
+        });
+
+    document.querySelectorAll(".tab-button")
+        .forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+    document.getElementById(tabId)
+        .classList.add("active");
+
+    button.classList.add("active");
+}
+
+</script>
+
+
+<script>
+
+let ct3Students = [];
+
+function getPerformanceBand(value) {
+
+    const score = Number(value);
+
+    if (isNaN(score)) return "";
+
+    if (score > 90) return "A+";
+    if (score > 75) return "A";
+    if (score > 60) return "B";
+    if (score > 40) return "C";
+
+    return "F";
+}
+
+
+async function loadCT3Data() {
+
+    try {
+
+        const response = await fetch("../data/CT3.xlsx");
+
+        if (!response.ok) {
+            throw new Error("Unable to load CT3.xlsx");
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        const workbook = XLSX.read(arrayBuffer, {
+            type: "array"
+        });
+
+        const sheet = workbook.Sheets["Sheet1"];
+
+        if (!sheet) {
+            throw new Error("Sheet1 was not found in CT3.xlsx");
+        }
+
+        ct3Students = XLSX.utils.sheet_to_json(sheet, {
+            defval: ""
+        });
+
+        console.log(
+            "DATA PULSE: CT3 students loaded:",
+            ct3Students.length
+        );
+
+        // buildPerformanceBandTable();
+
+    } catch (error) {
+
+        console.error(
+            "DATA PULSE CT3 ERROR:",
+            error
+        );
+
+        document.getElementById("performanceBandBody").innerHTML =
+            '<tr><td colspan="7">Unable to load CT3 data.</td></tr>';
+
+    }
+
+}
+
+
+function buildPerformanceBandTable() {
+
+    const body =
+        document.getElementById("performanceBandBody");
+
+    if (!body) return;
+
+    body.innerHTML = "";
+
+    const groups = {};
+
+    const grandTotal = {
+        "A": 0,
+        "A+": 0,
+        "B": 0,
+        "C": 0,
+        "F": 0
+    };
+
+
+    ct3Students.forEach(function(student) {
+
+        const school =
+            String(
+                student["School"] || ""
+            ).trim();
+
+        const percentage1 =
+            parseFloat(
+                student["ALV -1- 12.08.2026- Percentage"]
+            ) || 0;
+
+        const percentage2 =
+            parseFloat(
+                student["ALV -2- 15.08.2026- Percentage"]
+            ) || 0;
+
+        const average =
+            (percentage1 + percentage2) / 2;
+
+        const band =
+            getPerformanceBand(average);
+
+        if (!school || !band) return;
+
+
+        if (!groups[school]) {
+
+            groups[school] = {
+                "A": 0,
+                "A+": 0,
+                "B": 0,
+                "C": 0,
+                "F": 0
+            };
+
+        }
+
+        groups[school][band]++;
+
+        grandTotal[band]++;
+
+    });
+
+
+    const schoolOrder = [
+        "GSCE",
+        "BIOTECHNOLOGY",
+        "CIVIL",
+        "EECE",
+        "MECH",
+        "GSCSE",
+        "AI_DatSci",
+        "CSE",
+        "GSS",
+        "CS",
+        "MATHS"
+    ];
+
+
+    schoolOrder.forEach(function(school) {
+
+        if (
+            school === "GSCE" ||
+            school === "GSCSE" ||
+            school === "GSS"
+        ) {
+
+            const row =
+                document.createElement("tr");
+
+            row.className = "group-row";
+
+            row.innerHTML =
+                '<td colspan="7">' +
+                school +
+                '</td>';
+
+            body.appendChild(row);
+
+            return;
+
+        }
+
+
+        const data =
+            groups[school] || {
+                "A": 0,
+                "A+": 0,
+                "B": 0,
+                "C": 0,
+                "F": 0
+            };
+
+
+        const total =
+            data["A"] +
+            data["A+"] +
+            data["B"] +
+            data["C"] +
+            data["F"];
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML =
+
+            "<td>" + school + "</td>" +
+            "<td>" + data["A"] + "</td>" +
+            "<td>" + data["A+"] + "</td>" +
+            "<td>" + data["B"] + "</td>" +
+            "<td>" + data["C"] + "</td>" +
+            "<td>" + data["F"] + "</td>" +
+            "<td>" + total + "</td>";
+
+
+        body.appendChild(row);
+
+    });
+
+
+    const total =
+        grandTotal["A"] +
+        grandTotal["A+"] +
+        grandTotal["B"] +
+        grandTotal["C"] +
+        grandTotal["F"];
+
+
+    const totalRow =
+        document.createElement("tr");
+
+    totalRow.className =
+        "grand-total";
+
+
+    totalRow.innerHTML =
+
+        "<td>Grand Total</td>" +
+        "<td>" + grandTotal["A"] + "</td>" +
+        "<td>" + grandTotal["A+"] + "</td>" +
+        "<td>" + grandTotal["B"] + "</td>" +
+        "<td>" + grandTotal["C"] + "</td>" +
+        "<td>" + grandTotal["F"] + "</td>" +
+        "<td>" + total + "</td>";
+
+
+    body.appendChild(totalRow);
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadCT3Data();
+
+    }
+);
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

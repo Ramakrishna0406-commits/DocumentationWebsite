@@ -1,0 +1,135 @@
+========================================================== */
+
+function createComparisonChart(data){
+
+    if(comparisonChart){
+
+        comparisonChart.destroy();
+
+    }
+
+    comparisonChart =
+        new Chart(
+
+            document.getElementById(
+                "comparisonChart"
+            ),
+
+            {
+
+                type:"bar",
+
+                data:{
+
+                    labels:[
+
+                        "Good to Go",
+
+                        "Need Training",
+
+                        "Need Practice",
+
+                        "Not Appeared"
+
+                    ],
+
+                    datasets:[
+
+                        {
+
+                            label:"Pre Assessment",
+
+                            data:[
+
+                                data.pre.good,
+
+                                data.pre.training,
+
+                                data.pre.practice,
+
+                                data.pre.notAppeared
+
+                            ],
+
+                            backgroundColor:"#9bc5bf"
+
+                        },
+
+                        {
+
+                            label:"Post Assessment",
+
+                            data:[
+
+                                data.post.good,
+
+                                data.post.training,
+
+                                data.post.practice,
+
+                                data.post.notAppeared
+
+                            ],
+
+                            backgroundColor:"#007367"
+
+                        }
+
+                    ]
+
+                },
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+                            position:"bottom"
+                        }
+
+                    },
+
+                    scales:{
+
+                        y:{
+
+                            beginAtZero:true,
+
+                            ticks:{
+                                precision:0
+                            },
+
+                            title:{
+                                display:true,
+                                text:"Number of Students"
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                plugins:[
+                    percentageLabels
+                ]
+
+            }
+
+        );
+
+}
+
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+function createSummary(data){
+
+    const preTotal =
+        data.pre.good +
