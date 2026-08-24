@@ -1,4 +1,4 @@
-{
+﻿{
   "hosting": {
     "public": ".",
     "ignore": [
@@ -7,6 +7,9 @@
       "**/node_modules/**"
     ]
   },
+  "storage": {
+    "rules": "storage.rules"
+  },
   "firestore": {
     "database": "(default)",
     "location": "nam5",
@@ -14,3 +17,5 @@
     "indexes": "firestore.indexes.json"
   }
 }
+
+

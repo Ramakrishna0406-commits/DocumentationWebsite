@@ -1,0 +1,1585 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 1 Training Overview</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef5f4;
+    color: #263238;
+}
+
+/* HEADER */
+.dashboard-header {
+    background: linear-gradient(135deg, #007367, #005b52);
+    color: white;
+    padding: 26px 30px;
+    border-radius: 18px 6px 18px 6px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 20px rgba(0, 115, 103, 0.20);
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-header::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -50px;
+    top: -70px;
+    border: 35px solid rgba(255,255,255,0.08);
+    transform: rotate(45deg);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.header-subtitle {
+    margin-top: 7px;
+    font-size: 14px;
+    opacity: 0.88;
+}
+
+.period-badge {
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.28);
+    padding: 10px 16px;
+    border-radius: 8px 18px 8px 18px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* PHASE 1 OVERVIEW TABS */
+.overview-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 22px 0;
+    padding: 6px;
+    background: white;
+    border: 1px solid #dce8e6;
+    border-radius: 12px 5px 12px 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.overview-tab {
+    flex: 1;
+    min-width: 190px;
+    padding: 14px 20px;
+    border: 1px solid #d8e5e3;
+    background: #f4f8f7;
+    color: #536467;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 7px 18px 7px 18px;
+    transition: all 0.2s ease;
+}
+
+.overview-tab:nth-child(2) {
+    border-radius: 18px 7px 18px 7px;
+}
+
+.overview-tab:nth-child(3) {
+    border-radius: 7px 18px 7px 18px;
+}
+
+.overview-tab:hover {
+    background: #e3f0ee;
+    color: #007367;
+    transform: translateY(-2px);
+}
+
+.overview-tab.active {
+    background: #007367;
+    color: white;
+    border-color: #007367;
+    box-shadow: 0 5px 12px rgba(0,115,103,0.20);
+}
+
+.overview-tab.active:hover {
+    background: #00665b;
+    color: white;
+}
+
+@media (max-width: 700px) {
+    .overview-tabs {
+        gap: 6px;
+    }
+
+    .overview-tab {
+        flex: 0 0 auto;
+        min-width: 175px;
+    }
+}
+/* KPI CARDS */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.kpi {
+    background: white;
+    padding: 20px;
+    min-height: 130px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #dce8e6;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    border-radius: 8px 22px 8px 22px;
+}
+
+.kpi:nth-child(2) {
+    border-radius: 22px 8px 22px 8px;
+}
+
+.kpi:nth-child(3) {
+    border-radius: 8px 22px 8px 22px;
+}
+
+.kpi:nth-child(4) {
+    border-radius: 22px 8px 22px 8px;
+}
+
+.kpi::before {
+    content: "";
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    right: -25px;
+    bottom: -25px;
+    background: #e3f0ee;
+    transform: rotate(45deg);
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #718083;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+.kpi-value {
+    margin-top: 13px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #007367;
+}
+
+.kpi-note {
+    margin-top: 7px;
+    font-size: 11px;
+    color: #899597;
+}
+
+/* SECTION TITLE */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 25px 0 13px;
+}
+
+.section-title span {
+    width: 6px;
+    height: 25px;
+    background: #007367;
+    border-radius: 3px;
+}
+
+.section-title h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #344548;
+}
+
+/* ATTENDANCE PULSE */
+.pulse-card {
+    background: white;
+    border: 1px solid #dce8e6;
+    border-radius: 18px 6px 18px 6px;
+    padding: 22px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+.pulse-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.day-card {
+    background: #f5f9f8;
+    padding: 18px 10px;
+    text-align: center;
+    border-radius: 8px 18px 8px 18px;
+    border: 1px solid #e0ebea;
+}
+
+.day-card:nth-child(even) {
+    border-radius: 18px 8px 18px 8px;
+}
+
+.day {
+    font-size: 12px;
+    color: #718083;
+    font-weight: 600;
+}
+
+.day-score {
+    margin-top: 12px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #007367;
+}
+
+.day-bar {
+    margin-top: 12px;
+    height: 7px;
+    background: #dce9e7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.day-bar span {
+    display: block;
+    height: 100%;
+    background: #007367;
+    border-radius: 20px;
+}
+
+/* CAMPUS */
+.campus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.campus {
+    background: white;
+    padding: 22px;
+    border: 1px solid #dce8e6;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    border-radius: 7px 20px 7px 20px;
+    position: relative;
+}
+
+.campus:nth-child(2) {
+    border-radius: 20px 7px 20px 7px;
+}
+
+.campus:nth-child(3) {
+    border-radius: 7px 20px 7px 20px;
+}
+
+.campus-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #007367;
+}
+
+.campus-students {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #7b898b;
+}
+
+.campus-score {
+    margin-top: 18px;
+    font-size: 27px;
+    font-weight: 700;
+    color: #263238;
+}
+
+.campus-bar {
+    margin-top: 10px;
+    height: 8px;
+    background: #e0eae9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.campus-bar span {
+    display: block;
+    height: 100%;
+    background: #007367;
+    border-radius: 20px;
+}
+
+/* PERFORMANCE */
+.performance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.25fr;
+    gap: 16px;
+}
+
+.performance {
+    background: white;
+    padding: 22px;
+    border: 1px solid #dce8e6;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    min-height: 190px;
+}
+
+.performance:nth-child(1) {
+    border-radius: 20px 7px 20px 7px;
+}
+
+.performance:nth-child(2) {
+    border-radius: 7px 20px 7px 20px;
+}
+
+.performance:nth-child(3) {
+    border-radius: 20px 7px 20px 7px;
+}
+
+.performance-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #007367;
+    margin-bottom: 18px;
+}
+
+.main-score {
+    font-size: 32px;
+    font-weight: 700;
+    color: #263238;
+}
+
+.score-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid #edf2f1;
+    font-size: 13px;
+}
+
+.score-row strong {
+    color: #007367;
+}
+
+/* BOTTOM BUTTONS */
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.action-button {
+    padding: 17px 20px;
+    background: #007367;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0,115,103,0.18);
+    border-radius: 7px 20px 7px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.action-button:nth-child(2) {
+    border-radius: 20px 7px 20px 7px;
+}
+
+.action-button:nth-child(3) {
+    border-radius: 7px 20px 7px 20px;
+}
+
+.action-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,115,103,0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 12px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .kpi-grid,
+    .campus-grid,
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pulse-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ================= ZAGGY 2028 DASHBOARD ================= */
+
+.zaggy-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin:10px 0 28px;
+    padding:28px 30px;
+    border-radius:22px;
+    background:linear-gradient(135deg,#007367 0%,#005b52 55%,#003f3a 100%);
+    color:#fff;
+    box-shadow:0 12px 30px rgba(0,115,103,.18);
+}
+
+.zaggy-eyebrow {
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:2px;
+    opacity:.75;
+    margin-bottom:7px;
+}
+
+.zaggy-header h1 {
+    margin:0;
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.zaggy-header p {
+    margin:7px 0 0;
+    font-size:13px;
+    opacity:.78;
+}
+
+.zaggy-status {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 13px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:30px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+    white-space:nowrap;
+}
+
+.status-dot {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#70e0a3;
+    box-shadow:0 0 0 5px rgba(112,224,163,.14);
+}
+
+.zaggy-kpi-grid {
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+    margin-bottom:28px;
+}
+
+.zaggy-kpi {
+    position:relative;
+    min-height:115px;
+    padding:18px;
+    border:1px solid #e5ecea;
+    border-radius:18px;
+    background:#fff;
+    display:flex;
+    align-items:flex-start;
+    gap:13px;
+    box-shadow:0 7px 20px rgba(20,55,50,.06);
+    transition:transform .22s ease,box-shadow .22s ease;
+    overflow:hidden;
+}
+
+.zaggy-kpi:hover {
+    transform:translateY(-5px);
+    box-shadow:0 14px 28px rgba(20,55,50,.12);
+}
+
+.kpi-icon {
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#e9f5f2;
+    font-size:17px;
+    flex-shrink:0;
+}
+
+.zaggy-kpi span {
+    display:block;
+    font-size:10px;
+    font-weight:800;
+    color:#70817e;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.zaggy-kpi strong {
+    display:block;
+    margin-top:5px;
+    font-size:24px;
+    color:#123c37;
+}
+
+.zaggy-kpi small {
+    display:block;
+    margin-top:3px;
+    font-size:10px;
+    color:#98a6a3;
+}
+
+.zaggy-section {
+    margin-bottom:28px;
+    padding:24px;
+    border:1px solid #e5ecea;
+    border-radius:22px;
+    background:#fff;
+    box-shadow:0 7px 22px rgba(20,55,50,.055);
+}
+
+.zaggy-section-heading {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.zaggy-section-heading > div:first-child > span {
+    display:block;
+    margin-bottom:4px;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#007367;
+}
+
+.zaggy-section-heading h2 {
+    margin:0;
+    font-size:19px;
+    color:#153d38;
+}
+
+.zaggy-section-heading p {
+    margin:5px 0 0;
+    font-size:11px;
+    color:#899895;
+}
+
+.zaggy-action {
+    border:0;
+    background:#edf7f5;
+    color:#007367;
+    padding:9px 14px;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.attendance-dashboard {
+    display:grid;
+    grid-template-columns:1.25fr 1fr 1fr 1.35fr;
+    gap:15px;
+}
+
+.attendance-ring-card,
+.attendance-stat,
+.attendance-insight {
+    min-height:145px;
+    border:1px solid #edf1f0;
+    border-radius:17px;
+    padding:18px;
+    background:#fafcfb;
+}
+
+.attendance-ring-card {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.attendance-ring {
+    width:105px;
+    height:105px;
+    border-radius:50%;
+    background:conic-gradient(#007367 0deg,#007367 0deg,#e5eeec 0deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.attendance-ring > div {
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.attendance-ring strong {
+    font-size:19px;
+    color:#153d38;
+}
+
+.attendance-ring span {
+    font-size:9px;
+    color:#899895;
+}
+
+.ring-caption {
+    font-size:11px;
+    font-weight:800;
+    color:#526460;
+}
+
+.attendance-stat {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.stat-label {
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    color:#84938f;
+}
+
+.attendance-stat strong {
+    margin:8px 0;
+    font-size:27px;
+    color:#153d38;
+}
+
+.stat-bar,
+.hub-progress,
+.campus-track {
+    height:6px;
+    overflow:hidden;
+    border-radius:10px;
+    background:#e8efed;
+}
+
+.stat-bar i,
+.hub-progress i,
+.campus-track i {
+    display:block;
+    height:100%;
+    border-radius:10px;
+    background:#007367;
+    transition:width .6s ease;
+}
+
+.attendance-stat small,
+.attendance-insight p,
+.campus-card small {
+    margin-top:7px;
+    font-size:10px;
+    color:#94a09d;
+}
+
+.attendance-insight {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.attendance-insight span {
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:1.4px;
+    color:#84938f;
+}
+
+.attendance-insight strong {
+    margin-top:7px;
+    font-size:22px;
+    color:#007367;
+}
+
+.attendance-insight p {
+    margin-bottom:0;
+}
+
+.performance-hub-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.hub-card {
+    position:relative;
+    padding:19px;
+    min-height:135px;
+    border:1px solid #e7eeec;
+    border-radius:17px;
+    background:#fbfdfc;
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.hub-card:hover {
+    transform:translateY(-4px);
+    box-shadow:0 10px 22px rgba(20,55,50,.09);
+}
+
+.hub-card.highlight {
+    background:#edf8f5;
+    border-color:#d5ebe5;
+}
+
+.hub-card > span {
+    display:block;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:1px;
+    color:#9aa8a5;
+}
+
+.hub-card label {
+    display:block;
+    margin-top:17px;
+    font-size:11px;
+    font-weight:700;
+    color:#526460;
+}
+
+.hub-card strong {
+    display:block;
+    margin:5px 0 12px;
+    font-size:24px;
+    color:#153d38;
+}
+
+.campus-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.campus-card {
+    padding:20px;
+    border:1px solid #e7eeec;
+    border-radius:17px;
+    background:#fbfdfc;
+}
+
+.campus-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.campus-top span {
+    font-size:12px;
+    font-weight:900;
+    color:#007367;
+    letter-spacing:1px;
+}
+
+.campus-top strong {
+    font-size:22px;
+    color:#153d38;
+}
+
+.training-journey {
+    display:flex;
+    align-items:center;
+    gap:0;
+    overflow-x:auto;
+    padding:8px 0;
+}
+
+.journey-step {
+    min-width:145px;
+    text-align:center;
+}
+
+.journey-step b {
+    width:42px;
+    height:42px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#e9f1ef;
+    color:#60716d;
+    font-size:11px;
+}
+
+.journey-step.active b {
+    background:#007367;
+    color:#fff;
+    box-shadow:0 0 0 7px #e7f4f1;
+}
+
+.journey-step span {
+    display:block;
+    margin-top:10px;
+    font-size:10px;
+    font-weight:800;
+    color:#596b67;
+}
+
+.journey-step strong {
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+    color:#007367;
+}
+
+.journey-line {
+    height:2px;
+    min-width:35px;
+    background:#dfe8e5;
+    margin-bottom:31px;
+}
+
+@media (max-width:1100px) {
+    .zaggy-kpi-grid {
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .attendance-dashboard {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .performance-hub-grid {
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media (max-width:700px) {
+    .zaggy-header {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .zaggy-kpi-grid,
+    .attendance-dashboard,
+    .performance-hub-grid,
+    .campus-grid {
+        grid-template-columns:1fr;
+    }
+
+    .zaggy-section {
+        padding:17px;
+    }
+
+    .zaggy-section-heading {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+}
+
+
+/* =========================================================
+   PHASE 1 TRAINING OVERVIEW 2028 - ZAGGY INTERACTIVE DESIGN
+   ========================================================= */
+
+.training-section {
+    position: relative;
+    margin: 34px 0 !important;
+    padding: 28px !important;
+    border-radius: 28px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,115,103,.12) !important;
+    box-shadow: 0 12px 35px rgba(0,0,0,.08) !important;
+    overflow: hidden;
+}
+
+.training-section::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(0,115,103,.08);
+    pointer-events: none;
+}
+
+.training-section::after {
+    content: "";
+    position: absolute;
+    bottom: -90px;
+    left: -90px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(0,115,103,.045);
+    pointer-events: none;
+}
+
+.training-section-header {
+    position: relative;
+    z-index: 2;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+    padding: 18px 22px !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg,#007367,#00584f) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(0,115,103,.22) !important;
+}
+
+.section-number {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 15px !important;
+    background: rgba(255,255,255,.18) !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    border: 1px solid rgba(255,255,255,.25) !important;
+}
+
+.section-title {
+    position: relative;
+    z-index: 2;
+}
+
+.section-title h2 {
+    margin: 0 !important;
+    color: #ffffff !important;
+    font-size: 24px !important;
+    font-weight: 850 !important;
+    letter-spacing: -.4px !important;
+}
+
+.section-title span {
+    color: rgba(255,255,255,.78) !important;
+    font-size: 13px !important;
+}
+
+/* ---------- PRE-ASSESSMENT ---------- */
+
+.preassessment-card {
+    position: relative !important;
+    padding: 26px !important;
+    border-radius: 24px !important;
+    background: linear-gradient(135deg,#f1fffc,#ffffff) !important;
+    border: 2px solid rgba(0,115,103,.13) !important;
+    box-shadow: 0 12px 30px rgba(0,115,103,.10) !important;
+    overflow: hidden !important;
+}
+
+.preassessment-card::before {
+    content: "PRE";
+    position: absolute;
+    top: -18px;
+    right: 22px;
+    font-size: 70px;
+    font-weight: 900;
+    color: rgba(0,115,103,.055);
+    pointer-events: none;
+}
+
+.assessment-info {
+    position: relative;
+    z-index: 1;
+}
+
+.assessment-date {
+    font-weight: 700 !important;
+}
+
+.score-display {
+    position: relative;
+    z-index: 1;
+    margin: 18px 0 !important;
+    font-size: 42px !important;
+    font-weight: 900 !important;
+    letter-spacing: -1px !important;
+}
+
+.score-progress {
+    position: relative;
+    z-index: 1;
+}
+
+.progress-track,
+.score-progress,
+.exam-progress,
+.training-progress {
+    overflow: hidden !important;
+    border-radius: 30px !important;
+}
+
+/* ---------- GRAND TEST ---------- */
+
+.grand-test-grid {
+    position: relative;
+    z-index: 2;
+    display: grid !important;
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    gap: 22px !important;
+}
+
+.exam-card {
+    position: relative !important;
+    min-height: 210px !important;
+    padding: 25px !important;
+    border-radius: 24px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0,115,103,.12) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.08) !important;
+    transition: transform .25s ease, box-shadow .25s ease !important;
+    overflow: hidden !important;
+}
+
+.exam-card::after {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    right: -35px;
+    bottom: -35px;
+    border-radius: 50%;
+    background: rgba(0,115,103,.07);
+}
+
+.exam-card:nth-child(1) {
+    transform: rotate(-1.2deg);
+}
+
+.exam-card:nth-child(2) {
+    transform: rotate(1.2deg);
+}
+
+.exam-card:nth-child(3) {
+    transform: rotate(-.4deg);
+}
+
+.exam-card:hover {
+    transform: translateY(-9px) rotate(0deg) !important;
+    box-shadow: 0 20px 38px rgba(0,0,0,.14) !important;
+}
+
+.exam-number {
+    position: relative;
+    z-index: 2;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px !important;
+    border-radius: 999px !important;
+    background: rgba(0,115,103,.10) !important;
+    color: #007367 !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+
+.exam-card h3 {
+    position: relative;
+    z-index: 2;
+    margin-top: 16px !important;
+    font-size: 21px !important;
+    font-weight: 850 !important;
+}
+
+/* ---------- GRAND TOTAL ---------- */
+
+.grand-total-card {
+    position: relative !important;
+    min-height: 210px !important;
+    padding: 28px !important;
+    border-radius: 26px !important;
+    background: linear-gradient(135deg,#007367,#004f48) !important;
+    color: #ffffff !important;
+    box-shadow: 0 16px 35px rgba(0,115,103,.28) !important;
+    overflow: hidden !important;
+}
+
+.grand-total-card::before {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: -65px;
+    top: -65px;
+    border-radius: 50%;
+    border: 25px solid rgba(255,255,255,.08);
+}
+
+.grand-total-card::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: -40px;
+    bottom: -40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+}
+
+.grand-total-card * {
+    position: relative;
+    z-index: 2;
+    color: #ffffff !important;
+}
+
+.grand-total-card .total-line {
+    padding: 12px 0 !important;
+    border-bottom: 1px solid rgba(255,255,255,.18) !important;
+}
+
+.grand-total-card .total-line:last-child {
+    border-bottom: none !important;
+}
+
+/* ---------- IN TRAINING ---------- */
+
+.training-score-grid {
+    position: relative;
+    z-index: 2;
+    display: grid !important;
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    gap: 22px !important;
+}
+
+.training-card {
+    position: relative !important;
+    min-height: 205px !important;
+    padding: 25px !important;
+    border-radius: 24px !important;
+    background: linear-gradient(145deg,#ffffff,#f3faf8) !important;
+    border: 1px solid rgba(0,115,103,.12) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.075) !important;
+    transition: transform .25s ease, box-shadow .25s ease !important;
+    overflow: hidden !important;
+}
+
+.training-card:nth-child(1) {
+    transform: translateY(4px);
+}
+
+.training-card:nth-child(2) {
+    transform: translateY(-5px);
+}
+
+.training-card:nth-child(3) {
+    transform: translateY(4px);
+}
+
+.training-card:hover {
+    transform: translateY(-9px) !important;
+    box-shadow: 0 20px 38px rgba(0,0,0,.13) !important;
+}
+
+.training-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg,#007367,#35bcae);
+}
+
+.training-icon {
+    position: relative;
+    z-index: 2;
+    width: 52px !important;
+    height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 17px !important;
+    background: rgba(0,115,103,.10) !important;
+    color: #007367 !important;
+    font-size: 22px !important;
+    transition: transform .25s ease !important;
+}
+
+.training-card:hover .training-icon {
+    transform: rotate(-7deg) scale(1.1);
+}
+
+.training-card h3 {
+    position: relative;
+    z-index: 2;
+    margin-top: 15px !important;
+    font-size: 20px !important;
+    font-weight: 850 !important;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 900px) {
+    .grand-test-grid,
+    .training-score-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .exam-card:nth-child(1),
+    .exam-card:nth-child(2),
+    .exam-card:nth-child(3),
+    .training-card:nth-child(1),
+    .training-card:nth-child(2),
+    .training-card:nth-child(3) {
+        transform: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .training-section {
+        padding: 16px !important;
+        border-radius: 20px !important;
+    }
+
+    .training-section-header {
+        padding: 15px !important;
+    }
+
+    .section-title h2 {
+        font-size: 19px !important;
+    }
+
+    .score-display {
+        font-size: 34px !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="dashboard-header">
+    <div class="header-top">
+        <div>
+            <div class="header-title">PHASE 1 TRAINING</div>
+            <div class="header-subtitle">
+                Training Progress & Performance Command Center
+            </div>
+        </div>
+
+        <div class="period-badge">
+            28 JUL 2026 → 01 AUG 2026
+        </div>
+    </div>
+</div>
+
+<!-- PHASE 1 OVERVIEW TABS -->
+<div class="overview-tabs">
+
+    <button class="overview-tab active" onclick="openOverviewTab('dashboard', this)">
+        OVERVIEW DASHBOARD
+    </button>
+
+    <button class="overview-tab" onclick="openOverviewTab('attendance', this)">
+        ATTENDANCE DAY-WISE DETAILS
+    </button>
+
+    <button class="overview-tab" onclick="openOverviewTab('performance', this)">
+        CONSOLIDATED IN-TRAINING PERFORMANCE
+    </button>
+
+</div>
+
+<div id="dashboardContent" class="overview-content">
+
+    <div class="training-overview-hero">
+        <div>
+            <div class="hero-label">PHASE I • 2028</div>
+            <h1>Training Overview</h1>
+            <p>Training assessment and in-training performance dashboard</p>
+        </div>
+        <div class="hero-badge">
+            <span></span>
+            PHASE I
+        </div>
+    </div>
+
+    <!-- 01 PRE-ASSESSMENT -->
+    <section class="training-section">
+        <div class="training-section-header">
+            <div class="section-number">01</div>
+            <div>
+                <h2>Pre-Assessment Scores</h2>
+                <p>Pseudocode Examination</p>
+            </div>
+        </div>
+
+        <div class="preassessment-card">
+            <div class="assessment-info">
+                <span class="assessment-date">28-JUL-26</span>
+                <h3>Pseudocode Examination</h3>
+                <p>Pre-Assessment Score</p>
+            </div>
+
+            <div class="score-display">
+                <strong>--%</strong>
+                <span>Score</span>
+            </div>
+
+            <div class="score-progress">
+                <div class="progress-label">
+                    <span>Performance</span>
+                    <span>--%</span>
+                </div>
+                <div class="progress-track">
+                    <i style="width:0%"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 02 GRAND TEST -->
+    <section class="training-section">
+        <div class="training-section-header">
+            <div class="section-number">02</div>
+            <div>
+                <h2>Grand Test Scores</h2>
+                <p>Pseudocode Grand Examination + Coding Examination</p>
+            </div>
+        </div>
+
+        <div class="grand-test-grid">
+
+            <div class="exam-card">
+                <div class="exam-number">01</div>
+                <span>GRAND EXAMINATION</span>
+                <h3>Pseudocode</h3>
+                <strong>--%</strong>
+                <div class="exam-progress">
+                    <i style="width:0%"></i>
+                </div>
+            </div>
+
+            <div class="exam-card">
+                <div class="exam-number">02</div>
+                <span>GRAND EXAMINATION</span>
+                <h3>Coding</h3>
+                <strong>--%</strong>
+                <div class="exam-progress">
+                    <i style="width:0%"></i>
+                </div>
+            </div>
+
+            <div class="grand-total-card">
+                <span>GRAND TEST</span>
+                <h3>Total / Average</h3>
+                <strong>--%</strong>
+                <div class="total-line">
+                    <i></i>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 03 IN TRAINING -->
+    <section class="training-section">
+        <div class="training-section-header">
+            <div class="section-number">03</div>
+            <div>
+                <h2>Phase I — In-Training Scores</h2>
+                <p>Attendance + LC Scores Examination + Pseudocode Examination</p>
+            </div>
+        </div>
+
+        <div class="training-score-grid">
+
+            <div class="training-card">
+                <div class="training-icon">A</div>
+                <span>IN-TRAINING</span>
+                <h3>Attendance</h3>
+                <strong>--%</strong>
+                <div class="training-progress">
+                    <i style="width:0%"></i>
+                </div>
+                <small>Attendance performance</small>
+            </div>
+
+            <div class="training-card">
+                <div class="training-icon">LC</div>
+                <span>EXAMINATION</span>
+                <h3>LC Scores</h3>
+                <strong>--%</strong>
+                <div class="training-progress">
+                    <i style="width:0%"></i>
+                </div>
+                <small>LC examination performance</small>
+            </div>
+
+            <div class="training-card">
+                <div class="training-icon">P</div>
+                <span>EXAMINATION</span>
+                <h3>Pseudocode</h3>
+                <strong>--%</strong>
+                <div class="training-progress">
+                    <i style="width:0%"></i>
+                </div>
+                <small>In-training pseudocode performance</small>
+            </div>
+
+        </div>
+    </section>
+
+</div><div id="performanceContent" class="overview-content" style="display:none;">
+
+<!-- PERFORMANCE -->
+<div class="section-title">
+    <span></span>
+    <h2>PERFORMANCE HUB</h2>
+</div>
+
+<div class="performance-grid">
+
+    <div class="performance">
+        <div class="performance-title">PRE-ASSESSMENT</div>
+        <div class="main-score">--%</div>
+        <div class="score-row">
+            <span>Pre-Assessment Score</span>
+            <strong>--%</strong>
+        </div>
+    </div>
+
+    <div class="performance">
+        <div class="performance-title">GRAND TEST SCORES</div>
+
+        <div class="score-row">
+            <span>Pseudocode Grand Test</span>
+            <strong>--%</strong>
+        </div>
+
+        <div class="score-row">
+            <span>Coding Grand Test</span>
+            <strong>--%</strong>
+        </div>
+
+        <div class="score-row">
+            <span>Grand Test Average %</span>
+            <strong>--%</strong>
+        </div>
+    </div>
+
+    <div class="performance">
+        <div class="performance-title">PHASE I – IN TRAINING SCORES</div>
+
+        <div class="score-row">
+            <span>Attendance</span>
+            <strong>92.02%</strong>
+        </div>
+
+        <div class="score-row">
+            <span>LC Scores</span>
+            <strong>--%</strong>
+        </div>
+
+        <div class="score-row">
+            <span>Pseudocode Assessment</span>
+            <strong>--%</strong>
+        </div>
+
+        <div class="score-row">
+            <span>Pseudocode Performance</span>
+            <strong>--%</strong>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<!-- ACTION BUTTONS -->
+<script>
+function openOverviewTab(tab, button) {
+
+    document.querySelectorAll(".overview-tab").forEach(function(btn) {
+        btn.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    var dashboard = document.getElementById("dashboardContent");
+    var performance = document.getElementById("performanceContent");
+
+    if (tab === "attendance") {
+        window.location.href = "Phase1_Attendance_Daywise_2028.html";
+        return;
+    }
+
+    if (tab === "dashboard") {
+        if (dashboard) dashboard.style.display = "block";
+        if (performance) performance.style.display = "none";
+        return;
+    }
+
+    if (tab === "performance") {
+        if (dashboard) dashboard.style.display = "none";
+        if (performance) performance.style.display = "block";
+        return;
+    }
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.hash === "#performance") {
+        var performanceButton = document.querySelector(".overview-tab[onclick*='performance']");
+        if (performanceButton) {
+            openOverviewTab("performance", performanceButton);
+        }
+    }
+});
+</script>
+</body>
+</html>

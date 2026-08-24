@@ -1,0 +1,18 @@
+﻿rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    match /attendanceSnapshots/{fileName} {
+      allow read: if request.auth != null;
+
+      allow create, update, delete: if
+        request.auth != null &&
+        request.auth.token.email == "rkolluri@gitam.edu";
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

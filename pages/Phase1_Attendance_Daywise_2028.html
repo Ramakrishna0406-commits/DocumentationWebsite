@@ -1,0 +1,1078 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 1 Attendance - Day-wise Details</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef5f4;
+    color: #263238;
+}
+
+.header {
+    background: linear-gradient(135deg, #007367, #005b52);
+    color: white;
+    padding: 24px 28px;
+    border-radius: 18px 6px 18px 6px;
+    box-shadow: 0 8px 20px rgba(0,115,103,0.18);
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 7px 0 0;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* ADMIN */
+.admin-panel {
+    background: white;
+    border: 1px solid #dce8e6;
+    padding: 16px;
+    border-radius: 8px 20px 8px 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.admin-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #007367;
+    margin-bottom: 12px;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 7px 17px 7px 17px;
+}
+
+.btn-primary {
+    background: #007367;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e4f0ee;
+    color: #007367;
+}
+
+.btn-export {
+    background: #344548;
+    color: white;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* FILTERS */
+.filter-panel {
+    background: white;
+    padding: 16px;
+    border-radius: 18px 7px 18px 7px;
+    border: 1px solid #dce8e6;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.filter-panel input,
+.filter-panel select {
+    padding: 10px 12px;
+    border: 1px solid #ccd9d7;
+    border-radius: 7px;
+    font-size: 12px;
+    outline: none;
+}
+
+/* TABLE */
+.table-card {
+    background: white;
+    border-radius: 8px 20px 8px 20px;
+    border: 1px solid #dce8e6;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.table-header {
+    padding: 17px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #007367;
+    border-bottom: 1px solid #e4eceb;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+}
+
+th {
+    background: #007367;
+    color: white;
+    padding: 11px 9px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 10px 9px;
+    border-bottom: 1px solid #edf2f1;
+    text-align: center;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+td:nth-child(2),
+td:nth-child(4) {
+    text-align: left;
+}
+
+tbody tr:hover {
+    background: #f2f8f7;
+}
+
+.empty-row {
+    padding: 40px;
+    text-align: center;
+    color: #899597;
+}
+
+.status {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #718083;
+}
+
+@media(max-width:700px) {
+    body {
+        padding: 12px;
+    }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+/* ===== Attendance Snapshot - Compact Overall Analysis Card ===== */
+.attendance-snapshot-card {
+    background: #ffffff;
+    border: 1px solid #dfe7e5;
+    border-radius: 12px;
+    margin: 18px 0;
+    padding: 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.attendance-snapshot-header {
+    background: #007367;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 13px 18px;
+}
+
+.attendance-snapshot-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+}
+
+.snapshot-upload-btn,
+.snapshot-view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.snapshot-upload-btn {
+    background: #007367;
+    color: #ffffff;
+    border: 1px solid #007367;
+}
+
+.snapshot-upload-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.snapshot-view-btn {
+    background: #f4f8f7;
+    color: #007367;
+    border: 1px solid #007367;
+}
+
+.snapshot-view-btn:hover:not(:disabled) {
+    background: #007367;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.snapshot-view-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+</style></head>
+
+<body>
+<!-- PHASE 1 OVERVIEW TABS -->
+<div class="overview-tabs">
+    <button class="overview-tab" onclick="window.location.href='Phase1_Training_Overview_2028.html'">Overview Dashboard</button>
+    <button class="overview-tab active" onclick="window.location.href='Phase1_Attendance_Daywise_2028.html'">Attendance Day-Wise Details</button>
+    <button class="overview-tab" onclick="window.location.href='Phase1_Training_Overview_2028.html#performance'">Consolidated In-Training Performance</button>
+</div>
+
+<div class="header">
+    <h1>PHASE 1 — ATTENDANCE DAY-WISE DETAILS</h1>
+    <p>Student-wise attendance | 28 July 2026 to 01 August 2026</p>
+</div>
+
+<!-- ADMIN CONTROLS -->
+<div class="admin-panel" id="adminPanel"><div class="admin-title">ADMIN — ATTENDANCE DATA MANAGEMENT</div><div class="admin-buttons"><label for="excelFile" class="btn btn-primary">Upload Attendance Excel</label><button type="button" class="btn btn-secondary" id="previewBtn">Preview</button><button type="button" class="btn btn-primary" id="publishBtn">Publish</button><button type="button" class="btn btn-export" id="exportBtn">Export Excel</button></div><div class="status" id="adminStatus">Select the Attendance Excel file to begin.</div></div>
+
+    <!-- FILTERS -->
+<div class="filter-panel">
+
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search Roll No / Student Name">
+
+    <select id="campusFilter">
+        <option value="">All Campuses</option>
+        <option value="BLR">BLR</option>
+        <option value="HYD">HYD</option>
+        <option value="VSP">VSP</option>
+    </select>
+
+    <select id="courseFilter">
+        <option value="">All Courses</option>
+        <option value="BTECH">BTECH</option>
+        <option value="BCA">BCA</option>
+    </select>
+    <select id="departmentFilter">
+        <option value="">All Departments</option>
+        <option value="AI_DatSci">AI_DatSci</option>
+        <option value="BIOTECHNOLOGY">BIOTECHNOLOGY</option>
+        <option value="CIVIL">CIVIL</option>
+        <option value="CSE">CSE</option>
+        <option value="EECE">EECE</option>
+        <option value="MECH">MECH</option>
+        <option value="CS">CS</option>
+    </select>
+
+    <button class="btn btn-export" type="button">
+        EXPORT TO EXCEL
+    </button>
+
+</div>
+
+<!-- ATTENDANCE DAY-WISE ANALYSIS TABS -->
+<div class="attendance-overview-tabs">
+    <button class="attendance-overview-tab active" type="button" onclick="openAttendanceTab('overall')">Overall Analysis</button>
+    <button class="attendance-overview-tab" type="button" onclick="openAttendanceTab('students')">Student Details</button>
+</div>
+
+<div id="attendanceOverallTab" class="attendance-tab-content">
+    <div id="attendanceOverallContent">
+
+    <div class="attendance-snapshot-card">
+
+        <div class="attendance-snapshot-header">
+            <span>ATTENDANCE SNAPSHOT</span>
+        </div>
+
+        <div class="attendance-snapshot-upload">
+            <label for="attendanceSnapshotInput" class="snapshot-upload-btn">
+                Upload Snapshot
+            </label>
+            <input type="file" id="attendanceSnapshotInput" accept="image/png,image/jpeg,image/jpg" hidden>
+            <button type="button" id="viewAttendanceSnapshot" class="snapshot-view-btn" disabled>
+                View Attendance Snapshot
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<div id="attendanceStudentsTab" class="attendance-tab-content"><!-- TABLE -->
+<div class="table-card">
+
+    <div class="table-header">
+        STUDENT-WISE DAY-WISE ATTENDANCE
+    </div>
+
+    <div class="table-wrapper">
+
+        <table id="attendanceTable">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Regd. #</th>
+                    <th>Student Name</th>
+                    <th>Campus</th>
+                    <th>School</th>
+                    <th>Degree</th>
+                    <th>Course</th>
+                    <th>Dept</th>
+                    <th>Spl</th>
+                    <th>PY</th>
+                    <th>Batch</th>
+                    <th>Room Number</th>
+                    <th>28-Jul</th>
+                    <th>29-Jul</th>
+                    <th>30-Jul</th>
+                    <th>31-Jul</th>
+                    <th>01-Aug</th>
+                    <th>02-Aug</th>
+                </tr>
+            </thead>
+
+            <tbody id="attendanceBody">
+
+                <tr>
+                    <td colspan="18" class="empty-row">
+                        No attendance data published yet.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+let attendancePreviewData = [];
+let attendanceHeaders = [];
+
+
+function updateAttendanceDepartmentFilter() {
+    const courseFilter = document.getElementById("courseFilter");
+    const departmentFilter = document.getElementById("departmentFilter");
+
+    if (!courseFilter || !departmentFilter) return;
+
+    const selectedCourse = courseFilter.value;
+    const currentDepartment = departmentFilter.value;
+
+    const departments = selectedCourse
+        ? (attendanceCourseDeptMapping[selectedCourse] || [])
+        : Object.values(attendanceCourseDeptMapping).flat();
+
+    departmentFilter.innerHTML =
+        '<option value="">All Departments</option>' +
+        departments.map(dept =>
+            `<option value="${dept}">${dept}</option>`
+        ).join("");
+
+    if (departments.includes(currentDepartment)) {
+        departmentFilter.value = currentDepartment;
+    } else {
+        departmentFilter.value = "";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const courseFilter = document.getElementById("courseFilter");
+
+    if (courseFilter) {
+        courseFilter.addEventListener("change", updateAttendanceDepartmentFilter);
+        updateAttendanceDepartmentFilter();
+    }
+});
+const attendanceCourseDeptMapping = {
+    BTECH: [
+        "CSE",
+        "AI_DatSci",
+        "EECE",
+        "MECH",
+        "CIVIL",
+        "BIOTECHNOLOGY"
+    ],
+    BCA: [
+        "CS"
+    ]
+};
+
+
+const excelFileInput = document.getElementById("excelFile");`r`nif (excelFileInput) excelFileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const status = document.getElementById("adminStatus");
+    status.textContent = "Excel selected: " + file.name + ". Click Preview to load the student attendance sheet.";
+});
+
+document.getElementById("previewBtn").addEventListener("click", function () {
+    const fileInput = document.getElementById("excelFile");
+    const status = document.getElementById("adminStatus");
+
+    if (!fileInput.files.length) {
+        status.textContent = "Please select the Attendance Excel file first.";
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        try {
+            const workbook = XLSX.read(e.target.result, { type: "array" });
+
+            if (!workbook.SheetNames.includes("student attendance")) {
+                status.textContent = "Error: 'student attendance' sheet was not found.";
+                return;
+            }
+
+            const worksheet = workbook.Sheets["student attendance"];
+
+            const rows = XLSX.utils.sheet_to_json(worksheet, {
+                header: 1,
+                defval: ""
+            });
+
+            if (!rows.length) {
+                status.textContent = "The student attendance sheet is empty.";
+                return;
+            }
+
+            attendanceHeaders = rows[0].map(value => String(value).trim()); console.log('ATTENDANCE HEADERS:', attendanceHeaders);
+            attendancePreviewData = rows.slice(1).filter(row =>
+                row.some(cell => String(cell).trim() !== "")
+            );
+
+            renderAttendanceTable(attendancePreviewData);
+
+            status.textContent =
+                "Preview loaded successfully: " +
+                attendancePreviewData.length +
+                " student records.";
+        } catch (error) {
+            console.error(error);
+            status.textContent = "Unable to read the Excel file.";
+        }
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+
+function renderAttendanceTable(rows) {
+    const tbody = document.getElementById("attendanceBody");
+
+    if (!rows.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="18" class="empty-row">No attendance records found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = rows.map(row => {
+        const cells = [];
+
+        for (let i = 0; i < 18; i++) {
+            cells.push(
+                "<td>" +
+                escapeAttendanceHtml(row[i] ?? "") +
+                "</td>"
+            );
+        }
+
+        return "<tr>" + cells.join("") + "</tr>";
+    }).join("");
+}
+
+function escapeAttendanceHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
+<script>
+function openAttendanceTab(tab) {
+    var overall = document.getElementById("attendanceOverallTab");
+    var students = document.getElementById("attendanceStudentsTab");
+    var tabs = document.querySelectorAll(".attendance-overview-tab");
+
+    if (!overall || !students) return;
+
+    if (tab === "overall") {
+        overall.style.display = "block";
+        students.style.display = "none";
+        tabs.forEach(function(btn) { btn.classList.remove("active"); });
+        if (tabs[0]) tabs[0].classList.add("active");
+    } else {
+        overall.style.display = "none";
+        students.style.display = "block";
+        tabs.forEach(function(btn) { btn.classList.remove("active"); });
+        if (tabs[1]) tabs[1].classList.add("active");
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    openAttendanceTab("overall");
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const snapshotInput = document.getElementById("attendanceSnapshotInput");
+    const snapshotPreview = document.getElementById("attendanceSnapshotPreview");
+    const clearSnapshot = document.getElementById("clearAttendanceSnapshot");
+
+    if (!snapshotInput || !snapshotPreview || !clearSnapshot) return;
+
+    snapshotInput.addEventListener("change", function () {
+        const file = this.files && this.files[0];
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please select a JPG, JPEG or PNG image.");
+            this.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            snapshotPreview.innerHTML =
+                '<img src="' + event.target.result + '" alt="Attendance Snapshot">';
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    clearSnapshot.addEventListener("click", function () {
+        snapshotInput.value = "";
+        snapshotPreview.innerHTML =
+            '<div class="snapshot-empty">No attendance snapshot uploaded.</div>';
+    });
+});
+</script></script></body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+/* ===== Attendance Overall Analysis Cards ===== */
+
+.attendance-analysis-container {
+    width: 100%;
+    padding: 20px 0 10px;
+}
+
+.attendance-analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.attendance-analysis-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px 18px;
+    min-height: 125px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.attendance-analysis-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: #007367;
+}
+
+.attendance-analysis-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.11);
+}
+
+.attendance-analysis-card h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+}
+
+.attendance-analysis-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #007367;
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.attendance-analysis-subtitle {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.attendance-campus-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.attendance-campus-item {
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+    color: #334155;
+}
+
+.attendance-campus-item strong {
+    color: #007367;
+    margin-left: 3px;
+}
+
+.attendance-view-image-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 7px 13px;
+    border: none;
+    border-radius: 7px;
+    background: #007367;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.attendance-view-image-btn:hover {
+    background: #005f56;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 1200px) {
+    .attendance-analysis-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .attendance-analysis-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .attendance-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+
+
+
+
+
+<style>
+/* ===== ATTENDANCE DASHBOARD - FILTER BAR ===== */
+
+.filter-panel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 18px 20px;
+    margin: 18px 0;
+    background: linear-gradient(135deg, #ffffff, #f5fbfa);
+    border: 1px solid #dce9e7;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(0, 115, 103, 0.08);
+}
+
+.filter-panel input,
+.filter-panel select {
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid #d6e2e0;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.filter-panel input {
+    min-width: 230px;
+}
+
+.filter-panel select {
+    min-width: 155px;
+}
+
+.filter-panel input:focus,
+.filter-panel select:focus {
+    border-color: #007367;
+    box-shadow: 0 0 0 3px rgba(0, 115, 103, 0.10);
+}
+
+.filter-panel .btn-export {
+    height: 42px;
+    margin-left: auto;
+    border-radius: 9px;
+    font-weight: 700;
+    letter-spacing: .2px;
+}
+
+/* ===== COURSE / DEPARTMENT VISUAL EMPHASIS ===== */
+
+#courseFilter {
+    border-left: 4px solid #007367;
+}
+
+#departmentFilter {
+    border-left: 4px solid #1b8a7d;
+}
+
+/* ===== ATTENDANCE TABS ===== */
+
+.attendance-overview-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 5px;
+    background: #eef7f5;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.attendance-overview-tab {
+    border: none;
+    background: transparent;
+    color: #52706b;
+    padding: 11px 22px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.attendance-overview-tab:hover {
+    background: #ffffff;
+    color: #007367;
+}
+
+.attendance-overview-tab.active {
+    background: #007367;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 115, 103, .20);
+}
+
+/* ===== DASHBOARD TAB CONTENT ===== */
+
+.attendance-tab-content {
+    animation: attendanceFade .25s ease;
+}
+
+@keyframes attendanceFade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 900px) {
+    .filter-panel {
+        align-items: stretch;
+    }
+
+    .filter-panel input,
+    .filter-panel select {
+        flex: 1 1 180px;
+    }
+
+    .filter-panel .btn-export {
+        margin-left: 0;
+    }
+}
+</style>
+
+
+<style>
+/* ===== PREMIUM ATTENDANCE OVERALL DASHBOARD ===== */
+
+#attendanceOverallContent {
+    padding: 4px 0 20px;
+}
+
+.attendance-analysis-container {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.attendance-analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.attendance-analysis-card {
+    position: relative;
+    min-height: 145px;
+    padding: 22px 20px;
+    background: linear-gradient(145deg, #ffffff, #f7fbfa);
+    border: 1px solid #dce9e7;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 73, 66, 0.08);
+    overflow: hidden;
+    transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.attendance-analysis-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 73, 66, 0.14);
+}
+
+.attendance-analysis-card::before {
+    width: 6px;
+    background: linear-gradient(180deg, #007367, #35a99a);
+}
+
+.attendance-analysis-card::after {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -35px;
+    bottom: -40px;
+    border-radius: 50%;
+    background: rgba(0, 115, 103, 0.06);
+}
+
+.attendance-analysis-card h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.attendance-analysis-value {
+    position: relative;
+    z-index: 1;
+    font-size: 34px;
+    font-weight: 850;
+    color: #007367;
+    line-height: 1;
+    margin-bottom: 9px;
+}
+
+.attendance-analysis-subtitle {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    color: #7b8a88;
+}
+
+.attendance-campus-list {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.attendance-campus-item {
+    padding: 6px 9px;
+    border-radius: 7px;
+    background: #edf6f4;
+    border: 1px solid #d8eae7;
+    font-size: 11px;
+    font-weight: 600;
+    color: #49635f;
+}
+
+.attendance-campus-item strong {
+    color: #007367;
+}
+
+.attendance-view-image-btn {
+    position: relative;
+    z-index: 3;
+    margin-top: 8px;
+    padding: 7px 13px;
+    border: 0;
+    border-radius: 7px;
+    background: #007367;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 115, 103, .18);
+}
+
+.attendance-view-image-btn:hover {
+    background: #005e55;
+}
+
+/* Responsive */
+
+@media (max-width: 1250px) {
+    .attendance-analysis-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+    .attendance-analysis-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .attendance-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<style>
+/* ===== ATTENDANCE PAGE - TOP NAVIGATION ===== */
+
+.overview-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    margin: 22px 0 24px;
+    padding: 7px;
+    background: linear-gradient(135deg, #f4faf9, #eaf5f3);
+    border: 1px solid #d7e8e5;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(0, 115, 103, 0.08);
+}
+
+.overview-tab {
+    flex: 1;
+    min-height: 52px;
+    padding: 12px 20px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    background: transparent;
+    color: #506b67;
+    font-size: 13px;
+    font-weight: 750;
+    letter-spacing: .25px;
+    cursor: pointer;
+    transition: all .22s ease;
+}
+
+.overview-tab:hover {
+    background: #ffffff;
+    color: #007367;
+    border-color: #d5e7e4;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 115, 103, 0.08);
+}
+
+.overview-tab.active {
+    background: linear-gradient(135deg, #007367, #008b7d);
+    color: #ffffff;
+    border-color: #007367;
+    box-shadow: 0 5px 14px rgba(0, 115, 103, 0.22);
+}
+
+.overview-tab.active:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #007367, #008b7d);
+    transform: none;
+}
+
+@media (max-width: 850px) {
+    .overview-tabs {
+        flex-direction: column;
+    }
+
+    .overview-tab {
+        width: 100%;
+    }
+}
+</style>
+
+
+
+
+
+
+

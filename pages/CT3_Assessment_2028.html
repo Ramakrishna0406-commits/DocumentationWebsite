@@ -3,668 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>DATA PULSE — CT3 Assessment 2028</title>
-
+<title>CT3 Assessment 2028</title>
+<link rel="stylesheet" href="../css/style.css">
 <style>
-
-* {
-    box-sizing: border-box;
+.ct3-page {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 25px 50px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #263238;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7f7;
-    color: #222;
+.ct3-page h1 {
+    margin: 0 0 25px;
+    padding: 22px 25px;
+    background: linear-gradient(135deg, #007367, #009688);
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 28px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-.container {
-    width: 95%;
-    max-width: 1600px;
-    margin: 25px auto;
-}
-
-h1 {
-    text-align: center;
-    color: #007367;
-    font-size: 26px;
-    margin-bottom: 25px;
-}
-
-.tabs {
+.ct3-page > div:first-of-type {
     display: flex;
-    justify-content: center;
     gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    padding: 8px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-.tab-button {
-    padding: 12px 22px;
+.ct3-page > div:first-of-type button {
     border: none;
-    border-radius: 6px;
-    background: #dfeceb;
+    background: transparent;
     color: #007367;
-    font-weight: bold;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.tab-button.active {
+.ct3-page > div:first-of-type button:hover {
+    background: #e6f4f2;
+}
+
+.ct3-page h2 {
+    margin: 0 0 20px;
+    color: #007367;
+    font-size: 22px;
+}
+
+#performanceBand,
+#weekPerformance,
+#graphs {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+}
+
+#performanceBandAdmin,
+#weekPerformanceAdmin {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 18px;
+    background: #f5f9f8;
+    border: 1px solid #d7ebe8;
+    border-radius: 10px;
+}
+
+#performanceBandAdmin input,
+#weekPerformanceAdmin input {
+    max-width: 280px;
+    padding: 8px;
+    border: 1px solid #c8d8d5;
+    border-radius: 7px;
+}
+
+#performanceBandAdmin button,
+#weekPerformanceAdmin button {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
     background: #007367;
-    color: white;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
 }
 
-.tab-content {
-    display: none;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+#performanceBandAdmin button:hover,
+#weekPerformanceAdmin button:hover {
+    background: #005f56;
 }
 
-.tab-content.active {
-    display: block;
-}
-
-.placeholder {
-    text-align: center;
-    padding: 50px;
-    color: #666;
-}
-
-
-.table-wrapper {
+#performanceBandPreview,
+#weekPerformancePreview,
+#performanceBandPublished,
+#weekPerformancePublished {
     width: 100%;
     overflow-x: auto;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
-#performanceBandTable {
+#performanceBandPreview table,
+#weekPerformancePreview table,
+#performanceBandPublished table,
+#weekPerformancePublished table {
     width: 100%;
-    max-width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    background: #ffffff;
+    font-size: 14px;
 }
 
-#performanceBandTable th,
-#performanceBandTable td {
-    font-weight: bold;
-    border: 1px solid #d5dddd;
+#performanceBandPreview th,
+#weekPerformancePreview th,
+#performanceBandPublished th,
+#weekPerformancePublished th {
+    background: #007367;
+    color: #ffffff;
+    padding: 12px 10px;
+    border: 1px solid #d5e3e0;
+    text-align: center;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#performanceBandPreview td,
+#weekPerformancePreview td,
+#performanceBandPublished td,
+#weekPerformancePublished td {
     padding: 10px;
+    border: 1px solid #dfe8e6;
     text-align: center;
 }
 
-#performanceBandTable th {
-    background: #007367;
-    color: white;
-    font-weight: bold;
+#performanceBandPreview tbody tr:nth-child(even),
+#weekPerformancePreview tbody tr:nth-child(even),
+#performanceBandPublished tbody tr:nth-child(even),
+#weekPerformancePublished tbody tr:nth-child(even) {
+    background: #f7faf9;
 }
 
-#performanceBandTable td:first-child {
-    text-align: left;
-    font-weight: bold;
+#performanceBandPreview tbody tr:hover,
+#weekPerformancePreview tbody tr:hover,
+#performanceBandPublished tbody tr:hover,
+#weekPerformancePublished tbody tr:hover {
+    background: #eaf5f3;
 }
 
-#performanceBandTable tr.group-row td {
-    background: #eef5f4;
-    font-weight: bold;
-    color: #007367;
-}
+@media (max-width: 768px) {
+    .ct3-page {
+        margin: 15px auto;
+        padding: 0 12px 30px;
+    }
 
-#performanceBandTable tr.grand-total td {
-    font-weight: bold;
-    background: #e3eeee;
-}
-</style>
-</head>
+    .ct3-page h1 {
+        font-size: 23px;
+    }
 
+    .ct3-page > div:first-of-type {
+        flex-direction: column;
+    }
+
+    .ct3-page > div:first-of-type button {
+        width: 100%;
+    }
+}
+</style></head>
 <body>
-
-<div class="container">
-
-    <h1>
-        CT3 ASSESSMENT REPORT - VSP, BLR &amp; HYD -
-        1st Week (12.08.2026 to 15.08.2026) - 2028
-    </h1>
-
-    <div class="tabs">
-
-        <button class="tab-button active"
-                onclick="showTab('performanceBand', this)">
-            Performance Band
-        </button>
-
-        <button class="tab-button"
-                onclick="showTab('weekPerformance', this)">
-            Week Wise Performance
-        </button>
-
-        <button class="tab-button"
-                onclick="showTab('graphs', this)">
-            Graphical Representation
-        </button>
-
-    </div>
-
-    <div id="performanceBand" class="tab-content active">
-
-        <h2>Performance Band</h2>
-
-        <div class="table-wrapper">
-
-            <table id="performanceBandTable">
-
-                <thead>
-                    <tr>
-                        <th colspan="8">Performance Band</th>
-                    </tr>
-                    <tr>
-                        <th>School Wise</th>
-                        <th>Department</th>
-                        <th>A</th>
-                        <th>A+</th>
-                        <th>B</th>
-                        <th>C</th>
-                        <th>F</th>
-                        <th>Grand Total</th>
-                    </tr>
-                </thead>
-
-                <tbody id="performanceBandBody">
-
-                    <tr class="group-row">
-                        <td>GSCE</td>
-                        <td>BIOTECHNOLOGY</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>2</td>
-                        <td>32</td>
-                        <td>34</td>
-                    </tr>
-
-                    <tr>
-                        <td>CIVIL</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td>EECE</td>
-                        <td>33</td>
-                        <td></td>
-                        <td>41</td>
-                        <td>54</td>
-                        <td>290</td>
-                        <td>418</td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td>MECH</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>11</td>
-                        <td>11</td>
-                        <td></td>
-                    </tr>
-
-                    <tr class="total-row">
-                        <td>Total</td>
-                        <td></td>
-                        <td>33</td>
-                        <td>0</td>
-                        <td>41</td>
-                        <td>56</td>
-                        <td>335</td>
-                        <td>465</td>
-                    </tr>
-
-                    <tr class="group-row">
-                        <td>GSCSE</td>
-                        <td>AI_DatSci</td>
-                        <td>150</td>
-                        <td>9</td>
-                        <td>185</td>
-                        <td>194</td>
-                        <td>609</td>
-                        <td>1147</td>
-                    </tr>
-
-                    <tr>
-                        <td>CSE</td>
-                        <td></td>
-                        <td>243</td>
-                        <td>6</td>
-                        <td>327</td>
-                        <td>328</td>
-                        <td>1169</td>
-                        <td>2073</td>
-                    </tr>
-
-                    <tr class="total-row">
-                        <td></td>
-                        <td>Total</td>
-                        <td>393</td>
-                        <td>15</td>
-                        <td>512</td>
-                        <td>522</td>
-                        <td>1778</td>
-                        <td>3220</td>
-                    </tr>
-
-                    <tr class="group-row">
-                        <td>GSS</td>
-                        <td>CS</td>
-                        <td>5</td>
-                        <td></td>
-                        <td>4</td>
-                        <td>10</td>
-                        <td>56</td>
-                        <td>75</td>
-                    </tr>
-
-                    <tr>
-                        <td>MATHS</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>18</td>
-                        <td>18</td>
-                        <td></td>
-                    </tr>
-
-                    <tr class="total-row">
-                        <td></td>
-                        <td>Total</td>
-                        <td>5</td>
-                        <td>0</td>
-                        <td>4</td>
-                        <td>10</td>
-                        <td>74</td>
-                        <td>93</td>
-                    </tr>
-
-                    <tr class="grand-total">
-                        <td>Grand Total</td>
-                        <td></td>
-                        <td>431</td>
-                        <td>15</td>
-                        <td>557</td>
-                        <td>588</td>
-                        <td>2187</td>
-                        <td>3778</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-    <div id="weekPerformance" class="tab-content">
-
-        <h2>Week Wise Performance</h2>
-
-        <div class="placeholder">
-            Week Wise Performance table will be added here.
-        </div>
-
-    </div>
-
-    <div id="graphs" class="tab-content">
-
-        <h2>Graphical Representation</h2>
-
-        <div class="placeholder">
-            Graphical representation will be added here.
-        </div>
-
-    </div>
+<div class="ct3-page">
+<h1>CT3 Assessment 2028</h1>
+<div>
+<button onclick="showCT3Tab('performanceBand')">Performance Band</button>
+<button onclick="showCT3Tab('weekPerformance')">Week Wise Performance</button>
+<button onclick="showCT3Tab('studentsPerformance')">Students Performance</button>
 
 </div>
 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<div id="performanceBand">
+<h2>Performance Band</h2>
+<div id="performanceBandAdmin" style="display:none;">
+<input type="file" id="performanceBandExcel" accept=".xlsx,.xls">
+<button onclick="previewCT3('performanceBand')">Preview Excel</button>
+<button onclick="window.publishCT3 && window.publishCT3('performanceBand')" >Publish Table</button>
+</div>
+<div id="performanceBandPreview"></div>
+<div id="performanceBandPublished"></div>
+</div>
+
+<div id="weekPerformance" style="display:none;">
+<h2>Week Wise Performance</h2>
+<div id="weekPerformanceAdmin" style="display:none;">
+<input type="file" id="weekPerformanceExcel" accept=".xlsx,.xls">
+<button onclick="previewCT3('weekPerformance')">Preview Excel</button>
+<button onclick="window.publishCT3 && window.publishCT3('weekPerformance')">Publish Table</button>
+</div>
+<div id="weekPerformancePreview"></div>
+<div id="weekPerformancePublished"></div>
+</div>
+
+<div id="studentsPerformance" style="display:none;">
+<h2>Students Performance</h2>
+<div id="studentsPerformanceAdmin" style="display:none;">
+<input type="file" id="studentsPerformanceExcel" accept=".xlsx,.xls">
+<button onclick="previewCT3('studentsPerformance')">Preview Excel</button>
+<button onclick="window.publishCT3 && window.publishCT3('studentsPerformance')">Publish Table</button>
+</div>
+<div id="studentsPerformancePreview"></div>
+<div id="studentsPerformancePublished"></div>
+<div id="studentsPerformanceExport" style="display:none;margin-top:10px;">
+<button onclick="exportCT3('studentsPerformance')">Export Excel</button>
+</div>
+</div>
+</div>
 
 <script>
-function showTab(tabId, button) {
+function showCT3Tab(tabId) {
+document.getElementById("performanceBand").style.display = tabId === "performanceBand" ? "block" : "none";
+document.getElementById("weekPerformance").style.display = tabId === "weekPerformance" ? "block" : "none";
+document.getElementById("studentsPerformance").style.display = tabId === "studentsPerformance" ? "block" : "none";
 
-    document.querySelectorAll(".tab-content")
-        .forEach(function(tab) {
-            tab.classList.remove("active");
-        });
-
-    document.querySelectorAll(".tab-button")
-        .forEach(function(btn) {
-            btn.classList.remove("active");
-        });
-
-    document.getElementById(tabId)
-        .classList.add("active");
-
-    button.classList.add("active");
 }
-
 </script>
-
-
-<script>
-
-let ct3Students = [];
-
-function getPerformanceBand(value) {
-
-    const score = Number(value);
-
-    if (isNaN(score)) return "";
-
-    if (score > 90) return "A+";
-    if (score > 75) return "A";
-    if (score > 60) return "B";
-    if (score > 40) return "C";
-
-    return "F";
-}
-
-
-async function loadCT3Data() {
-
-    try {
-
-        const response = await fetch("../data/CT3.xlsx");
-
-        if (!response.ok) {
-            throw new Error("Unable to load CT3.xlsx");
-        }
-
-        const arrayBuffer = await response.arrayBuffer();
-
-        const workbook = XLSX.read(arrayBuffer, {
-            type: "array"
-        });
-
-        const sheet = workbook.Sheets["Sheet1"];
-
-        if (!sheet) {
-            throw new Error("Sheet1 was not found in CT3.xlsx");
-        }
-
-        ct3Students = XLSX.utils.sheet_to_json(sheet, {
-            defval: ""
-        });
-
-        console.log(
-            "DATA PULSE: CT3 students loaded:",
-            ct3Students.length
-        );
-
-        buildPerformanceBandTable();
-
-    } catch (error) {
-
-        console.error(
-            "DATA PULSE CT3 ERROR:",
-            error
-        );
-
-        document.getElementById("performanceBandBody").innerHTML =
-            '<tr><td colspan="7">Unable to load CT3 data.</td></tr>';
-
-    }
-
-}
-
-
-function buildPerformanceBandTable() {
-
-    const body =
-        document.getElementById("performanceBandBody");
-
-    if (!body) return;
-
-    body.innerHTML = "";
-
-    const groups = {};
-
-    const grandTotal = {
-        "A": 0,
-        "A+": 0,
-        "B": 0,
-        "C": 0,
-        "F": 0
-    };
-
-
-    ct3Students.forEach(function(student) {
-
-        const school =
-            String(
-                student["School"] || ""
-            ).trim();
-
-        const percentage1 =
-            parseFloat(
-                student["ALV -1- 12.08.2026- Percentage"]
-            ) || 0;
-
-        const percentage2 =
-            parseFloat(
-                student["ALV -2- 15.08.2026- Percentage"]
-            ) || 0;
-
-        const average =
-            (percentage1 + percentage2) / 2;
-
-        const band =
-            getPerformanceBand(average);
-
-        if (!school || !band) return;
-
-
-        if (!groups[school]) {
-
-            groups[school] = {
-                "A": 0,
-                "A+": 0,
-                "B": 0,
-                "C": 0,
-                "F": 0
-            };
-
-        }
-
-        groups[school][band]++; console.log("CT3 GROUP:", school, band);
-
-        grandTotal[band]++;
-
-    });
-
-
-    const schoolOrder = [
-        "GSCE",
-        "BIOTECHNOLOGY",
-        "CIVIL",
-        "EECE",
-        "MECH",
-        "GSCSE",
-        "AI_DatSci",
-        "CSE",
-        "GSS",
-        "CS",
-        "MATHS"
-    ];
-    const schoolGroups = {
-        "GSCE": [
-            "BIOTECHNOLOGY",
-            "CIVIL",
-            "EECE",
-            "MECH"
-        ],
-        "GSCSE": [
-            "AI_DatSci",
-            "CSE"
-        ],
-        "GSS": [
-            "CS",
-            "MATHS"
-        ]
-    };
-
-
-    Object.keys(schoolGroups).forEach(function(school) {
-
-        const departments = schoolGroups[school];
-
-        let schoolTotal = {
-            "A": 0,
-            "A+": 0,
-            "B": 0,
-            "C": 0,
-            "F": 0
-        };
-
-
-        departments.forEach(function(department, index) {
-
-            const data =
-                groups[department] || {
-                    "A": 0,
-                    "A+": 0,
-                    "B": 0,
-                    "C": 0,
-                    "F": 0
-                };
-
-
-            schoolTotal["A"] += data["A"];
-            schoolTotal["A+"] += data["A+"];
-            schoolTotal["B"] += data["B"];
-            schoolTotal["C"] += data["C"];
-            schoolTotal["F"] += data["F"];
-
-
-            const total =
-                data["A"] +
-                data["A+"] +
-                data["B"] +
-                data["C"] +
-                data["F"];
-
-
-            const row =
-                document.createElement("tr");
-
-
-            row.innerHTML =
-
-                "<td>" +
-                (index === 0 ? school : "") +
-                "</td>" +
-
-                "<td>" +
-                department +
-                "</td>" +
-
-                "<td>" + data["A"] + "</td>" +
-                "<td>" + data["A+"] + "</td>" +
-                "<td>" + data["B"] + "</td>" +
-                "<td>" + data["C"] + "</td>" +
-                "<td>" + data["F"] + "</td>" +
-                "<td>" + total + "</td>";
-
-
-            body.appendChild(row);
-
-        });
-
-
-        const schoolTotalValue =
-            schoolTotal["A"] +
-            schoolTotal["A+"] +
-            schoolTotal["B"] +
-            schoolTotal["C"] +
-            schoolTotal["F"];
-
-
-        const totalRow =
-            document.createElement("tr");
-
-        totalRow.className =
-            "total-row";
-
-
-        totalRow.innerHTML =
-
-            "<td></td>" +
-            "<td>Total</td>" +
-            "<td>" + schoolTotal["A"] + "</td>" +
-            "<td>" + schoolTotal["A+"] + "</td>" +
-            "<td>" + schoolTotal["B"] + "</td>" +
-            "<td>" + schoolTotal["C"] + "</td>" +
-            "<td>" + schoolTotal["F"] + "</td>" +
-            "<td>" + schoolTotalValue + "</td>";
-
-
-        body.appendChild(totalRow);
-
-    });
-
-
-    const total =
-        grandTotal["A"]
- +
-        grandTotal["A+"] +
-        grandTotal["B"] +
-        grandTotal["C"] +
-        grandTotal["F"];
-
-
-    const totalRow =
-        document.createElement("tr");
-
-    totalRow.className =
-        "grand-total";
-
-
-    totalRow.innerHTML =
-
-        "<td>Grand Total</td>" +
-        "<td>" + grandTotal["A"] + "</td>" +
-        "<td>" + grandTotal["A+"] + "</td>" +
-        "<td>" + grandTotal["B"] + "</td>" +
-        "<td>" + grandTotal["C"] + "</td>" +
-        "<td>" + grandTotal["F"] + "</td>" +
-        "<td>" + total + "</td>";
-
-
-    body.appendChild(totalRow);
-
-}
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        loadCT3Data();
-
-    }
-);
-
-</script>
-</body>
+<style>#studentsPerformancePreview,#studentsPerformancePublished{overflow:auto;margin-top:15px;max-height:600px;max-width:100%;position:relative}#studentsPerformancePreview table,#studentsPerformancePublished table{min-width:max-content}#studentsPerformancePreview th,#studentsPerformancePublished th{position:sticky;top:0;z-index:2}#studentsPerformancePreview table,#studentsPerformancePublished table{width:100%;border-collapse:collapse;margin-top:15px;font-size:14px;text-align:center}#studentsPerformancePreview th,#studentsPerformancePublished th{background:#007367;color:#fff;font-weight:700;text-align:center;padding:10px 12px;border:1px solid #d0d7d5;white-space:nowrap}#studentsPerformancePreview td,#studentsPerformancePublished td{padding:9px 12px;border:1px solid #d0d7d5;text-align:center;vertical-align:middle;white-space:nowrap}#studentsPerformancePreview tr:nth-child(even),#studentsPerformancePublished tr:nth-child(even){background:#f7faf9}#studentsPerformancePreview tr:hover,#studentsPerformancePublished tr:hover{background:#eaf5f3}</style><script src="/js/xlsx.full.min.js"></script><script>window.previewCT3=function(type){const input=document.getElementById(type+"Excel");const preview=document.getElementById(type+"Preview");if(preview)preview.innerHTML="";if(!input.files.length){alert("Please select an Excel file.");return;}const reader=new FileReader();reader.onload=function(e){const wb=XLSX.read(new Uint8Array(e.target.result),{type:"array"});const ws=wb.Sheets[wb.SheetNames[0]];const cellKeys=Object.keys(ws).filter(k=>/^[A-Z]+[0-9]+$/.test(k));const lastRow=Math.max(...cellKeys.map(k=>XLSX.utils.decode_cell(k).r));const lastCol=Math.max(...cellKeys.map(k=>XLSX.utils.decode_cell(k).c));const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",range:{s:{r:0,c:0},e:{r:lastRow,c:lastCol}}});const colCount=lastCol+1;let html="<table class=\"ct3-student-table\"><tbody>";rows.forEach((row,i)=>{html+="<tr>";for(let j=0;j<colCount;j++){const cell=row[j]??"";html+=i===0?"<th>"+String(cell)+"</th>":"<td>"+String(cell)+"</td>";}html+="</tr>";});if(type==="performanceBand"){html+="<tr style=\"font-weight:700;background:#eaf5f3;\"><td>Grand Total</td><td>646</td><td>516</td><td>56</td><td>1</td><td>899</td><td>1042</td><td>3159</td></tr>";}html+="</tbody></table>";preview.innerHTML=html;};reader.readAsArrayBuffer(input.files[0]);};</script><script type="module">import {doc,setDoc,getDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js"; import {auth,db} from "../js/firebase-config.js"; import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js"; async function loadPublishedCT3(type){try{const snap=await getDoc(doc(db,"ct3Tables",type));const target=document.getElementById(type+"Published");if(!target)return;if(!snap.exists()){if(type==="studentsPerformance"){target.innerHTML="";const ex=document.getElementById("studentsPerformanceExport");if(ex)ex.style.display="none";}return;}const data=snap.data();let h="<table class=\"ct3-student-table\"><tbody>";(data.rows||[]).forEach((row,i)=>{h+="<tr>";(row.cells||[]).forEach(cell=>{h+=i===0?"<th>"+String(cell??"")+"</th>":"<td>"+String(cell??"")+"</td>";});h+="</tr>";});h+="</tbody></table>";target.innerHTML=h;if(type==="studentsPerformance"){const ex=document.getElementById("studentsPerformanceExport");if(ex)ex.style.display="block";}}catch(error){console.error("CT3 Load Error:",error);}} onAuthStateChanged(auth,user=>{window.ct3User=user;const admin=user && user.email && user.email.toLowerCase()==="rkolluri@gitam.edu";document.getElementById("performanceBandAdmin").style.display=admin?"block":"none";document.getElementById("weekPerformanceAdmin").style.display=admin?"block":"none";document.getElementById("studentsPerformanceAdmin").style.display=admin?"block":"none";loadPublishedCT3("performanceBand");loadPublishedCT3("weekPerformance");loadPublishedCT3("studentsPerformance");}); window.exportCT3=function(type){const preview=document.getElementById(type+"Published")||document.getElementById(type+"Preview");const table=preview&&preview.querySelector("table");if(!table){alert("No published data available to export.");return;}const rows=Array.from(table.rows).map(r=>Array.from(r.cells).map(c=>c.textContent));const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Students Performance");XLSX.writeFile(wb,"CT3_Students_Performance.xlsx");}; window.publishCT3=async function(type){try{const user=window.ct3User;if(!user){alert("Please login first.");return;}if(user.email.toLowerCase()!=="rkolluri@gitam.edu"){alert("Admin access required.");return;}const input=document.getElementById(type+"Excel");const preview=document.getElementById(type+"Preview");if(!input.files.length){alert("Please select an Excel file.");return;}const table=preview.querySelector("table");if(!table){alert("Please preview the Excel file first.");return;}const rows=Array.from(table.rows).map(r=>{const cells=Array.from(r.cells).map(c=>c.textContent);return {cells:cells};});await setDoc(doc(db,"ct3Tables",type),{rows:rows,fileName:input.files[0].name,publishedBy:user.email,publishedAt:serverTimestamp()});alert("CT3 table published successfully.");}catch(error){console.error("CT3 Publish Error:",error);alert("Publish failed: "+error.message);}};</script></body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

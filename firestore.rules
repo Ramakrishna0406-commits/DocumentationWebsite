@@ -102,6 +102,19 @@ service cloud.firestore {
 
 
     // ========================================================
+    // ========================================================
+    // CT3 PUBLISHED TABLES
+    // ========================================================
+
+    match /ct3Tables/{tableId} {
+
+      allow read: if
+        request.auth != null;
+
+      allow create, update, delete: if
+        isAdmin();
+    }
+
     // DEFAULT DENY
     // ========================================================
 
@@ -110,3 +123,5 @@ service cloud.firestore {
     }
   }
 }
+
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>DATA PULSE — Training Reports</title>
+    <title>DATA PULSE â€” Training Reports</title>
 
 
     <style>
@@ -329,7 +329,7 @@
 <header>
 
     <div class="title">
-        DATA PULSE — Training Reports
+        DATA PULSE â€” Training Reports
     </div>
 
 </header>
@@ -355,24 +355,20 @@
          2028 TRAINING REPORTS
          ===================================================== -->
 
-    <section id="year2028">
-
-        <div class="sub-tabs">
+    <section id="year2028">`r`n`r`n        <h2>Phase 1 Training</h2>`r`n`r`n        <div class="sub-tabs">
 
             <button
                 type="button"
                 class="sub-tab active"
-                onclick="alert('CoCubes will be updated.');">
-                CoCubes
+                onclick="showPhase1Tab('overview', this);">
+                Overview
             </button>
-
-            <button type="button" class="sub-tab" onclick="openReport('CT3_Assessment_2028.html', this);">CT3 Assessment</button>
 
             <button
                 type="button"
                 class="sub-tab"
-                onclick="alert('Training Assessment will be updated.');">
-                Training Assessment
+                onclick="openReport('CT3_Assessment_2028.html', this);">
+                Assessment Reports
             </button>
 
         </div>
@@ -381,7 +377,7 @@
             <iframe
                 id="reportFrame2028"
                 class="viewer"
-                src="CoCubes_2028_DATA_PULSE_NEW.html"
+                src="Phase1_Training_Overview_2028.html"
                 title="2028 CoCubes">
             </iframe>
         </div>
@@ -394,6 +390,25 @@
    SHOW YEAR
    ========================================================= */
 
+function showPhase1Tab(tabName, button) {
+    const section = button.closest("section");
+
+    section.querySelectorAll(".sub-tab").forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const frame = section.querySelector("#reportFrame2028");
+
+    if (tabName === "overview") {
+        frame.src = "Phase1_Training_Overview_2028.html";
+    }
+
+    if (tabName === "attendance") {
+        frame.src = "Phase1_Attendance_2028.html";
+    }
+}
 function showYear(year, button) {
 
 
@@ -571,6 +586,13 @@ document.addEventListener(
 </body>
 
 </html>
+
+
+
+
+
+
+
 
 
 
