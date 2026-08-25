@@ -115,6 +115,16 @@ service cloud.firestore {
         isAdmin();
     }
 
+    // ========================================================
+    // 2028 ATTENDANCE PUBLISHED SNAPSHOTS
+    // ========================================================
+    match /attendanceSnapshots/{snapshotId} {
+      allow read: if
+        request.auth != null;
+      allow create, update, delete: if
+        isAdmin();
+    }
+
     // DEFAULT DENY
     // ========================================================
 

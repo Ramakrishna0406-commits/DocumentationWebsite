@@ -1,0 +1,1688 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DATA PULSE — CT3 Assessment 2028</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f7;
+    color: #222;
+}
+
+.container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 25px auto;
+}
+
+h1 {
+    text-align: center;
+    color: #007367;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    background: #dfeceb;
+    color: #007367;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background: #007367;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.placeholder {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+}
+
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+#performanceBandTable {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#performanceBandTable th,
+#performanceBandTable td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#performanceBandTable th:nth-child(1),
+#performanceBandTable td:nth-child(1) {
+    width: 14%;
+    text-align: left;
+}
+
+#performanceBandTable th:nth-child(2),
+#performanceBandTable td:nth-child(2) {
+    width: 20%;
+    text-align: left;
+}
+
+#performanceBandTable th:nth-child(3),
+#performanceBandTable td:nth-child(3),
+#performanceBandTable th:nth-child(4),
+#performanceBandTable td:nth-child(4),
+#performanceBandTable th:nth-child(5),
+#performanceBandTable td:nth-child(5),
+#performanceBandTable th:nth-child(6),
+#performanceBandTable td:nth-child(6),
+#performanceBandTable th:nth-child(7),
+#performanceBandTable td:nth-child(7),
+#performanceBandTable th:nth-child(8),
+#performanceBandTable td:nth-child(8) {
+    text-align: center;
+}
+
+#performanceBandTable tr.total-row td {
+    font-weight: bold;
+}
+
+#performanceBandTable tr.grand-total td {
+    font-weight: bold;
+}
+
+.grade-classification {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px 0 15px;
+    padding: 8px;
+}
+
+/* ===== CT3 Assessment Table Enhancement ===== */
+
+#performanceBandTable {
+    width: 95%;
+    margin: 25px auto;
+    border-collapse: collapse;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+#performanceBandTable th,
+#performanceBandTable td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 11px 10px;
+}
+
+#performanceBandTable th {
+    font-weight: 600;
+}
+
+#performanceBandTable tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+#performanceBandTable tbody tr:hover {
+    background-color: #f3f8f7;
+}
+
+#performanceBandTable td {
+    font-size: 14px;
+}
+
+#performanceBandTable th {
+    font-size: 14px;
+}
+
+
+/* ===== FINAL CT3 TABLE STYLE ===== */
+
+#performanceBandTable {
+    width: 95% !important;
+    margin: 25px auto !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+#performanceBandTable th,
+#performanceBandTable td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 12px 10px !important;
+}
+
+#performanceBandTable th {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+#performanceBandTable td {
+    font-size: 14px !important;
+}
+
+#performanceBandTable tbody tr:nth-child(even) {
+    background: #f8faf9;
+}
+
+#performanceBandTable tbody tr:hover {
+    background: #eef6f4 !important;
+}
+
+#performanceBandTable th:first-child,
+#performanceBandTable td:first-child {
+    text-align: center !important;
+}
+
+#performanceBandTable th:nth-child(2),
+#performanceBandTable td:nth-child(2) {
+    text-align: center !important;
+}
+
+
+/* CT3 Table Header Color */
+#performanceBandTable thead th {
+    background: #007367 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-weight: 600 !important;
+}
+
+
+/* CT3 Grand Total Row */
+#performanceBandTable tr.grand-total td {
+    background: #007367 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    padding: 12px 10px !important;
+}
+
+/* ===== CT3 EXCEL UPLOAD SYSTEM ===== */
+
+.ct3-upload-panel {
+    width: 95%;
+    margin: 20px auto;
+    padding: 18px;
+    background: #f4f8f7;
+    border: 1px solid #c9dedb;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.ct3-upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+    color: #007367;
+    cursor: pointer;
+}
+
+.ct3-upload-label input[type="file"] {
+    padding: 8px;
+}
+
+.ct3-upload-actions {
+    margin-top: 15px;
+}
+
+.ct3-upload-actions button {
+    padding: 9px 18px;
+    margin: 4px;
+    border: none;
+    border-radius: 5px;
+    background: #007367;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ct3-upload-actions button:hover {
+    opacity: 0.9;
+}
+
+#performanceBandPreview,
+#weekPerformancePreview {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.ct3-preview-title {
+    color: #007367;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ct3-dynamic-table {
+    width: 95%;
+    margin: 15px auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+.ct3-dynamic-table th {
+    background: #007367;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.ct3-dynamic-table td {
+    padding: 9px 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* ===== END CT3 EXCEL UPLOAD SYSTEM ===== */
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        CT3 ASSESSMENT REPORT - VSP, BLR &amp; HYD -
+        1st Week (12.08.2026 to 15.08.2026) - 2028
+    </h1>
+
+    <div class="tabs">
+
+        <button class="tab-button active"
+                onclick="showTab('performanceBand', this)">
+            Performance Band
+        </button>
+
+        <button class="tab-button"
+                onclick="showTab('weekPerformance', this)">
+            Week Wise Performance
+        </button>
+
+        <button class="tab-button"
+                onclick="showTab('graphs', this)">
+            Graphical Representation
+        </button>
+
+    </div>
+
+    <div id="performanceBand" class="tab-content active">
+
+        <h2>Performance Band</h2>
+
+<div id="performanceBandAdmin" class="ct3-upload-panel" style="display:none;">
+    <label class="ct3-upload-label">
+        Upload Performance Band Excel
+        <input type="file"
+               id="performanceBandExcel"
+               accept=".xlsx,.xls">
+    </label>
+
+    <div class="ct3-upload-actions">
+        <button type="button" onclick="previewCT3Excel('performanceBand')">
+            Preview
+        </button>
+
+        <button type="button"
+                onclick="cancelCT3Excel('performanceBand')">
+            Cancel
+        </button>
+
+        <button type="button"
+                onclick="publishCT3Excel('performanceBand')">
+            Publish Table
+        </button>
+    </div>
+
+    <div id="performanceBandPreview"></div>
+</div>
+
+        <div class="table-wrapper">
+
+            <div class="grade-classification">
+    <strong>A+ &gt; 90% &nbsp; | &nbsp; A &gt; 75% &nbsp; | &nbsp; B &gt; 60% &nbsp; | &nbsp; C &gt; 40% &nbsp; | &nbsp; &lt; 40% = F</strong>
+</div>
+
+<table id="performanceBandTable">
+
+                <thead>
+                    <tr>
+                        <th colspan="8">Performance Band</th>
+                    </tr>
+                    <tr>
+                        <th>School Wise</th>
+                        <th>Department</th>
+                        <th>A</th>
+                        <th>A+</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>F</th>
+                        <th>Grand Total</th>
+                    </tr>
+                </thead>
+
+                <tbody id="performanceBandBody">
+
+                    <tr class="group-row">
+                        <td>GSCE</td>
+                        <td>BIOTECHNOLOGY</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td>32</td>
+                        <td>34</td>
+                    </tr>
+
+                    <tr>
+                        <td>CIVIL</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>EECE</td>
+                        <td>33</td>
+                        <td></td>
+                        <td>41</td>
+                        <td>54</td>
+                        <td>290</td>
+                        <td>418</td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>MECH</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>11</td>
+                        <td>11</td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td>Total</td>
+                        <td></td>
+                        <td>33</td>
+                        <td>0</td>
+                        <td>41</td>
+                        <td>56</td>
+                        <td>335</td>
+                        <td>465</td>
+                    </tr>
+
+                    <tr class="group-row">
+                        <td>GSCSE</td>
+                        <td>AI_DatSci</td>
+                        <td>150</td>
+                        <td>9</td>
+                        <td>185</td>
+                        <td>194</td>
+                        <td>609</td>
+                        <td>1147</td>
+                    </tr>
+
+                    <tr>
+                        <td>CSE</td>
+                        <td></td>
+                        <td>243</td>
+                        <td>6</td>
+                        <td>327</td>
+                        <td>328</td>
+                        <td>1169</td>
+                        <td>2073</td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td></td>
+                        <td>Total</td>
+                        <td>393</td>
+                        <td>15</td>
+                        <td>512</td>
+                        <td>522</td>
+                        <td>1778</td>
+                        <td>3220</td>
+                    </tr>
+
+                    <tr class="group-row">
+                        <td>GSS</td>
+                        <td>CS</td>
+                        <td>5</td>
+                        <td></td>
+                        <td>4</td>
+                        <td>10</td>
+                        <td>56</td>
+                        <td>75</td>
+                    </tr>
+
+                    <tr>
+                        <td>MATHS</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>18</td>
+                        <td>18</td>
+                        <td></td>
+                    </tr>
+
+                    <tr class="total-row">
+                        <td></td>
+                        <td>Total</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>4</td>
+                        <td>10</td>
+                        <td>74</td>
+                        <td>93</td>
+                    </tr>
+
+                    <tr class="grand-total">
+                        <td>Grand Total</td>
+                        <td></td>
+                        <td>431</td>
+                        <td>15</td>
+                        <td>557</td>
+                        <td>588</td>
+                        <td>2187</td>
+                        <td>3778</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div id="weekPerformance" class="tab-content">
+
+        <h2>Week Wise Performance</h2>
+
+        <div id="weekPerformanceAdmin" class="ct3-upload-panel" style="display:none;">
+
+    <label class="ct3-upload-label">
+        Upload Week Wise Performance Excel
+        <input type="file"
+               id="weekPerformanceExcel"
+               accept=".xlsx,.xls">
+    </label>
+
+    <div class="ct3-upload-actions">
+
+        <button type="button"
+                onclick="previewCT3Excel('weekPerformance')">
+            Preview
+        </button>
+
+        <button type="button"
+                onclick="cancelCT3Excel('weekPerformance')">
+            Cancel
+        </button>
+
+        <button type="button"
+                onclick="publishCT3Excel('weekPerformance')">
+            Publish Table
+        </button>
+
+    </div>
+
+    <div id="weekPerformancePreview"></div>
+
+</div>
+
+<div id="weekPerformanceTableContainer"></div>
+
+    </div>
+
+    <div id="graphs" class="tab-content">
+
+        <h2>Graphical Representation</h2>
+
+        <div class="placeholder">
+            Graphical representation will be added here.
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+
+<script>
+/* ============================================================
+   CT3 EXCEL PREVIEW SYSTEM
+   ============================================================ */
+
+let ct3ExcelPreviewData = {
+    performanceBand: null,
+    weekPerformance: null
+};
+
+function previewCT3Excel(type) {
+
+    const inputId =
+        type === "performanceBand"
+            ? "performanceBandExcel"
+            : "weekPerformanceExcel";
+
+    const previewId =
+        type === "performanceBand"
+            ? "performanceBandPreview"
+            : "weekPerformancePreview";
+
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+
+    if (!input || !preview) {
+        alert("Upload control not found.");
+        return;
+    }
+
+    if (!input.files || input.files.length === 0) {
+        alert("Please select an Excel file first.");
+        return;
+    }
+
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        try {
+
+            const data = new Uint8Array(event.target.result);
+
+            const workbook = XLSX.read(data, {
+                type: "array"
+            });
+
+            if (!workbook.SheetNames.length) {
+                throw new Error("No worksheet found.");
+            }
+
+            const sheetName = workbook.SheetNames[0];
+
+            const worksheet = workbook.Sheets[sheetName];
+
+            const rows = XLSX.utils.sheet_to_json(
+                worksheet,
+                {
+                    header: 1,
+                    defval: ""
+                }
+            );
+
+            if (!rows || rows.length === 0) {
+                throw new Error("The Excel sheet is empty.");
+            }
+
+            ct3ExcelPreviewData[type] = {
+                fileName: file.name,
+                sheetName: sheetName,
+                rows: rows
+            };
+
+            renderCT3Preview(
+                preview,
+                rows,
+                file.name,
+                sheetName
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CT3 Excel preview error:",
+                error
+            );
+
+            preview.innerHTML =
+                '<div style="color:red;font-weight:bold;">' +
+                'Unable to read this Excel file.' +
+                '</div>';
+
+            alert(
+                "Unable to read the Excel file. " +
+                "Please check that it is a valid Excel file."
+            );
+        }
+    };
+
+    reader.onerror = function() {
+
+        alert(
+            "Unable to read the selected file."
+        );
+
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+
+function renderCT3Preview(
+    container,
+    rows,
+    fileName,
+    sheetName
+) {
+
+    container.innerHTML = "";
+
+    const title =
+        document.createElement("div");
+
+    title.className =
+        "ct3-preview-title";
+
+    title.textContent =
+        "Preview: " +
+        fileName +
+        " | Sheet: " +
+        sheetName;
+
+    container.appendChild(title);
+
+    const table =
+        document.createElement("table");
+
+    table.className =
+        "ct3-dynamic-table";
+
+    const thead =
+        document.createElement("thead");
+
+    const tbody =
+        document.createElement("tbody");
+
+    if (rows.length > 0) {
+
+        const headerRow =
+            document.createElement("tr");
+
+        rows[0].forEach(function(value) {
+
+            const th =
+                document.createElement("th");
+
+            th.textContent =
+                value === null ||
+                value === undefined
+                    ? ""
+                    : String(value);
+
+            headerRow.appendChild(th);
+
+        });
+
+        thead.appendChild(headerRow);
+    }
+
+    for (
+        let i = 1;
+        i < rows.length;
+        i++
+    ) {
+
+        const tr =
+            document.createElement("tr");
+
+        const row =
+            rows[i];
+
+        const columnCount =
+            rows[0].length;
+
+        for (
+            let j = 0;
+            j < columnCount;
+            j++
+        ) {
+
+            const td =
+                document.createElement("td");
+
+            const value =
+                row[j] === null ||
+                row[j] === undefined
+                    ? ""
+                    : row[j];
+
+            td.textContent =
+                String(value);
+
+            tr.appendChild(td);
+        }
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    container.appendChild(table);
+}
+
+
+function cancelCT3Excel(type) {
+
+    const inputId =
+        type === "performanceBand"
+            ? "performanceBandExcel"
+            : "weekPerformanceExcel";
+
+    const previewId =
+        type === "performanceBand"
+            ? "performanceBandPreview"
+            : "weekPerformancePreview";
+
+    const input =
+        document.getElementById(inputId);
+
+    const preview =
+        document.getElementById(previewId);
+
+    if (input) {
+        input.value = "";
+    }
+
+    if (preview) {
+        preview.innerHTML = "";
+    }
+
+    ct3ExcelPreviewData[type] = null;
+
+    console.log(
+        "CT3 Excel preview cancelled:",
+        type
+    );
+}
+
+/* ============================================================
+   END CT3 EXCEL PREVIEW SYSTEM
+   ============================================================ */
+
+</script>
+
+<script>
+function showTab(tabId, button) {
+
+    document.querySelectorAll(".tab-content")
+        .forEach(function(tab) {
+            tab.classList.remove("active");
+        });
+
+    document.querySelectorAll(".tab-button")
+        .forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+    document.getElementById(tabId)
+        .classList.add("active");
+
+    button.classList.add("active");
+}
+
+</script>
+
+
+<script>
+
+let ct3Students = [];
+
+function getPerformanceBand(value) {
+
+    const score = Number(value);
+
+    if (isNaN(score)) return "";
+
+    if (score > 90) return "A+";
+    if (score > 75) return "A";
+    if (score > 60) return "B";
+    if (score > 40) return "C";
+
+    return "F";
+}
+
+
+async function loadCT3Data() {
+
+    try {
+
+        const response = await fetch("../data/CT3.xlsx");
+
+        if (!response.ok) {
+            throw new Error("Unable to load CT3.xlsx");
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+
+        const workbook = XLSX.read(arrayBuffer, {
+            type: "array"
+        });
+
+        const sheet = workbook.Sheets["Sheet1"];
+
+        if (!sheet) {
+            throw new Error("Sheet1 was not found in CT3.xlsx");
+        }
+
+        ct3Students = XLSX.utils.sheet_to_json(sheet, {
+            defval: ""
+        });
+
+        console.log(
+            "DATA PULSE: CT3 students loaded:",
+            ct3Students.length
+        );
+
+        buildPerformanceBandTable();
+
+    } catch (error) {
+
+        console.error(
+            "DATA PULSE CT3 ERROR:",
+            error
+        );
+
+        document.getElementById("performanceBandBody").innerHTML =
+            '<tr><td colspan="7">Unable to load CT3 data.</td></tr>';
+
+    }
+
+}
+
+
+function buildPerformanceBandTable() {
+
+    const body =
+        document.getElementById("performanceBandBody");
+
+    if (!body) return;
+
+    body.innerHTML = "";
+
+    const groups = {};
+
+    const grandTotal = {
+        "A": 0,
+        "A+": 0,
+        "B": 0,
+        "C": 0,
+        "F": 0
+    };
+
+
+    ct3Students.forEach(function(student) {
+
+    const school =
+        String(
+            student["School"] || ""
+        ).trim();
+
+    const department =
+        String(
+            student["Department"] || ""
+        ).trim();
+
+    const percentage1 =
+        parseFloat(
+            student["ALV -1- 12.08.2026- Percentage"]
+        ) || 0;
+
+    const percentage2 =
+        parseFloat(
+            student["ALV -2- 15.08.2026- Percentage"]
+        ) || 0;
+
+    const average =
+        (percentage1 + percentage2) / 2;
+
+    const band =
+        getPerformanceBand(average);
+
+    if (!school || !department || !band) return;
+
+    const groupKey =
+        school + "||" + department;
+
+    if (!groups[groupKey]) {
+
+        groups[groupKey] = {
+            "A": 0,
+            "A+": 0,
+            "B": 0,
+            "C": 0,
+            "F": 0
+        };
+
+    }
+
+    groups[groupKey][band]++;
+
+    console.log(
+        "CT3 GROUP:",
+        school,
+        department,
+        band
+    );
+
+    grandTotal[band]++;
+
+});
+
+
+    const schoolOrder = [
+        "GSCE",
+        "BIOTECHNOLOGY",
+        "CIVIL",
+        "EECE",
+        "MECH",
+        "GSCSE",
+        "AI_DatSci",
+        "CSE",
+        "GSS",
+        "CS",
+        "MATHS"
+    ];
+    const schoolGroups = {
+        "GSCE": [
+            "BIOTECHNOLOGY",
+            "CIVIL",
+            "EECE",
+            "MECH"
+        ],
+        "GSCSE": [
+            "AI_DatSci",
+            "CSE"
+        ],
+        "GSS": [
+            "CS",
+            "MATHS"
+        ]
+    };
+
+
+    Object.keys(schoolGroups).forEach(function(school) {
+
+        const departments = schoolGroups[school];
+
+        let schoolTotal = {
+            "A": 0,
+            "A+": 0,
+            "B": 0,
+            "C": 0,
+            "F": 0
+        };
+
+
+        departments.forEach(function(department, index) {
+
+            const data =
+                groups[school + "||" + department] || {
+                    "A": 0,
+                    "A+": 0,
+                    "B": 0,
+                    "C": 0,
+                    "F": 0
+                };
+
+
+            schoolTotal["A"] += data["A"];
+            schoolTotal["A+"] += data["A+"];
+            schoolTotal["B"] += data["B"];
+            schoolTotal["C"] += data["C"];
+            schoolTotal["F"] += data["F"];
+
+
+            const total =
+                data["A"] +
+                data["A+"] +
+                data["B"] +
+                data["C"] +
+                data["F"];
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML =
+
+                "<td>" +
+                (index === 0 ? school : "") +
+                "</td>" +
+
+                "<td>" +
+                department +
+                "</td>" +
+
+                "<td>" + data["A"] + "</td>" +
+                "<td>" + data["A+"] + "</td>" +
+                "<td>" + data["B"] + "</td>" +
+                "<td>" + data["C"] + "</td>" +
+                "<td>" + data["F"] + "</td>" +
+                "<td>" + total + "</td>";
+
+
+            body.appendChild(row);
+
+        });
+
+
+        const schoolTotalValue =
+            schoolTotal["A"] +
+            schoolTotal["A+"] +
+            schoolTotal["B"] +
+            schoolTotal["C"] +
+            schoolTotal["F"];
+
+
+        const totalRow =
+            document.createElement("tr");
+
+        totalRow.className =
+            "total-row";
+
+
+        totalRow.innerHTML =
+
+            "<td></td>" +
+            "<td>Total</td>" +
+            "<td>" + schoolTotal["A"] + "</td>" +
+            "<td>" + schoolTotal["A+"] + "</td>" +
+            "<td>" + schoolTotal["B"] + "</td>" +
+            "<td>" + schoolTotal["C"] + "</td>" +
+            "<td>" + schoolTotal["F"] + "</td>" +
+            "<td>" + schoolTotalValue + "</td>";
+
+
+        body.appendChild(totalRow);
+
+    });
+
+
+    const total =
+        grandTotal["A"]
+ +
+        grandTotal["A+"] +
+        grandTotal["B"] +
+        grandTotal["C"] +
+        grandTotal["F"];
+
+
+    const totalRow =
+        document.createElement("tr");
+
+    totalRow.className =
+        "grand-total";
+
+
+    totalRow.innerHTML =
+
+        "<td colspan=\"2\">Grand Total</td>" +
+        "<td>" + grandTotal["A"] + "</td>" +
+        "<td>" + grandTotal["A+"] + "</td>" +
+        "<td>" + grandTotal["B"] + "</td>" +
+        "<td>" + grandTotal["C"] + "</td>" +
+        "<td>" + grandTotal["F"] + "</td>" +
+        "<td>" + total + "</td>";
+
+
+    body.appendChild(totalRow);
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadCT3Data();
+
+    }
+);
+
+
+</script>
+<script type="module">
+/* ============================================================
+   CT3 FIREBASE PUBLISH SYSTEM
+   ============================================================ */
+
+import {
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    auth,
+    db
+} from "../js/firebase-config.js";
+
+
+let ct3CurrentUser = null;
+
+
+/* ============================================================
+   CHECK LOGIN
+   ============================================================ */
+
+onAuthStateChanged(
+    auth,
+    function(user) {
+
+        ct3CurrentUser = user || null;
+
+        const performanceAdmin =
+            document.getElementById(
+                "performanceBandAdmin"
+            );
+
+        const weekAdmin =
+            document.getElementById(
+                "weekPerformanceAdmin"
+            );
+
+        if (
+            user &&
+            user.email &&
+            user.email.toLowerCase() ===
+            "rkolluri@gitam.edu"
+        ) {
+
+            if (performanceAdmin) {
+                performanceAdmin.style.display =
+                    "block";
+            }
+
+            if (weekAdmin) {
+                weekAdmin.style.display =
+                    "block";
+            }
+
+            console.log(
+                "CT3 Admin upload access enabled."
+            );
+
+        }
+        else {
+
+            if (performanceAdmin) {
+                performanceAdmin.style.display =
+                    "none";
+            }
+
+            if (weekAdmin) {
+                weekAdmin.style.display =
+                    "none";
+            }
+        }
+
+        loadPublishedCT3Tables();
+
+    }
+);
+
+
+/* ============================================================
+   PUBLISH TABLE
+   ============================================================ */
+
+async function publishCT3Excel(type) {
+
+    if (!ct3CurrentUser) {
+
+        alert(
+            "Please login as the DATA PULSE administrator."
+        );
+
+        return;
+    }
+
+    if (
+        !ct3CurrentUser.email ||
+        ct3CurrentUser.email.toLowerCase() !==
+        "rkolluri@gitam.edu"
+    ) {
+
+        alert(
+            "You are not authorized to publish CT3 tables."
+        );
+
+        return;
+    }
+
+    const data =
+        ct3ExcelPreviewData[type];
+
+    if (!data || !data.rows) {
+
+        alert(
+            "Please select an Excel file and click Preview first."
+        );
+
+        return;
+    }
+
+    if (!data.rows.length) {
+
+        alert(
+            "The uploaded Excel file contains no data."
+        );
+
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "Publish this table for all DATA PULSE users?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const tableRef =
+            doc(
+                db,
+                "ct3Tables",
+                type
+            );
+
+        await setDoc(
+            tableRef,
+            {
+                rows: data.rows,
+                fileName: data.fileName,
+                sheetName: data.sheetName,
+                uploadedBy:
+                    ct3CurrentUser.email,
+                uploadedAt:
+                    serverTimestamp()
+            }
+        );
+
+        alert(
+            "Table published successfully."
+        );
+
+        console.log(
+            "CT3 table published:",
+            type
+        );
+
+        renderPublishedCT3Table(
+            type,
+            data.rows
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "CT3 Firebase publish error:",
+            error
+        );
+
+        alert(
+            "Unable to publish the table.\n\n" +
+            error.message
+        );
+    }
+}
+
+
+/* ============================================================
+   LOAD PUBLISHED TABLES
+   ============================================================ */
+
+async function loadPublishedCT3Tables() {
+
+    await loadPublishedCT3Table(
+        "performanceBand"
+    );
+
+    await loadPublishedCT3Table(
+        "weekPerformance"
+    );
+}
+
+
+async function loadPublishedCT3Table(type) {
+
+    try {
+
+        const tableRef =
+            doc(
+                db,
+                "ct3Tables",
+                type
+            );
+
+        const snapshot =
+            await getDoc(tableRef);
+
+        if (!snapshot.exists()) {
+
+            console.log(
+                "No published CT3 table:",
+                type
+            );
+
+            return;
+        }
+
+        const data =
+            snapshot.data();
+
+        if (
+            !data.rows ||
+            !Array.isArray(data.rows)
+        ) {
+            return;
+        }
+
+        renderPublishedCT3Table(
+            type,
+            data.rows
+        );
+
+        console.log(
+            "Published CT3 table loaded:",
+            type
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Unable to load published CT3 table:",
+            type,
+            error
+        );
+    }
+}
+
+
+/* ============================================================
+   RENDER PUBLISHED TABLE
+   ============================================================ */
+
+function renderPublishedCT3Table(
+    type,
+    rows
+) {
+
+    if (
+        !rows ||
+        rows.length === 0
+    ) {
+        return;
+    }
+
+    if (
+        type ===
+        "performanceBand"
+    ) {
+
+        const table =
+            document.getElementById(
+                "performanceBandTable"
+            );
+
+        if (!table) {
+            return;
+        }
+
+        table.innerHTML = "";
+
+        renderRowsIntoTable(
+            table,
+            rows
+        );
+
+    }
+    else if (
+        type ===
+        "weekPerformance"
+    ) {
+
+        const container =
+            document.getElementById(
+                "weekPerformanceTableContainer"
+            );
+
+        if (!container) {
+            return;
+        }
+
+        container.innerHTML = "";
+
+        const table =
+            document.createElement(
+                "table"
+            );
+
+        table.className =
+            "ct3-dynamic-table";
+
+        renderRowsIntoTable(
+            table,
+            rows
+        );
+
+        container.appendChild(
+            table
+        );
+    }
+}
+
+
+/* ============================================================
+   GENERIC EXCEL TABLE RENDERER
+   ============================================================ */
+
+function renderRowsIntoTable(
+    table,
+    rows
+) {
+
+    const thead =
+        document.createElement(
+            "thead"
+        );
+
+    const tbody =
+        document.createElement(
+            "tbody"
+        );
+
+    const header =
+        rows[0] || [];
+
+    const headerRow =
+        document.createElement(
+            "tr"
+        );
+
+    header.forEach(
+        function(value) {
+
+            const th =
+                document.createElement(
+                    "th"
+                );
+
+            th.textContent =
+                value === null ||
+                value === undefined
+                    ? ""
+                    : String(value);
+
+            headerRow.appendChild(
+                th
+            );
+
+        }
+    );
+
+    thead.appendChild(
+        headerRow
+    );
+
+
+    for (
+        let i = 1;
+        i < rows.length;
+        i++
+    ) {
+
+        const tr =
+            document.createElement(
+                "tr"
+            );
+
+        const row =
+            rows[i] || [];
+
+        for (
+            let j = 0;
+            j < header.length;
+            j++
+        ) {
+
+            const td =
+                document.createElement(
+                    "td"
+                );
+
+            const value =
+                row[j] === null ||
+                row[j] === undefined
+                    ? ""
+                    : row[j];
+
+            td.textContent =
+                String(value);
+
+            tr.appendChild(
+                td
+            );
+        }
+
+        tbody.appendChild(
+            tr
+        );
+    }
+
+    table.appendChild(
+        thead
+    );
+
+    table.appendChild(
+        tbody
+    );
+}
+
+
+/* ============================================================
+   END CT3 FIREBASE PUBLISH SYSTEM
+   ============================================================ */
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

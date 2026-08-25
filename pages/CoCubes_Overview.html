@@ -67,7 +67,7 @@ body{
 }
 
 .graph-card:hover{
-    transform:scale(1.015);
+    transform:scale(1.05);
     box-shadow:0 8px 24px rgba(0,0,0,.18);
     z-index:5;
 }
@@ -116,14 +116,30 @@ body{
         height:280px;
     }
 }
+    #campusFilter{
+        transition:transform 0.2s ease;
+    }
+
+    #campusFilter:hover{
+        transform:scale(1.08);
+    }
 </style>
-</head>
+
 
 <body>
 
 <div class="header">
     <h1>COCUBES OVERVIEW</h1>
     <p id="yearTitle">Loading...</p>
+    <div id="campusFilter" style="display:none;margin-top:12px;">
+        <label for="campusSelect" style="font-size:13px;color:#666;margin-right:8px;">Campus:</label>
+        <select id="campusSelect" style="padding:7px 12px;border:1px solid #ccc;border-radius:6px;font-size:13px;background:white;">
+            <option value="ALL">All Campuses</option>
+            <option value="VSKP">VSKP</option>
+            <option value="BLR">BLR</option>
+            <option value="HYD">HYD</option>
+        </select>
+    </div>
 </div>
 
 <div class="content">
@@ -143,6 +159,26 @@ body{
 const params = new URLSearchParams(window.location.search);
 
 const year = params.get("year") || "2027";
+
+const campusFilter = document.getElementById("campusFilter");
+const campusSelect = document.getElementById("campusSelect");
+
+function filterRowsByCampus(rows){
+    const selectedCampus = campusSelect.value;
+
+    if(selectedCampus === "ALL"){
+        return rows;
+    }
+
+    const dataCampus =
+        year === "2027" && selectedCampus === "VSKP"
+            ? "VSP"
+            : selectedCampus;
+
+    return rows.filter(function(row){
+        return clean(row.Location) === dataCampus;
+    });
+}
 
 const dataFile =
     year === "2026"
@@ -519,7 +555,7 @@ function create2026Chart(rows, exam, index){
 
                         font:{
                             weight:"bold",
-                            size:11
+                             size:14
                         },
 
                         color:"#333"
@@ -658,7 +694,7 @@ function create2027Chart(rows, exam, index){
 
                         font:{
                             weight:"bold",
-                            size:11
+                             size:14
                         },
 
                         color:"#333"
@@ -727,59 +763,69 @@ fetch(dataFile)
             );
         }
 
+        campusFilter.style.display = "block";
 
-        const grid =
-            document.getElementById(
-                "graphGrid"
-            );
+        function renderGraphs(){
 
-        grid.innerHTML = "";
+            const grid =
+                document.getElementById(
+                    "graphGrid"
+                );
 
+            grid.innerHTML = "";
 
-        if(year === "2026"){
+            const filteredRows = filterRowsByCampus(rows);
 
-            exams2026.forEach(
-                function(exam,index){
+            if(year === "2026"){
 
-                    grid.appendChild(
-                        createGraphCard(
+                exams2026.forEach(
+                    function(exam,index){
+
+                        grid.appendChild(
+                            createGraphCard(
+                                exam,
+                                index
+                            )
+                        );
+
+                        create2026Chart(
+                            filteredRows,
                             exam,
                             index
-                        )
-                    );
+                        );
 
-                    create2026Chart(
-                        rows,
-                        exam,
-                        index
-                    );
+                    }
+                );
 
-                }
-            );
+            }
+            else{
 
-        }
-        else{
+                exams2027.forEach(
+                    function(exam,index){
 
-            exams2027.forEach(
-                function(exam,index){
+                        grid.appendChild(
+                            createGraphCard(
+                                exam,
+                                index
+                            )
+                        );
 
-                    grid.appendChild(
-                        createGraphCard(
+                        create2027Chart(
+                            filteredRows,
                             exam,
                             index
-                        )
-                    );
+                        );
 
-                    create2027Chart(
-                        rows,
-                        exam,
-                        index
-                    );
+                    }
+                );
 
-                }
-            );
+            }
 
         }
+
+        campusSelect.addEventListener("change", renderGraphs);
+
+        renderGraphs();
 
     })
 
@@ -813,6 +859,11 @@ fetch(dataFile)
 
 </body>
 </html>
+
+
+
+
+
 
 
 

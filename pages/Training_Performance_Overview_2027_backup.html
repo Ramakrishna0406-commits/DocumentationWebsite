@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Performance Overview 2027 | DATA PULSE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f8;
+            color: #263238;
+        }
+
+        .header {
+            background: #007367;
+            color: white;
+            padding: 22px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,.12);
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .subtitle {
+            margin-top: 4px;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .year-badge {
+            background: rgba(255,255,255,.15);
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            padding: 28px;
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #007367;
+        }
+
+        .page-title p {
+            margin: 7px 0 0;
+            color: #68777d;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #edf2f2;
+            padding-bottom: 12px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            color: #007367;
+            font-size: 20px;
+        }
+
+        .section-number {
+            color: #78909c;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .kpi {
+            border: 1px solid #e4ebec;
+            border-radius: 10px;
+            padding: 18px;
+            background: #fbfdfd;
+        }
+
+        .kpi-label {
+            color: #718087;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            color: #007367;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .table-placeholder {
+            min-height: 150px;
+            border: 2px dashed #d6e2e2;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #849397;
+            background: #fafcfc;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-placeholder {
+            min-height: 280px;
+            border: 1px solid #e2e9e9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #849397;
+            background: #fafcfc;
+        }
+
+        @media (max-width: 1000px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px;
+            }
+        }
+    </style>
+<style id="overview-attractive-style">
+:root{
+    --dp-primary:#007367;
+    --dp-primary-dark:#005b53;
+    --dp-primary-light:#e8f5f3;
+    --dp-bg:#f3f7f7;
+    --dp-border:#dce8e6;
+    --dp-text:#263238;
+    --dp-muted:#718087;
+    --dp-shadow:0 8px 24px rgba(0,83,76,.08);
+    --dp-shadow-hover:0 14px 32px rgba(0,83,76,.14);
+}
+html{scroll-behavior:smooth}
+body{
+    background:radial-gradient(circle at 10% 0%,rgba(0,115,103,.07),transparent 28%),linear-gradient(180deg,#f7faf9 0%,var(--dp-bg) 100%);
+    color:var(--dp-text);
+}
+.header{
+    background:linear-gradient(135deg,var(--dp-primary-dark),var(--dp-primary) 60%,#008879);
+    padding:20px 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 4px 18px rgba(0,70,64,.18);
+}
+.brand{font-size:26px;letter-spacing:.7px}
+.subtitle{font-size:13px;letter-spacing:.2px}
+.year-badge{
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.container{max-width:1500px;padding:30px}
+.page-title{padding:8px 4px 4px}
+.page-title h1{font-size:30px;font-weight:750;letter-spacing:-.4px}
+.page-title p{font-size:14px;color:var(--dp-muted)}
+.section{
+    background:rgba(255,255,255,.96);
+    border:1px solid rgba(220,232,230,.9);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+.section:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--dp-shadow-hover);
+}
+.section-header{
+    margin-bottom:20px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--dp-border);
+}
+.section-header h2{
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:-.2px;
+}
+.section-number{
+    background:var(--dp-primary-light);
+    color:var(--dp-primary-dark);
+    border:1px solid #cde5e1;
+    border-radius:20px;
+    padding:5px 10px;
+    font-size:12px;
+}
+.kpi-grid{gap:18px}
+.kpi{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--dp-border);
+    border-radius:13px;
+    padding:20px;
+    background:linear-gradient(145deg,#ffffff,#f8fbfb);
+    box-shadow:0 3px 12px rgba(0,80,73,.05);
+    transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.kpi::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background:var(--dp-primary);
+}
+.kpi:hover{
+    transform:translateY(-3px);
+    border-color:#bcd9d5;
+    box-shadow:0 10px 22px rgba(0,83,76,.12);
+}
+.kpi-label{
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.55px;
+    color:var(--dp-muted);
+}
+.kpi-value{
+    margin-top:4px;
+    font-size:29px;
+    font-weight:750;
+    color:var(--dp-primary-dark);
+}
+.table-placeholder{
+    min-height:170px;
+    border:1px dashed #bfd6d2;
+    border-radius:12px;
+    background:linear-gradient(135deg,rgba(0,115,103,.025),rgba(255,255,255,.7));
+    color:#7b8b90;
+}
+.chart-placeholder{
+    min-height:280px;
+    border:1px solid var(--dp-border);
+    border-radius:12px;
+    background:linear-gradient(145deg,#fbfdfd,#f6f9f9);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.two-column{gap:22px}
+@media(max-width:1000px){
+    .container{padding:22px}
+    .section{padding:20px}
+}
+@media(max-width:600px){
+    .header{padding:16px 18px}
+    .brand{font-size:22px}
+    .container{padding:14px}
+    .section{border-radius:12px;padding:16px}
+    .page-title h1{font-size:25px}
+}
+</style></head>
+
+<body>
+
+<header class="header">
+    <div>
+        <div class="brand">DATA PULSE</div>
+        <div class="subtitle">Training, Mentoring & Career Guidance</div>
+    </div>
+    <div class="year-badge">2027</div>
+</header>
+
+<main class="container">
+
+    <div class="page-title">
+        <h1>Training Performance Overview</h1>
+        <p>2027 Training Performance Dashboard</p>
+    </div>
+
+    <!-- 01 EXECUTIVE SUMMARY -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Executive Summary</h2>
+            <span class="section-number">01</span>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-label">Total Students</div>
+                <div class="kpi-value" id="totalStudents">—</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Aspire Batch</div>
+                <div class="kpi-value" id="aspireBatch">—</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Top Batch</div>
+                <div class="kpi-value" id="topBatch">—</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Attendance</div>
+                <div class="kpi-value" id="attendance">—</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-label">Assessments</div>
+                <div class="kpi-value" id="assessments">—</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 02 CAMPUS & COURSE DISTRIBUTION -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Campus & Course Distribution</h2>
+            <span class="section-number">02</span>
+        </div>
+
+        <div class="table-placeholder">
+            Campus / Course Distribution Table — document values will be inserted here
+        </div>
+    </section>
+
+    <!-- 03 PRE / POST ASSESSMENT -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Pre / Post Assessment Performance</h2>
+            <span class="section-number">03</span>
+        </div>
+
+        <div class="two-column">
+            <div class="chart-placeholder">
+                Pre Assessment
+            </div>
+
+            <div class="chart-placeholder">
+                Post Assessment
+            </div>
+        </div>
+
+        <div style="height:20px"></div>
+
+        <div class="table-placeholder">
+            Assessment & Attendance Table
+        </div>
+    </section>
+
+    <!-- 04 PHASE I -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Phase I Training Performance</h2>
+            <span class="section-number">04</span>
+        </div>
+
+        <div class="table-placeholder">
+            Phase I Performance Table
+        </div>
+    </section>
+
+    <!-- 05 NXT -->
+    <section class="section">
+        <div class="section-header">
+            <h2>NXT Registrations</h2>
+            <span class="section-number">05</span>
+        </div>
+
+        <div class="table-placeholder">
+            NXT Registration Table
+        </div>
+    </section>
+
+    <!-- 06 C PROGRAMMING -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Campus Average Scores — C Programming</h2>
+            <span class="section-number">06</span>
+        </div>
+
+        <div class="two-column">
+            <div class="table-placeholder">
+                C Programming Score Table
+            </div>
+
+            <div class="chart-placeholder">
+                Campus Score Comparison
+            </div>
+        </div>
+    </section>
+
+    <!-- 07 PHASE II -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Phase II Performance</h2>
+            <span class="section-number">07</span>
+        </div>
+
+        <div class="two-column">
+            <div class="table-placeholder">
+                Top Batch
+            </div>
+
+            <div class="table-placeholder">
+                Aspire Batch
+            </div>
+        </div>
+
+        <div style="height:20px"></div>
+
+        <div class="chart-placeholder">
+            Week-wise Performance
+        </div>
+    </section>
+
+    <!-- 08 PHASE III -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Phase III Performance</h2>
+            <span class="section-number">08</span>
+        </div>
+
+        <div class="table-placeholder">
+            Phase III Table
+        </div>
+    </section>
+
+    <!-- 09 TCS -->
+    <section class="section">
+        <div class="section-header">
+            <h2>TCS Assessment Scores</h2>
+            <span class="section-number">09</span>
+        </div>
+
+        <div class="table-placeholder">
+            TCS Assessment Table
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
+
+

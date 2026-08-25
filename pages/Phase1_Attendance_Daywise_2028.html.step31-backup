@@ -182,8 +182,76 @@ tbody tr:hover {
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</head>
+<style>
+/* ===== Attendance Snapshot - Compact Overall Analysis Card ===== */
+.attendance-snapshot-card {
+    background: #ffffff;
+    border: 1px solid #dfe7e5;
+    border-radius: 12px;
+    margin: 18px 0;
+    padding: 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.attendance-snapshot-header {
+    background: #007367;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 13px 18px;
+}
+
+.attendance-snapshot-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+}
+
+.snapshot-upload-btn,
+.snapshot-view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.snapshot-upload-btn {
+    background: #007367;
+    color: #ffffff;
+    border: 1px solid #007367;
+}
+
+.snapshot-upload-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.snapshot-view-btn {
+    background: #f4f8f7;
+    color: #007367;
+    border: 1px solid #007367;
+}
+
+.snapshot-view-btn:hover:not(:disabled) {
+    background: #007367;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.snapshot-view-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+</style></head>
 
 <body>
 <!-- PHASE 1 OVERVIEW TABS -->
@@ -200,7 +268,6 @@ tbody tr:hover {
 
 <!-- ADMIN CONTROLS -->
 <div class="admin-panel" id="adminPanel"><div class="admin-title">ADMIN — ATTENDANCE DATA MANAGEMENT</div><div class="admin-buttons"><label for="excelFile" class="btn btn-primary">Upload Attendance Excel</label><button type="button" class="btn btn-secondary" id="previewBtn">Preview</button><button type="button" class="btn btn-primary" id="publishBtn">Publish</button><button type="button" class="btn btn-export" id="exportBtn">Export Excel</button></div><div class="status" id="adminStatus">Select the Attendance Excel file to begin.</div></div>
-<input type="file" id="excelFile" accept=".xlsx,.xls" hidden>
 
     <!-- FILTERS -->
 <div class="filter-panel">
@@ -248,6 +315,25 @@ tbody tr:hover {
 <div id="attendanceOverallTab" class="attendance-tab-content">
     <div id="attendanceOverallContent">
 
+    <div class="attendance-snapshot-card">
+
+        <div class="attendance-snapshot-header">
+            <span>ATTENDANCE SNAPSHOT</span>
+        </div>
+
+        <div class="attendance-snapshot-upload">
+            <label for="attendanceSnapshotInput" class="snapshot-upload-btn">
+                Upload Snapshot
+            </label>
+            <input type="file" id="attendanceSnapshotInput" accept="image/png,image/jpeg,image/jpg" hidden>
+            <button type="button" id="viewAttendanceSnapshot" class="snapshot-view-btn" disabled>
+                View Attendance Snapshot
+            </button>
+        </div>
+
+    </div>
+
+</div>
 </div>
 
 <div id="attendanceStudentsTab" class="attendance-tab-content"><!-- TABLE -->
@@ -300,84 +386,61 @@ tbody tr:hover {
 
 </div>
 
-<script type="module">
-import { db } from "../js/firebase-config.js";
-window.attendanceFirestore = db;
-import { doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
-window.publishAttendanceSnapshotToFirestore = async function (file) {
-    if (!file) throw new Error("No snapshot file selected.");
-
-    const reader = new FileReader();
-    const imageData = await new Promise((resolve, reject) => {
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Unable to read snapshot file."));
-        reader.readAsDataURL(file);
-    });
-
-    const snapshotRef = doc(db, "attendanceSnapshots", "2028");
-
-    await setDoc(snapshotRef, {
-        year: 2028,
-        imageData: imageData,
-        fileName: file.name,
-        contentType: file.type,
-        publishedAt: serverTimestamp()
-    });
-};
-
-window.viewPublishedAttendanceSnapshot = async function () {
-    const snapshotRef = doc(db, "attendanceSnapshots", "2028");
-    const snapshotDoc = await getDoc(snapshotRef);
-
-    if (!snapshotDoc.exists()) {
-        throw new Error("No published attendance snapshot is available.");
-    }
-
-    return snapshotDoc.data();
-};
-
-window.renderAttendanceTable = function(rows) {
-    const tbody = document.getElementById("attendanceBody");
-
-    if (!rows.length) {
-        tbody.innerHTML =
-            '<tr><td colspan="18" class="empty-row">No attendance records found.</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = rows.map(row => {
-        const cells = [];
-
-        for (let i = 0; i < 18; i++) {
-            cells.push(
-                "<td>" +
-                escapeAttendanceHtml(row[i] ?? "") +
-                "</td>"
-            );
-        }
-
-        return "<tr>" + cells.join("") + "</tr>";
-    }).join("");
-}
-
-function escapeAttendanceHtml(value) {
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-</script>
 <script>
 let attendancePreviewData = [];
 let attendanceHeaders = [];
 
 
+function updateAttendanceDepartmentFilter() {
+    const courseFilter = document.getElementById("courseFilter");
+    const departmentFilter = document.getElementById("departmentFilter");
 
-const excelFileInput = document.getElementById("excelFile");
-if (excelFileInput) excelFileInput.addEventListener("change", function () {
+    if (!courseFilter || !departmentFilter) return;
+
+    const selectedCourse = courseFilter.value;
+    const currentDepartment = departmentFilter.value;
+
+    const departments = selectedCourse
+        ? (attendanceCourseDeptMapping[selectedCourse] || [])
+        : Object.values(attendanceCourseDeptMapping).flat();
+
+    departmentFilter.innerHTML =
+        '<option value="">All Departments</option>' +
+        departments.map(dept =>
+            `<option value="${dept}">${dept}</option>`
+        ).join("");
+
+    if (departments.includes(currentDepartment)) {
+        departmentFilter.value = currentDepartment;
+    } else {
+        departmentFilter.value = "";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const courseFilter = document.getElementById("courseFilter");
+
+    if (courseFilter) {
+        courseFilter.addEventListener("change", updateAttendanceDepartmentFilter);
+        updateAttendanceDepartmentFilter();
+    }
+});
+const attendanceCourseDeptMapping = {
+    BTECH: [
+        "CSE",
+        "AI_DatSci",
+        "EECE",
+        "MECH",
+        "CIVIL",
+        "BIOTECHNOLOGY"
+    ],
+    BCA: [
+        "CS"
+    ]
+};
+
+
+const excelFileInput = document.getElementById("excelFile");`r`nif (excelFileInput) excelFileInput.addEventListener("change", function () {
     const file = this.files[0];
     if (!file) return;
 
@@ -418,14 +481,12 @@ document.getElementById("previewBtn").addEventListener("click", function () {
                 return;
             }
 
-            attendanceHeaders = rows[0].map(value => String(value).trim());
-            console.log("ATTENDANCE HEADERS:", attendanceHeaders);
+            attendanceHeaders = rows[0].map(value => String(value).trim()); console.log('ATTENDANCE HEADERS:', attendanceHeaders);
             attendancePreviewData = rows.slice(1).filter(row =>
                 row.some(cell => String(cell).trim() !== "")
             );
 
-            window.renderAttendanceTable(attendancePreviewData); document.getElementById("publishAttendanceSnapshot").disabled = false;
-            openAttendanceTab("students");
+            renderAttendanceTable(attendancePreviewData);
 
             status.textContent =
                 "Preview loaded successfully: " +
@@ -440,143 +501,39 @@ document.getElementById("previewBtn").addEventListener("click", function () {
     reader.readAsArrayBuffer(file);
 });
 
-function updateAttendanceDepartmentFilter() {
-    const courseFilter = document.getElementById("courseFilter");
-    const departmentFilter = document.getElementById("departmentFilter");
+function renderAttendanceTable(rows) {
+    const tbody = document.getElementById("attendanceBody");
 
-    if (!courseFilter || !departmentFilter) return;
-
-    const selectedCourse = courseFilter.value;
-    const currentDepartment = departmentFilter.value;
-
-    const departments = selectedCourse
-        ? (attendanceCourseDeptMapping[selectedCourse] || [])
-        : Object.values(attendanceCourseDeptMapping).flat();
-
-    departmentFilter.innerHTML =
-        '<option value="">All Departments</option>' +
-        departments.map(dept =>
-            `<option value="${dept}">${dept}</option>`
-        ).join("");
-
-    if (departments.includes(currentDepartment)) {
-        departmentFilter.value = currentDepartment;
-    } else {
-        departmentFilter.value = "";
+    if (!rows.length) {
+        tbody.innerHTML =
+            '<tr><td colspan="18" class="empty-row">No attendance records found.</td></tr>';
+        return;
     }
+
+    tbody.innerHTML = rows.map(row => {
+        const cells = [];
+
+        for (let i = 0; i < 18; i++) {
+            cells.push(
+                "<td>" +
+                escapeAttendanceHtml(row[i] ?? "") +
+                "</td>"
+            );
+        }
+
+        return "<tr>" + cells.join("") + "</tr>";
+    }).join("");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const snapshotInput = document.getElementById("attendanceSnapshotInput");
-    const publishSnapshotBtn = document.getElementById("publishAttendanceSnapshot");
-    const viewSnapshotBtn = document.getElementById("viewAttendanceSnapshot");
-
-    let attendanceSnapshotUrl = null;
-
-    if (!snapshotInput || !publishSnapshotBtn || !viewSnapshotBtn) return;
-
-    snapshotInput.addEventListener("change", function () {
-        const file = this.files && this.files[0];
-
-        if (!file) return;
-
-        if (!file.type.startsWith("image/")) {
-            alert("Please select a JPG, JPEG or PNG image.");
-            this.value = "";
-            return;
-        }
-
-        if (attendanceSnapshotUrl) {
-            URL.revokeObjectURL(attendanceSnapshotUrl);
-        }
-
-        attendanceSnapshotUrl = URL.createObjectURL(file);
-
-        viewSnapshotBtn.disabled = false;
-    });
-
-    viewSnapshotBtn.addEventListener("click", async function () {
-        viewSnapshotBtn.textContent = "Loading...";
-
-        try {
-            if (!window.viewPublishedAttendanceSnapshot) {
-                throw new Error("Published snapshot viewer is not available.");
-            }
-
-            const data = await window.viewPublishedAttendanceSnapshot();
-
-            if (!data.imageData) {
-                throw new Error("Published snapshot image is missing.");
-            }
-
-            window.open(data.imageData, "_blank", "noopener,noreferrer");
-        } catch (error) {
-            console.error("Attendance Snapshot view error:", error);
-            alert("Unable to load published Attendance Snapshot: " + error.message);
-        } finally {
-            viewSnapshotBtn.disabled = false;
-            viewSnapshotBtn.textContent = "View Attendance Snapshot";
-        }
-    });
-
-    publishSnapshotBtn.addEventListener("click", async function () {
-        const attendanceTable = document.getElementById("attendanceTable");
-
-        if (!attendanceTable) {
-            alert("Attendance table is not available.");
-            return;
-        }
-
-        if (typeof html2canvas === "undefined") {
-            alert("Snapshot generator is not available.");
-            return;
-        }
-
-        publishSnapshotBtn.disabled = true;
-        publishSnapshotBtn.textContent = "Generating...";
-
-        try {
-            const canvas = await html2canvas(attendanceTable, {
-                backgroundColor: "#ffffff",
-                scale: 1,
-                useCORS: true
-            });
-
-            const imageData = canvas.toDataURL("image/jpeg", 0.75);
-
-            if (imageData.length > 900000) {
-                throw new Error("Generated snapshot is too large for Firestore.");
-            }
-
-            publishSnapshotBtn.textContent = "Publishing...";
-
-            if (!window.publishAttendanceSnapshotToFirestore) {
-                throw new Error("Firestore publishing is not available.");
-            }
-
-            const binary = atob(imageData.split(",")[1]);
-            const bytes = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i++) {
-                bytes[i] = binary.charCodeAt(i);
-            }
-
-            const snapshotFile = new File(
-                [bytes],
-                "attendance-snapshot-2028.jpg",
-                { type: "image/jpeg" }
-            );
-
-            await window.publishAttendanceSnapshotToFirestore(snapshotFile);
-            alert("Attendance Snapshot published successfully.");
-        } catch (error) {
-            console.error("Attendance Snapshot publish error:", error);
-            alert("Failed to publish Attendance Snapshot: " + error.message);
-        } finally {
-            publishSnapshotBtn.disabled = false;
-            publishSnapshotBtn.textContent = "Publish Snapshot";
-        }
-    });
-});</script>
+function escapeAttendanceHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+</script>
 <script>
 function openAttendanceTab(tab) {
     var overall = document.getElementById("attendanceOverallTab");
@@ -602,38 +559,45 @@ document.addEventListener("DOMContentLoaded", function() {
     openAttendanceTab("overall");
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const snapshotInput = document.getElementById("attendanceSnapshotInput");
-    const snapshotPreview = document.getElementById("attendanceSnapshotPreview");
-    const clearSnapshot = document.getElementById("clearAttendanceSnapshot");
+    const viewSnapshotBtn = document.getElementById("viewAttendanceSnapshot");
 
-    if (!snapshotInput || !snapshotPreview || !clearSnapshot) return;
+    let attendanceSnapshotUrl = null;
+
+    if (!snapshotInput || !viewSnapshotBtn) return;
 
     snapshotInput.addEventListener("change", function () {
         const file = this.files && this.files[0];
 
-        if (!file) return;
+        if (!file) {
+            viewSnapshotBtn.disabled = true;
+            return;
+        }
 
         if (!file.type.startsWith("image/")) {
             alert("Please select a JPG, JPEG or PNG image.");
             this.value = "";
+            viewSnapshotBtn.disabled = true;
             return;
         }
 
-        const reader = new FileReader();
+        if (attendanceSnapshotUrl) {
+            URL.revokeObjectURL(attendanceSnapshotUrl);
+        }
 
-        reader.onload = function (event) {
-            snapshotPreview.innerHTML =
-                '<img src="' + event.target.result + '" alt="Attendance Snapshot">';
-        };
-
-        reader.readAsDataURL(file);
+        attendanceSnapshotUrl = URL.createObjectURL(file);
+        viewSnapshotBtn.disabled = false;
     });
 
-    clearSnapshot.addEventListener("click", function () {
-        snapshotInput.value = "";
-        snapshotPreview.innerHTML =
-            '<div class="snapshot-empty">No attendance snapshot uploaded.</div>';
+    viewSnapshotBtn.addEventListener("click", function () {
+        if (!attendanceSnapshotUrl) {
+            alert("Please upload an attendance snapshot first.");
+            return;
+        }
+
+        window.open(attendanceSnapshotUrl, "_blank", "noopener,noreferrer");
     });
 });
 </script></body>
@@ -1112,12 +1076,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 }
 </style>
-
-
-
-
-
-
 
 
 

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CT3 Assessment 2028</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="ct3-page">
+<h1>CT3 Assessment 2028</h1>
+<div>
+<button onclick="showCT3Tab('performanceBand')">Performance Band</button>
+<button onclick="showCT3Tab('weekPerformance')">Week Wise Performance</button>
+<button onclick="showCT3Tab('graphs')">Graphical Representation</button>
+</div>
+
+<div id="performanceBand">
+<h2>Performance Band</h2>
+<div id="performanceBandAdmin" style="display:none;">
+<input type="file" id="performanceBandExcel" accept=".xlsx,.xls">
+<button onclick="previewCT3('performanceBand')">Preview Excel</button>
+<button onclick="window.publishCT3 && window.publishCT3('performanceBand')" >Publish Table</button>
+</div>
+<div id="performanceBandPreview"></div>
+<div id="performanceBandPublished"></div>
+</div>
+
+<div id="weekPerformance" style="display:none;">
+<h2>Week Wise Performance</h2>
+<div id="weekPerformanceAdmin" style="display:none;">
+<input type="file" id="weekPerformanceExcel" accept=".xlsx,.xls">
+<button onclick="previewCT3('weekPerformance')">Preview Excel</button>
+<button onclick="window.publishCT3 && window.publishCT3('weekPerformance')" >Publish Table</button>
+</div>
+<div id="weekPerformancePreview"></div>
+<div id="weekPerformancePublished"></div>
+</div>
+
+<div id="graphs" style="display:none;">
+<h2>Graphical Representation</h2>
+</div>
+</div>
+
+<script>
+function showCT3Tab(tabId) {
+document.getElementById("performanceBand").style.display = tabId === "performanceBand" ? "block" : "none";
+document.getElementById("weekPerformance").style.display = tabId === "weekPerformance" ? "block" : "none";
+document.getElementById("graphs").style.display = tabId === "graphs" ? "block" : "none";
+}
+</script>
+<script src="/js/xlsx.full.min.js"></script><script>window.previewCT3=function(type){const input=document.getElementById(type+"Excel");const preview=document.getElementById(type+"Preview");if(!input.files.length){alert("Please select an Excel file.");return;}const reader=new FileReader();reader.onload=function(e){const wb=XLSX.read(new Uint8Array(e.target.result),{type:"array"});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:""});let html="<table><tbody>";rows.forEach((row,i)=>{html+="<tr>";row.forEach(cell=>{html+=i===0?"<th>"+String(cell)+"</th>":"<td>"+String(cell)+"</td>";});html+="</tr>";});html+="</tbody></table>";preview.innerHTML=html;};reader.readAsArrayBuffer(input.files[0]);};</script><script type="module">import {doc,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js"; import {auth,db} from "../js/firebase-config.js"; import {onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js"; onAuthStateChanged(auth,user=>{window.ct3User=user;const admin=user && user.email && user.email.toLowerCase()==="rkolluri@gitam.edu";document.getElementById("performanceBandAdmin").style.display=admin?"block":"none";document.getElementById("weekPerformanceAdmin").style.display=admin?"block":"none";}); window.publishCT3=async function(type){try{const user=window.ct3User;if(!user){alert("Please login first.");return;}if(user.email.toLowerCase()!=="rkolluri@gitam.edu"){alert("Admin access required.");return;}const input=document.getElementById(type+"Excel");const preview=document.getElementById(type+"Preview");if(!input.files.length){alert("Please select an Excel file.");return;}const table=preview.querySelector("table");if(!table){alert("Please preview the Excel file first.");return;}const rows=Array.from(table.rows).map(r=>{const cells=Array.from(r.cells).map(c=>c.textContent);return {cells:cells};});await setDoc(doc(db,"ct3Tables",type),{rows:rows,fileName:input.files[0].name,publishedBy:user.email,publishedAt:serverTimestamp()});alert("CT3 table published successfully.");}catch(error){console.error("CT3 Publish Error:",error);alert("Publish failed: "+error.message);}};</script></body>
+</html>
+
+
+
+
+
+
+
+

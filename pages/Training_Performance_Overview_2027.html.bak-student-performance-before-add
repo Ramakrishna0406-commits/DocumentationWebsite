@@ -1,0 +1,1610 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Performance Overview 2027 | DATA PULSE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f8;
+            color: #263238;
+        }
+
+        .header {
+            background: #007367;
+            color: white;
+            padding: 22px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,.12);
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .subtitle {
+            margin-top: 4px;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .year-badge {
+            background: rgba(255,255,255,.15);
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            padding: 28px;
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #007367;
+        }
+
+        .page-title p {
+            margin: 7px 0 0;
+            color: #68777d;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #edf2f2;
+            padding-bottom: 12px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            color: #007367;
+            font-size: 20px;
+        }
+
+        .section-number {
+            color: #78909c;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .kpi {
+            border: 1px solid #e4ebec;
+            border-radius: 10px;
+            padding: 18px;
+            background: #fbfdfd;
+        }
+
+        .kpi-label {
+            color: #718087;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            color: #007367;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .table-placeholder {
+            min-height: 150px;
+            border: 2px dashed #d6e2e2;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #849397;
+            background: #fafcfc;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-placeholder {
+            min-height: 280px;
+            border: 1px solid #e2e9e9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #849397;
+            background: #fafcfc;
+        }
+
+        @media (max-width: 1000px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px;
+            }
+        }
+        .training-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            background: #eaf2f1;
+            padding: 6px;
+            border-radius: 12px;
+            margin: 0 0 24px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        }
+
+        .training-tab {
+            border: none;
+            background: transparent;
+            color: #506064;
+            padding: 13px 16px;
+            border-radius: 9px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .training-tab:hover {
+            background: rgba(0,115,103,.08);
+            color: #007367;
+        }
+
+        .training-tab.active {
+            background: #007367;
+            color: white;
+            box-shadow: 0 3px 8px rgba(0,115,103,.20);
+        }
+
+        .training-tab-panel {
+            display: none;
+        }
+
+        .training-tab-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 800px) {
+            .training-tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }    </style>
+<style id="overview-attractive-style">
+:root{
+    --dp-primary:#007367;
+    --dp-primary-dark:#005b53;
+    --dp-primary-light:#e8f5f3;
+    --dp-bg:#f3f7f7;
+    --dp-border:#dce8e6;
+    --dp-text:#263238;
+    --dp-muted:#718087;
+    --dp-shadow:0 8px 24px rgba(0,83,76,.08);
+    --dp-shadow-hover:0 14px 32px rgba(0,83,76,.14);
+}
+html{scroll-behavior:smooth}
+body{
+    background:radial-gradient(circle at 10% 0%,rgba(0,115,103,.07),transparent 28%),linear-gradient(180deg,#f7faf9 0%,var(--dp-bg) 100%);
+    color:var(--dp-text);
+}
+.header{
+    background:linear-gradient(135deg,var(--dp-primary-dark),var(--dp-primary) 60%,#008879);
+    padding:20px 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 4px 18px rgba(0,70,64,.18);
+}
+.brand{font-size:26px;letter-spacing:.7px}
+.subtitle{font-size:13px;letter-spacing:.2px}
+.year-badge{
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.container{max-width:1500px;padding:30px}
+.page-title{padding:8px 4px 4px}
+.page-title h1{font-size:30px;font-weight:750;letter-spacing:-.4px}
+.page-title p{font-size:14px;color:var(--dp-muted)}
+.section{
+    background:rgba(255,255,255,.96);
+    border:1px solid rgba(220,232,230,.9);
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:24px;
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+.section:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--dp-shadow-hover);
+}
+.section-header{
+    margin-bottom:20px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--dp-border);
+}
+.section-header h2{
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:-.2px;
+}
+.section-number{
+    background:var(--dp-primary-light);
+    color:var(--dp-primary-dark);
+    border:1px solid #cde5e1;
+    border-radius:20px;
+    padding:5px 10px;
+    font-size:12px;
+}
+.kpi-grid{gap:18px}
+.kpi{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--dp-border);
+    border-radius:13px;
+    padding:20px;
+    background:linear-gradient(145deg,#ffffff,#f8fbfb);
+    box-shadow:0 3px 12px rgba(0,80,73,.05);
+    transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.kpi::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:4px;
+    height:100%;
+    background:var(--dp-primary);
+}
+.kpi:hover{
+    transform:translateY(-3px);
+    border-color:#bcd9d5;
+    box-shadow:0 10px 22px rgba(0,83,76,.12);
+}
+.kpi-label{
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.55px;
+    color:var(--dp-muted);
+}
+.kpi-value{
+    margin-top:4px;
+    font-size:29px;
+    font-weight:750;
+    color:var(--dp-primary-dark);
+}
+.table-placeholder{
+    min-height:170px;
+    border:1px dashed #bfd6d2;
+    border-radius:12px;
+    background:linear-gradient(135deg,rgba(0,115,103,.025),rgba(255,255,255,.7));
+    color:#7b8b90;
+}
+.chart-placeholder{
+    min-height:280px;
+    border:1px solid var(--dp-border);
+    border-radius:12px;
+    background:linear-gradient(145deg,#fbfdfd,#f6f9f9);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.two-column{gap:22px}
+@media(max-width:1000px){
+    .container{padding:22px}
+    .section{padding:20px}
+}
+@media(max-width:600px){
+    .header{padding:16px 18px}
+    .brand{font-size:22px}
+    .container{padding:14px}
+    .section{border-radius:12px;padding:16px}
+    .page-title h1{font-size:25px}
+}
+</style><style id="campus-batch-table-style">
+<style id="campus-batch-alignment-style">
+#campus-batch-section .table-wrap{
+    width:100%;
+    overflow-x:auto;
+    border:none;
+    background:transparent;
+}
+#campus-batch-section .data-table{
+    width:100%;
+    min-width:720px;
+    border-collapse:separate;
+    border-spacing:0 6px;
+    table-layout:fixed;
+    background:transparent;
+}
+#campus-batch-section .data-table thead th{
+    background:#007367;
+    color:#fff;
+    padding:13px 14px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:13px;
+    font-weight:700;
+    border:none;
+}
+#campus-batch-section .data-table thead th:first-child{
+    border-radius:10px 0 0 10px;
+}
+#campus-batch-section .data-table thead th:last-child{
+    border-radius:0 10px 10px 0;
+}
+#campus-batch-section .data-table th:nth-child(1){width:18%}
+#campus-batch-section .data-table th:nth-child(2){width:27%;text-align:left}
+#campus-batch-section .data-table th:nth-child(3),
+#campus-batch-section .data-table th:nth-child(4),
+#campus-batch-section .data-table th:nth-child(5){width:18.33%}
+#campus-batch-section .data-table tbody td{
+    padding:12px 14px;
+    border:none;
+    background:#fff;
+    text-align:center;
+    vertical-align:middle;
+    font-size:14px;
+    font-variant-numeric:tabular-nums;
+}
+#campus-batch-section .data-table tbody tr:not(.grand-total) td:first-child{
+    font-weight:750;
+    color:#00665d;
+}
+#campus-batch-section .data-table tbody tr:not(.grand-total) td:nth-child(2){
+    text-align:left;
+    font-weight:600;
+    color:#263b3a;
+    font-variant-numeric:normal;
+}
+#campus-batch-section .data-table tbody tr:not(.grand-total) td:nth-child(n+3){
+    color:#183f3b;
+    font-weight:600;
+}
+#campus-batch-section .data-table tbody tr:not(.grand-total) td:first-child{
+    border-radius:10px 0 0 10px;
+}
+#campus-batch-section .data-table tbody tr:not(.grand-total) td:last-child{
+    border-radius:0 10px 10px 0;
+}
+#campus-batch-section .data-table tbody tr.grand-total td{
+    background:#e8f5f3;
+    color:#005b53;
+    font-weight:800;
+    padding-top:13px;
+    padding-bottom:13px;
+}
+#campus-batch-section .data-table tbody tr.grand-total td:first-child{
+    border-radius:10px 0 0 10px;
+    text-align:center;
+}
+#campus-batch-section .data-table tbody tr.grand-total td:last-child{
+    border-radius:0 10px 10px 0;
+}
+#campus-batch-section .data-table tbody tr:hover td{
+    background:#f5faf9;
+}
+
+#pre-post-assessment-section .data-table{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:separate;
+    border-spacing:0;
+}
+#pre-post-assessment-section .data-table th,
+#pre-post-assessment-section .data-table td{
+    text-align:center !important;
+    vertical-align:middle !important;
+    padding:14px 24px !important;
+    white-space:nowrap;
+}
+#pre-post-assessment-section .data-table th:nth-child(1),
+#pre-post-assessment-section .data-table td:nth-child(1){
+    width:14%;
+}
+#pre-post-assessment-section .data-table th:nth-child(2),
+#pre-post-assessment-section .data-table td:nth-child(2){
+    width:22%;
+}
+#pre-post-assessment-section .data-table th:nth-child(3),
+#pre-post-assessment-section .data-table td:nth-child(3){
+    width:22%;
+}
+#pre-post-assessment-section .data-table th:nth-child(4),
+#pre-post-assessment-section .data-table td:nth-child(4),
+#pre-post-assessment-section .data-table th:nth-child(5),
+#pre-post-assessment-section .data-table td:nth-child(5),
+#pre-post-assessment-section .data-table th:nth-child(6),
+#pre-post-assessment-section .data-table td:nth-child(6){
+    width:14%;
+}
+
+#pre-post-assessment-section .data-table thead tr:first-child th{
+    background:#007367 !important;
+    color:#fff !important;
+    font-weight:700;
+    border:none !important;
+}
+#pre-post-assessment-section .data-table thead tr:nth-child(2) th{
+    background:#eaf5f3 !important;
+    color:#005c54 !important;
+    font-weight:700;
+    border:none !important;
+}
+#pre-post-assessment-section .data-table tbody tr.grand-total td{
+    background:#f0f8f7 !important;
+    color:#005c54 !important;
+    font-weight:700 !important;
+    border-top:2px solid #007367 !important;
+    border-bottom:none !important;
+}
+        }
+</style>
+
+<style id="phase1-formatting-style">
+#training-phase1-panel .table-wrap{overflow-x:auto;margin-top:14px;border-radius:12px;}
+#training-phase1-panel table.data-table,#training-phase1-panel table{width:100%;border-collapse:separate;border-spacing:0;min-width:680px;background:#fff;border:1px solid #dce8e6;border-radius:12px;overflow:hidden;}
+#training-phase1-panel table.data-table thead th,#training-phase1-panel table thead th{background:#007367;color:#fff;font-weight:700;text-align:center;padding:12px 10px;font-size:12px;line-height:1.35;border-right:1px solid rgba(255,255,255,.18);vertical-align:middle;}
+#training-phase1-panel table.data-table thead th:last-child,#training-phase1-panel table thead th:last-child{border-right:none;}
+#training-phase1-panel table.data-table tbody td,#training-phase1-panel table tbody td{padding:11px 10px;text-align:center;font-size:13px;color:#263638;border-bottom:1px solid #e7efee;border-right:1px solid #edf3f2;white-space:nowrap;}
+#training-phase1-panel table.data-table tbody td:last-child,#training-phase1-panel table tbody td:last-child{border-right:none;}
+#training-phase1-panel table.data-table tbody tr:last-child td,#training-phase1-panel table tbody tr:last-child td{border-bottom:none;}
+#training-phase1-panel table.data-table tbody tr:hover td,#training-phase1-panel table tbody tr:hover td{background:#f4faf9;}
+#training-phase1-panel table.data-table tbody td:first-child,#training-phase1-panel table tbody td:first-child{text-align:left;font-weight:600;color:#174f49;}
+#training-phase1-panel table.data-table tbody tr.grand-total td,#training-phase1-panel table tbody tr:last-child td{font-weight:800;background:#eaf5f3;color:#075d54;border-top:2px solid #b8d8d3;}
+#training-phase1-panel #phase-i-section table.data-table{min-width:1100px;}
+#training-phase1-panel #phase-i-section table.data-table thead th{font-size:11.5px;}
+#training-phase1-panel #phase-i-section table.data-table tbody td:not(:first-child){font-weight:600;}
+#training-phase1-panel .section{margin-bottom:26px;}
+#training-phase1-panel .section-header{margin-bottom:12px;}
+#training-phase1-panel .section-subtitle{color:#65777a;font-size:13px;}
+#training-phase1-panel .section-number{color:#007367;font-weight:800;}
+@media (max-width:800px){
+#training-phase1-panel .table-wrap{margin-left:-4px;margin-right:-4px;}
+#training-phase1-panel .section-header{align-items:flex-start;}
+#training-phase1-panel table.data-table,#training-phase1-panel table{min-width:680px;}
+#training-phase1-panel #phase-i-section table.data-table{min-width:1000px;}
+}
+</style>
+        }
+<style id="phase2-formatting-style">
+/* =========================================================
+   PHASE 2 — TRAINING PERFORMANCE FORMATTING
+   Scoped only to #training-phase2-panel
+   ========================================================= */
+
+#training-phase2-panel{
+    width:100%;
+}
+
+#training-phase2-panel .phase-intro{
+    background:linear-gradient(135deg,#e8f5f3,#f7fbfa);
+    border:1px solid #cfe5e1;
+    border-radius:16px;
+    padding:20px 22px;
+    margin-bottom:24px;
+}
+
+#training-phase2-panel .phase-intro h2{
+    margin:0 0 6px 0;
+    color:#005b53;
+    font-size:21px;
+    font-weight:750;
+    letter-spacing:-.2px;
+}
+
+#training-phase2-panel .phase-intro p{
+    margin:0;
+    color:#5d6f72;
+    font-size:13px;
+    line-height:1.55;
+}
+
+#training-phase2-panel .section{
+    margin-bottom:26px;
+}
+
+#training-phase2-panel .section-header{
+    margin-bottom:14px;
+    padding-bottom:12px;
+}
+
+#training-phase2-panel .section-header h2{
+    color:#163f3b;
+    font-size:19px;
+    font-weight:700;
+}
+
+#training-phase2-panel .section-number{
+    color:#007367;
+    font-weight:800;
+}
+
+/* All Phase 2 table containers */
+#training-phase2-panel .table-wrap{
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    margin-top:12px;
+    border-radius:12px;
+    border:1px solid #dce8e6;
+    background:#fff;
+}
+
+/* All Phase 2 tables */
+#training-phase2-panel table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    background:#fff;
+}
+
+/* TOP + Aspire tables */
+#training-phase2-panel .section:nth-of-type(2) table,
+#training-phase2-panel .section:nth-of-type(3) table{
+    min-width:720px;
+}
+
+/* Table headers */
+#training-phase2-panel table thead th{
+    background:#007367;
+    color:#fff;
+    font-weight:700;
+    text-align:center;
+    vertical-align:middle;
+    padding:12px 12px;
+    font-size:12px;
+    line-height:1.35;
+    border-right:1px solid rgba(255,255,255,.18);
+    white-space:nowrap;
+}
+
+#training-phase2-panel table thead th:last-child{
+    border-right:none;
+}
+
+/* Body cells */
+#training-phase2-panel table tbody td{
+    padding:11px 12px;
+    text-align:center;
+    vertical-align:middle;
+    font-size:13px;
+    color:#263638;
+    border-bottom:1px solid #e7efee;
+    border-right:1px solid #edf3f2;
+    white-space:nowrap;
+}
+
+#training-phase2-panel table tbody td:last-child{
+    border-right:none;
+}
+
+#training-phase2-panel table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+#training-phase2-panel table tbody tr:hover td{
+    background:#f4faf9;
+}
+
+/* Campus column */
+#training-phase2-panel .section:nth-of-type(2) tbody td:first-child,
+#training-phase2-panel .section:nth-of-type(3) tbody td:first-child{
+    text-align:left;
+    font-weight:700;
+    color:#174f49;
+}
+
+/* Grand Total */
+#training-phase2-panel tr.grand-total td{
+    font-weight:800;
+    background:#eaf5f3;
+    color:#075d54;
+    border-top:2px solid #b8d8d3;
+}
+
+/* =========================================================
+   WEEK-WISE TABLE
+   ========================================================= */
+
+#training-phase2-panel .section:nth-of-type(4) .table-wrap{
+    border-radius:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+#training-phase2-panel .section:nth-of-type(4) table{
+    min-width:1180px;
+    table-layout:fixed;
+}
+
+/* Week column */
+#training-phase2-panel .section:nth-of-type(4) th:first-child,
+#training-phase2-panel .section:nth-of-type(4) td:first-child{
+    width:170px;
+}
+
+/* Assessment column */
+#training-phase2-panel .section:nth-of-type(4) th:nth-child(2),
+#training-phase2-panel .section:nth-of-type(4) td:nth-child(2){
+    width:245px;
+}
+
+/* Campus group headers */
+#training-phase2-panel .section:nth-of-type(4) thead tr:first-child th:nth-child(3),
+#training-phase2-panel .section:nth-of-type(4) thead tr:first-child th:nth-child(4),
+#training-phase2-panel .section:nth-of-type(4) thead tr:first-child th:nth-child(5){
+    background:#005b53;
+    font-size:13px;
+    letter-spacing:.2px;
+}
+
+/* Second-level headers */
+#training-phase2-panel .section:nth-of-type(4) thead tr:nth-child(2) th{
+    background:#078274;
+    font-size:11px;
+    padding:10px 7px;
+}
+
+/* Week labels */
+#training-phase2-panel .section:nth-of-type(4) tbody td:first-child{
+    text-align:left;
+    white-space:normal;
+    font-weight:700;
+    color:#075d54;
+    background:#f2f8f7;
+    line-height:1.35;
+}
+
+/* Assessment names */
+#training-phase2-panel .section:nth-of-type(4) tbody td:nth-child(2){
+    text-align:left;
+    white-space:normal;
+    font-weight:600;
+    color:#30484a;
+    line-height:1.35;
+}
+
+/* Percentage values */
+#training-phase2-panel .section:nth-of-type(4) tbody td:nth-child(n+3){
+    text-align:center;
+    font-weight:600;
+}
+
+/* Subtle separation between campuses */
+#training-phase2-panel .section:nth-of-type(4) tbody td:nth-child(5),
+#training-phase2-panel .section:nth-of-type(4) tbody td:nth-child(8){
+    border-right:2px solid #cfe0dd;
+}
+
+/* Header campus separators */
+#training-phase2-panel .section:nth-of-type(4) thead tr:nth-child(2) th:nth-child(3),
+#training-phase2-panel .section:nth-of-type(4) thead tr:nth-child(2) th:nth-child(6){
+    border-left:2px solid rgba(255,255,255,.35);
+}
+
+/* Week group separators */
+#training-phase2-panel .section:nth-of-type(4) tbody tr:nth-child(4n+1) td{
+    border-top:2px solid #d4e6e3;
+}
+
+#training-phase2-panel .section:nth-of-type(4) tbody tr:first-child td{
+    border-top:none;
+}
+
+/* Keep wide table usable */
+#training-phase2-panel .section:nth-of-type(4) .table-wrap::-webkit-scrollbar{
+    height:9px;
+}
+
+#training-phase2-panel .section:nth-of-type(4) .table-wrap::-webkit-scrollbar-track{
+    background:#eef4f3;
+    border-radius:10px;
+}
+
+#training-phase2-panel .section:nth-of-type(4) .table-wrap::-webkit-scrollbar-thumb{
+    background:#9bc8c2;
+    border-radius:10px;
+}
+
+/* Mobile */
+@media(max-width:800px){
+    #training-phase2-panel .section{
+        padding:18px;
+    }
+
+    #training-phase2-panel .section-header{
+        align-items:flex-start;
+    }
+
+    #training-phase2-panel .section-header h2{
+        font-size:17px;
+        line-height:1.35;
+    }
+
+    #training-phase2-panel .phase-intro{
+        padding:16px;
+    }
+
+    #training-phase2-panel .phase-intro h2{
+        font-size:18px;
+    }
+
+    #training-phase2-panel .table-wrap{
+        margin-left:-2px;
+        margin-right:-2px;
+    }
+
+    #training-phase2-panel .section:nth-of-type(2) table,
+    #training-phase2-panel .section:nth-of-type(3) table{
+        min-width:650px;
+    }
+
+    #training-phase2-panel .section:nth-of-type(4) table{
+        min-width:1180px;
+    }
+}
+</style>
+<style>
+#top-batch-assessment-section .data-table,
+#tcs-assessment-section .data-table{
+    width:100%;
+    table-layout:fixed;
+    border-collapse:separate;
+    border-spacing:0;
+}
+#top-batch-assessment-section .data-table th,
+#top-batch-assessment-section .data-table td,
+#tcs-assessment-section .data-table th,
+#tcs-assessment-section .data-table td{
+    text-align:center !important;
+    vertical-align:middle !important;
+    padding:12px 10px !important;
+    white-space:normal;
+    word-break:normal;
+    overflow-wrap:anywhere;
+}
+#top-batch-assessment-section .data-table th{
+    background:#007367 !important;
+    color:#fff !important;
+    font-weight:700;
+}
+#top-batch-assessment-section .data-table tbody tr.grand-total td,
+#tcs-assessment-section .data-table tbody tr.grand-total td{
+    background:#f0f8f7 !important;
+    color:#005c54 !important;
+    font-weight:700;
+}
+#tcs-assessment-section .data-table th:nth-child(1),
+#tcs-assessment-section .data-table td:nth-child(1){width:10%;}
+#tcs-assessment-section .data-table th:nth-child(2),
+#tcs-assessment-section .data-table td:nth-child(2){width:12%;}
+#tcs-assessment-section .data-table th:nth-child(3),
+#tcs-assessment-section .data-table td:nth-child(3){width:12%;}
+#tcs-assessment-section .data-table th:nth-child(4),
+#tcs-assessment-section .data-table td:nth-child(4){width:18%;}
+#tcs-assessment-section .data-table th:nth-child(5),
+#tcs-assessment-section .data-table td:nth-child(5){width:12%;}
+#tcs-assessment-section .data-table th:nth-child(6),
+#tcs-assessment-section .data-table td:nth-child(6){width:12%;}
+#tcs-assessment-section .data-table th:nth-child(7),
+#tcs-assessment-section .data-table td:nth-child(7){width:12%;}
+#tcs-assessment-section .data-table th:nth-child(8),
+#tcs-assessment-section .data-table td:nth-child(8){width:12%;}
+#tcs-assessment-section .data-table thead th{
+    background:#007367 !important;
+    color:#fff !important;
+    font-weight:700;
+}
+#tcs-assessment-section{
+    margin-top:28px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div>
+        <div class="brand">DATA PULSE</div>
+        <div class="subtitle">Training, Mentoring & Career Guidance</div>
+    </div>
+    <div class="year-badge">2027</div>
+</header>
+
+<main class="container">
+
+    <div class="page-title">
+        <h1>Training Performance Overview</h1>
+        <p>2027 Training Performance Dashboard</p>
+    </div>
+    <div class="training-tabs" role="tablist" aria-label="Training Performance">
+        <button class="training-tab active" type="button" role="tab" aria-selected="true">Training Performance Overview</button>
+        <button class="training-tab" type="button" role="tab" aria-selected="false">Phase 1</button>
+        <button class="training-tab" type="button" role="tab" aria-selected="false">Phase 2</button>
+        <button class="training-tab" type="button" role="tab" aria-selected="false">Phase 3</button>
+    </div>
+
+    <div id="training-overview-panel" class="training-tab-panel active">
+    <!-- 01 EXECUTIVE SUMMARY -->
+<section class="section" id="campus-batch-section">
+    <div class="section-header">
+        <div>
+            <h2>Campus / Course / Batch Distribution</h2>
+            <div class="section-subtitle">Campus-wise Aspire and Top Batch distribution</div>
+        </div>
+        <span class="section-number">01</span>
+    </div>
+
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Campus</th>
+                    <th>Course</th>
+                    <th>Aspire Batch</th>
+                    <th>Top Batch</th>
+                    <th>Grand Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BLR</td>
+                    <td>BCA</td>
+                    <td>4</td>
+                    <td>—</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>BLR</td>
+                    <td>BTECH</td>
+                    <td>998</td>
+                    <td>120</td>
+                    <td>1118</td>
+                </tr>
+                <tr>
+                    <td>BLR</td>
+                    <td>MTECH</td>
+                    <td>2</td>
+                    <td>—</td>
+                    <td>2</td>
+                </tr>
+                <tr class="grand-total">
+                    <td>BLR Total</td>
+                    <td>—</td>
+                    <td>1004</td>
+                    <td>120</td>
+                    <td>1124</td>
+                </tr>
+
+                <tr>
+                    <td>HYD</td>
+                    <td>BTECH</td>
+                    <td>626</td>
+                    <td>300</td>
+                    <td>926</td>
+                </tr>
+                <tr>
+                    <td>HYD</td>
+                    <td>MSC</td>
+                    <td>18</td>
+                    <td>—</td>
+                    <td>18</td>
+                </tr>
+                <tr>
+                    <td>HYD</td>
+                    <td>MTECH</td>
+                    <td>26</td>
+                    <td>—</td>
+                    <td>26</td>
+                </tr>
+                <tr class="grand-total">
+                    <td>HYD Total</td>
+                    <td>—</td>
+                    <td>670</td>
+                    <td>300</td>
+                    <td>970</td>
+                </tr>
+
+                <tr>
+                    <td>VSP</td>
+                    <td>BCA</td>
+                    <td>6</td>
+                    <td>—</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>VSP</td>
+                    <td>BTECH</td>
+                    <td>1268</td>
+                    <td>294</td>
+                    <td>1562</td>
+                </tr>
+                <tr>
+                    <td>VSP</td>
+                    <td>MCA</td>
+                    <td>40</td>
+                    <td>5</td>
+                    <td>45</td>
+                </tr>
+                <tr>
+                    <td>VSP</td>
+                    <td>MSC</td>
+                    <td>20</td>
+                    <td>—</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>VSP</td>
+                    <td>MTECH</td>
+                    <td>50</td>
+                    <td>1</td>
+                    <td>51</td>
+                </tr>
+                <tr class="grand-total">
+                    <td>VSP Total</td>
+                    <td>—</td>
+                    <td>1384</td>
+                    <td>300</td>
+                    <td>1684</td>
+                </tr>
+
+                <tr class="grand-total">
+                    <td>Grand Total</td>
+                    <td>—</td>
+                    <td>3058</td>
+                    <td>720</td>
+                    <td>3778</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+    </div>
+    <div id="training-phase1-panel" class="training-tab-panel">
+<!-- PHASE_I_SECTION -->
+<section class="section" id="phase-i-section">
+    <div class="section-header">
+        <div>
+            <h2>Phase I</h2>
+            <div class="section-subtitle">In-training and post-training assessment performance</div>
+        </div>
+        <span class="section-number">03</span>
+    </div>
+
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th rowspan="2">Campus</th>
+                    <th colspan="3">Training</th>
+                    <th colspan="4">Post-Training</th>
+                </tr>
+                <tr>
+                    <th>Pseudocode Assessment Scores</th>
+                    <th>Coding Assessment Scores</th>
+                    <th>Daily Test Overall Scores</th>
+                    <th>Pseudocode Assessment Scores</th>
+                    <th>Coding Assessment Scores</th>
+                    <th>Leetcode Assessment Scores</th>
+                    <th>Daily Test Scores</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>BLR</td>
+                    <td>83%</td>
+                    <td>77%</td>
+                    <td>77%</td>
+                    <td>62%</td>
+                    <td>60%</td>
+                    <td>52%</td>
+                    <td>56%</td>
+                </tr>
+                <tr>
+                    <td>HYD</td>
+                    <td>81%</td>
+                    <td>62%</td>
+                    <td>75%</td>
+                    <td>55%</td>
+                    <td>56%</td>
+                    <td>39%</td>
+                    <td>34%</td>
+                </tr>
+                <tr>
+                    <td>VSP</td>
+                    <td>83%</td>
+                    <td>59%</td>
+                    <td>73%</td>
+                    <td>51%</td>
+                    <td>52%</td>
+                    <td>37%</td>
+                    <td>31%</td>
+                </tr>
+                <tr class="grand-total">
+                    <td>Grand Total</td>
+                    <td>82%</td>
+                    <td>65%</td>
+                    <td>75%</td>
+                    <td>55%</td>
+                    <td>55%</td>
+                    <td>42%</td>
+                    <td>40%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <section class="section">
+        <div class="section-header">
+            <div>
+                <h2>NXT Registrations</h2>
+                <div class="section-subtitle">NXT registration status by campus</div>
+            </div>
+            <span class="section-number">05</span>
+        </div>
+
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Campus</th>
+                        <th>Not Registered</th>
+                        <th>Registered</th>
+                        <th>Grand Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BLR</td>
+                        <td>40</td>
+                        <td>1083</td>
+                        <td>1123</td>
+                    </tr>
+                    <tr>
+                        <td>HYD</td>
+                        <td>17</td>
+                        <td>953</td>
+                        <td>970</td>
+                    </tr>
+                    <tr>
+                        <td>VSP</td>
+                        <td>104</td>
+                        <td>1578</td>
+                        <td>1682</td>
+                    </tr>
+                    <tr class="grand-total">
+                        <td>Grand Total</td>
+                        <td>161</td>
+                        <td>3614</td>
+                        <td>3775</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ASSESSMENT COUNT -->
+    <section class="section" id="assessment-count-section">
+        <div class="section-header">
+            <h2>Assessment Count</h2>
+            <div class="section-subtitle">Campus-wise assessment attendance count</div>
+            <span class="section-number">06</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assessment Count</th>
+                        <th>BLR</th>
+                        <th>HYD</th>
+                        <th>VSP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Attended all Assessments</td><td>264</td><td>78</td><td>230</td></tr>
+                    <tr><td>1-Assessment didn’t Attended</td><td>22</td><td>6</td><td>6</td></tr>
+                    <tr><td>2--Assessment didn’t Attended</td><td>37</td><td>11</td><td>13</td></tr>
+                    <tr><td>3-Assessment didn’t Attended</td><td>23</td><td>23</td><td>10</td></tr>
+                    <tr><td>4-Assessment didn’t Attended</td><td>22</td><td>21</td><td>17</td></tr>
+                    <tr><td>5-Assessment didn’t Attended</td><td>39</td><td>26</td><td>28</td></tr>
+                    <tr><td>6-Assessment didn’t Attended</td><td>41</td><td>34</td><td>29</td></tr>
+                    <tr><td>7-Assessment didn’t Attended</td><td>109</td><td>82</td><td>170</td></tr>
+                    <tr><td>8-Assessment didn’t Attended</td><td>11</td><td>3</td><td>8</td></tr>
+                    <tr><td>9-Assessment didn’t Attended</td><td>20</td><td>17</td><td>20</td></tr>
+                    <tr><td>10-Assessment didn’t Attended</td><td>11</td><td>7</td><td>21</td></tr>
+                    <tr><td>11-Assessment didn’t Attended</td><td>16</td><td>17</td><td>20</td></tr>
+                    <tr><td>12-Assessment didn’t Attended</td><td>14</td><td>25</td><td>28</td></tr>
+                    <tr><td>13-Assessment didn’t Attended</td><td>17</td><td>30</td><td>40</td></tr>
+                    <tr><td>14-Assessment didn’t Attended</td><td>33</td><td>22</td><td>49</td></tr>
+                    <tr><td>15-Assessment didn’t Attended</td><td>45</td><td>78</td><td>61</td></tr>
+                    <tr><td>16-Assessment didn’t Attended</td><td>399</td><td>490</td><td>932</td></tr>
+                    <tr><td>Grand Total</td><td>1123</td><td>970</td><td>1682</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- 06 C PROGRAMMING -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Campus Average Scores — C Programming</h2>
+            <span class="section-number">06</span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campus</th>
+                        <th>Average Score in C Programming</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>BLR</td><td>34.65%</td></tr>
+                    <tr><td>HYD</td><td>25.60%</td></tr>
+                    <tr><td>VSP</td><td>21.92%</td></tr>
+                    <tr><td>Grand Total</td><td>26.65%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+        </div>
+    </div>
+
+    <div id="training-phase2-panel" class="training-tab-panel">
+        <div class="phase-intro">
+            <h2>Phase 2 Training Performance</h2>
+            <p>In-Training performance of Top Batch and Aspire Batch across campus-wise assessments and weekly training activities.</p>
+        </div>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>01 — In Training – TOP Batch</h2>
+                <span class="section-number">01</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campus</th>
+                            <th>In Training Pseudocode Assessment Scores</th>
+                            <th>In Training - Coding Test Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>BLR</td><td>88.5%</td><td>83.5%</td></tr>
+                        <tr><td>HYD</td><td>80.8%</td><td>78.0%</td></tr>
+                        <tr><td>VSP</td><td>88.8%</td><td>77.2%</td></tr>
+                        <tr class="grand-total"><td>Grand Total</td><td>85.4%</td><td>78.6%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>02 — In Training – Aspire Batch</h2>
+                <span class="section-number">02</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campus</th>
+                            <th>IN Training Leetcode - Inclass Assessment Scores</th>
+                            <th>In Training Leetcode Post class Assessment Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>BLR</td><td>59%</td><td>22%</td></tr>
+                        <tr><td>HYD</td><td>30%</td><td>8%</td></tr>
+                        <tr><td>VSP</td><td>40%</td><td>13%</td></tr>
+                        <tr class="grand-total"><td>Grand Total</td><td>44%</td><td>15%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>03 — Week-wise Performance</h2>
+                <span class="section-number">03</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Week</th>
+                            <th rowspan="2">Assessment</th>
+                            <th colspan="3">BLR</th>
+                            <th colspan="3">HYD</th>
+                            <th colspan="3">VSP</th>
+                        </tr>
+                        <tr>
+                            <th>Aspire Batch</th><th>Top Batch</th><th>Average</th>
+                            <th>Aspire Batch</th><th>Top Batch</th><th>Average</th>
+                            <th>Aspire Batch</th><th>Top Batch</th><th>Average</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3">May 11 to May 15 — Week 1</td>
+                            <td>Psuedocode Assessment Scores</td>
+                            <td>80%</td><td>80%</td><td>80%</td>
+                            <td>56%</td><td>56%</td><td>56%</td>
+                            <td>27%</td><td>27%</td><td>27%</td>
+                        </tr>
+                        <tr>
+                            <td>Leetcode Scores</td>
+                            <td>41%</td><td>40%</td><td>41%</td>
+                            <td>20%</td><td>73%</td><td>37%</td>
+                            <td>17%</td><td>78%</td><td>28%</td>
+                        </tr>
+                        <tr>
+                            <td>Coding-Practice Assessment Scores</td>
+                            <td>36%</td><td>87%</td><td>42%</td>
+                            <td>8%</td><td>65%</td><td>26%</td>
+                            <td>12%</td><td>76%</td><td>23%</td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="4">May 18 to May 24 — Week 2</td>
+                            <td>Apptitude, Logical, Verbal Assessment -Scores</td>
+                            <td>42%</td><td>86%</td><td>47%</td>
+                            <td>34%</td><td>68%</td><td>44%</td>
+                            <td>32%</td><td>71%</td><td>39%</td>
+                        </tr>
+                        <tr>
+                            <td>Psuedocode Assessment Scores</td>
+                            <td>34%</td><td>84%</td><td>39%</td>
+                            <td>11%</td><td>71%</td><td>29%</td>
+                            <td>9%</td><td>74%</td><td>21%</td>
+                        </tr>
+                        <tr>
+                            <td>Leetcode Scores</td>
+                            <td>26%</td><td>98%</td><td>33%</td>
+                            <td>16%</td><td>90%</td><td>38%</td>
+                            <td>15%</td><td>95%</td><td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>Coding Practice Scores</td>
+                            <td>27%</td><td>83%</td><td>33%</td>
+                            <td>7%</td><td>70%</td><td>26%</td>
+                            <td>7%</td><td>70%</td><td>18%</td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="4">May 25 to May 29 — Week 3</td>
+                            <td>Apptitude, Logical, Verbal Assessment Scores</td>
+                            <td>34%</td><td>71%</td><td>38%</td>
+                            <td>27%</td><td>57%</td><td>37%</td>
+                            <td>28%</td><td>67%</td><td>35%</td>
+                        </tr>
+                        <tr>
+                            <td>Psuedocode Assessment Scores</td>
+                            <td>26%</td><td>82%</td><td>32%</td>
+                            <td>8%</td><td>61%</td><td>24%</td>
+                            <td>3%</td><td>56%</td><td>12%</td>
+                        </tr>
+                        <tr>
+                            <td>Leetcode Scores</td>
+                            <td>18%</td><td>95%</td><td>26%</td>
+                            <td>9%</td><td>84%</td><td>32%</td>
+                            <td>5%</td><td>90%</td><td>20%</td>
+                        </tr>
+                        <tr>
+                            <td>Coding Practice Scores</td>
+                            <td>23%</td><td>80%</td><td>29%</td>
+                            <td>5%</td><td>57%</td><td>21%</td>
+                            <td>2%</td><td>53%</td><td>11%</td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="4">June 1 to June 5 — Week 4</td>
+                            <td>Apptitude, Logical, Verbal Assessment -Scores</td>
+                            <td>32%</td><td>69%</td><td>36%</td>
+                            <td>24%</td><td>59%</td><td>35%</td>
+                            <td>21%</td><td>58%</td><td>27%</td>
+                        </tr>
+                        <tr>
+                            <td>Psuedocode Assessment Scores</td>
+                            <td>21%</td><td>63%</td><td>25%</td>
+                            <td>5%</td><td>18%</td><td>9%</td>
+                            <td>3%</td><td>51%</td><td>12%</td>
+                        </tr>
+                        <tr>
+                            <td>Leetcode Scores</td>
+                            <td>16%</td><td>73%</td><td>22%</td>
+                            <td>7%</td><td>44%</td><td>18%</td>
+                            <td>3%</td><td>57%</td><td>13%</td>
+                        </tr>
+                        <tr>
+                            <td>Coding Practice Scores</td>
+                            <td>19%</td><td>71%</td><td>25%</td>
+                            <td>3%</td><td>19%</td><td>8%</td>
+                            <td>3%</td><td>53%</td><td>12%</td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="4">June 8 to June 12 — Week 5</td>
+                            <td>Apptitude, Logical, Verbal Assessment -Scores</td>
+                            <td>28%</td><td>68%</td><td>32%</td>
+                            <td>16%</td><td>43%</td><td>24%</td>
+                            <td>16%</td><td>48%</td><td>21%</td>
+                        </tr>
+                        <tr>
+                            <td>Psuedocode Assessment Scores</td>
+                            <td>18%</td><td>82%</td><td>25%</td>
+                            <td>6%</td><td>46%</td><td>19%</td>
+                            <td>5%</td><td>51%</td><td>13%</td>
+                        </tr>
+                        <tr>
+                            <td>Leetcode Scores</td>
+                            <td>15%</td><td>61%</td><td>20%</td>
+                            <td>6%</td><td>26%</td><td>12%</td>
+                            <td>7%</td><td>43%</td><td>13%</td>
+                        </tr>
+                        <tr>
+                            <td>Coding Scores</td>
+                            <td>24%</td><td>77%</td><td>29%</td>
+                            <td>7%</td><td>43%</td><td>18%</td>
+                            <td>5%</td><td>49%</td><td>13%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div id="training-phase3-panel" class="training-tab-panel">
+        <section class="section" id="top-batch-assessment-section">
+            <div class="section-header">
+                <div>
+                    <h2>Top Batch Assessment Scores</h2>
+                    <div class="section-subtitle">Campus-wise assessment performance for the Top Batch</div>
+                </div>
+                <span class="section-number">02</span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Campus</th>
+                            <th>Pseudocode Assessment scores</th>
+                            <th>Leet Code Assessment scores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BLR</td>
+                            <td>86%</td>
+                            <td>68%</td>
+                        </tr>
+                        <tr>
+                            <td>HYD</td>
+                            <td>75%</td>
+                            <td>32%</td>
+                        </tr>
+                        <tr>
+                            <td>VSP</td>
+                            <td>64%</td>
+                            <td>47%</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>Grand Total</td>
+                            <td>72%</td>
+                            <td>44%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section-subtitle">Note: Above scores is for Top Batch</div>
+        </section>
+        <section class="section" id="tcs-assessment-section">
+            <div class="section-header">
+                <div>
+                    <h2>TCS Assessment Scores</h2>
+                    <div class="section-subtitle">Campus-wise performance across TCS assessment parameters</div>
+                </div>
+                <span class="section-number">03</span>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Campus</th>
+                            <th>Batch Name</th>
+                            <th>Advanced Coding</th>
+                            <th>Advanced Quantitative and Reasoning Ability</th>
+                            <th>Numerical Ability</th>
+                            <th>Reasoning Ability</th>
+                            <th>Verbal Ability</th>
+                            <th>Total Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2">BLR</td>
+                            <td>Top Batch</td>
+                            <td>74.26</td>
+                            <td>77.22</td>
+                            <td>87.67</td>
+                            <td>65.74</td>
+                            <td>81.09</td>
+                            <td>76.52</td>
+                        </tr>
+                        <tr>
+                            <td>Aspire Batch</td>
+                            <td>40.08</td>
+                            <td>42.81</td>
+                            <td>60.08</td>
+                            <td>38.28</td>
+                            <td>58.31</td>
+                            <td>45.91</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>BLR Total</td>
+                            <td>—</td>
+                            <td>59.87</td>
+                            <td>62.73</td>
+                            <td>76.05</td>
+                            <td>54.18</td>
+                            <td>71.50</td>
+                            <td>63.63</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">HYD</td>
+                            <td>Top Batch</td>
+                            <td>24.48</td>
+                            <td>33.92</td>
+                            <td>38.49</td>
+                            <td>26.57</td>
+                            <td>37.53</td>
+                            <td>30.42</td>
+                        </tr>
+                        <tr>
+                            <td>Aspire Batch</td>
+                            <td>10.45</td>
+                            <td>19.30</td>
+                            <td>25.61</td>
+                            <td>17.12</td>
+                            <td>22.30</td>
+                            <td>16.82</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>HYD Total</td>
+                            <td>—</td>
+                            <td>20.59</td>
+                            <td>29.87</td>
+                            <td>34.92</td>
+                            <td>23.95</td>
+                            <td>33.31</td>
+                            <td>26.65</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">VSP</td>
+                            <td>Top Batch</td>
+                            <td>39.50</td>
+                            <td>43.84</td>
+                            <td>50.85</td>
+                            <td>36.72</td>
+                            <td>48.57</td>
+                            <td>42.88</td>
+                        </tr>
+                        <tr>
+                            <td>Aspire Batch</td>
+                            <td>9.99</td>
+                            <td>17.20</td>
+                            <td>21.05</td>
+                            <td>14.87</td>
+                            <td>20.18</td>
+                            <td>15.06</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>VSP Total</td>
+                            <td>—</td>
+                            <td>15.25</td>
+                            <td>21.94</td>
+                            <td>26.36</td>
+                            <td>18.76</td>
+                            <td>25.24</td>
+                            <td>20.01</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>Grand Total</td>
+                            <td>—</td>
+                            <td>19.04</td>
+                            <td>25.60</td>
+                            <td>30.74</td>
+                            <td>21.83</td>
+                            <td>29.33</td>
+                            <td>23.81</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>    </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".training-tab");
+    const panels = document.querySelectorAll(".training-tab-panel");
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", function () {
+            tabs.forEach(t => {
+                t.classList.remove("active");
+                t.setAttribute("aria-selected", "false");
+            });
+            panels.forEach(panel => panel.classList.remove("active"));
+
+            this.classList.add("active");
+            this.setAttribute("aria-selected", "true");
+            if (panels[index]) panels[index].classList.add("active");
+        });
+    });
+});
+</script>
+</main>
+
+<!-- CAMPUS_BATCH_SECTION -->
+
+
+
+
+
+
+
+
+
+
+
+
+

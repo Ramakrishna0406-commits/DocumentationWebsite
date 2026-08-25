@@ -1,0 +1,60 @@
+const excelFileInput = document.getElementById("excelFile");`r`nif (excelFileInput) excelFileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const status = document.getElementById("adminStatus");
+    status.textContent = "Excel selected: " + file.name + ". Click Preview to load the student attendance sheet.";
+});
+
+document.getElementById("previewBtn").addEventListener("click", function () {
+    const fileInput = document.getElementById("excelFile");
+    const status = document.getElementById("adminStatus");
+
+    if (!fileInput.files.length) {
+        status.textContent = "Please select the Attendance Excel file first.";
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        try {
+            const workbook = XLSX.read(e.target.result, { type: "array" });
+
+            if (!workbook.SheetNames.includes("student attendance")) {
+                status.textContent = "Error: 'student attendance' sheet was not found.";
+                return;
+            }
+
+            const worksheet = workbook.Sheets["student attendance"];
+
+            const rows = XLSX.utils.sheet_to_json(worksheet, {
+                header: 1,
+                defval: ""
+            });
+
+            if (!rows.length) {
+                status.textContent = "The student attendance sheet is empty.";
+                return;
+            }
+
+            attendanceHeaders = rows[0].map(value => String(value).trim()); console.log('ATTENDANCE HEADERS:', attendanceHeaders);
+            attendancePreviewData = rows.slice(1).filter(row =>
+                row.some(cell => String(cell).trim() !== "")
+            );
+
+            renderAttendanceTable(attendancePreviewData);
+
+            status.textContent =
+                "Preview loaded successfully: " +
+                attendancePreviewData.length +
+                " student records.";
+        } catch (error) {
+            console.error(error);
+            status.textContent = "Unable to read the Excel file.";
+        }
+    };
+
+    reader.readAsArrayBuffer(file);
+});
