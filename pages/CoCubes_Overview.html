@@ -82,7 +82,7 @@ body{
 
 .chart-container{
     position:relative;
-    height:330px;
+    height:420px;
 }
 
 .loading{
@@ -113,7 +113,7 @@ body{
     }
 
     .chart-container{
-        height:280px;
+        height:360px;
     }
 }
     #campusFilter{
@@ -123,7 +123,7 @@ body{
     #campusFilter:hover{
         transform:scale(1.08);
     }
-</style>
+    .graph-card-2027 .chart-container{height:500px;}</style>
 
 
 <body>
@@ -187,7 +187,7 @@ const dataFile =
 
 
 document.getElementById("yearTitle").textContent =
-    "Pre Assessment vs Post Assessment — " + year;
+    "Pre Assessment vs Post Assessment â€” " + year;
 
 
 /* ==========================================================
@@ -427,7 +427,7 @@ function createGraphCard(exam, index){
     const card =
         document.createElement("div");
 
-    card.className = "graph-card";
+    card.className = "graph-card" + (window.currentDashboardYear === "2027" ? " graph-card-2027" : "");
 
     card.innerHTML = `
 
@@ -530,37 +530,39 @@ function create2026Chart(rows, exam, index){
 
                 plugins:{
 
+
                     legend:{
                         position:"bottom"
                     },
 
                     datalabels:{
-                        anchor:"end",
-                        align:"top",
+                        anchor:function(context){
+                            const status = statuses[context.dataIndex];
+                            const middleBar = (exam.key==="domain" && status==="Need Training") || (exam.key==="english" && status==="Good to Go");
+                            return middleBar ? "center" : "end";
+                        },
+                        align:function(context){
+                            const status = statuses[context.dataIndex];
+                            const middleBar = (exam.key==="domain" && status==="Need Training") || (exam.key==="english" && status==="Good to Go");
+                            return middleBar ? "center" : "top";
+                        },
                         formatter:function(value, context){
-
                             const dataset = context.dataset.data;
                             const total = dataset.reduce(
                                 (sum, item) => sum + Number(item || 0),
                                 0
                             );
-
                             if(total === 0){
                                 return "0%";
                             }
-
                             return ((value / total) * 100).toFixed(0) + "%";
-
                         },
-
                         font:{
                             weight:"bold",
-                             size:14
+                            size:14
                         },
 
                         color:"#333"
-                    }
-
                 },
 
                 scales:{
@@ -593,6 +595,7 @@ function create2026Chart(rows, exam, index){
 
         }
 
+        }
     );
 
 }
@@ -668,6 +671,18 @@ function create2027Chart(rows, exam, index){
                 },
 
                 plugins:{
+
+                    tooltip:{
+                        callbacks:{
+                            label:function(context){
+                                const dataset = context.dataset.data;
+                                const total = dataset.reduce((sum, item) => sum + Number(item || 0), 0);
+                                const value = Number(context.raw || 0);
+                                const percentage = total === 0 ? 0 : ((value / total) * 100).toFixed(0);
+                                return context.dataset.label + ": " + percentage + "%";
+                            }
+                        }
+                    },
 
                     legend:{
                         position:"bottom"
@@ -765,7 +780,7 @@ fetch(dataFile)
 
         campusFilter.style.display = "block";
 
-        function renderGraphs(){
+        function renderGraphs(){        window.currentDashboardYear = year;
 
             const grid =
                 document.getElementById(
@@ -780,6 +795,8 @@ fetch(dataFile)
 
                 exams2026.forEach(
                     function(exam,index){
+
+                        if(exam.title === "Computer Fundamentals") return;
 
                         grid.appendChild(
                             createGraphCard(
@@ -802,6 +819,8 @@ fetch(dataFile)
 
                 exams2027.forEach(
                     function(exam,index){
+
+                        if(exam.title === "Computer Fundamentals") return;
 
                         grid.appendChild(
                             createGraphCard(
@@ -859,6 +878,7 @@ fetch(dataFile)
 
 </body>
 </html>
+
 
 
 
