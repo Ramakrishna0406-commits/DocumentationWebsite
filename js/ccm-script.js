@@ -1,4 +1,4 @@
-// ========================================
+﻿// ========================================
 // Global Variables
 // ========================================
 
@@ -92,7 +92,9 @@ function loadCampusData(campus) {
 
         .then(data => {
 
-            allData = data;
+            allData = Array.isArray(data)
+                ? data
+                : (Object.values(data).find(value => Array.isArray(value)) || []);
 
             filteredData = [...allData];
 
@@ -394,11 +396,8 @@ function updateDashboard() {
 
 
     let started = 0;
-
     let yetToStart = 0;
-
     let completed = 0;
-
 
     filteredData.forEach(student => {
 
@@ -411,51 +410,65 @@ function updateDashboard() {
         const groupValue =
             Number(student["Group"]) || 0;
 
+        /*
+         * CCM STATUS - FINAL BUSINESS RULE
+         *
+         * The source JSON already contains the authoritative CCM
+         * Started / Yet To Start classification in the "Status " field.
+         * Note: the field name intentionally contains a trailing space.
+         *
+         * Started:
+         *   Status = "Started" OR Status = "Completed"
+         *
+         * Yet To Start:
+         *   Status = "Yet To Start"
+         *
+         * Completed:
+         *   Completed >= 1 AND Interim >= 2 AND Group >= 1
+         *
+         * Completed is included in Started.
+         */
 
-        // Completed
+        const isCompleted =
+            completedValue >= 1 &&
+            interimValue >= 2 &&
+            groupValue >= 1;
+
+        const sourceStatus =
+            String(
+                student["Status "] ??
+                student["Status"] ??
+                ""
+            ).trim();
 
         if (
-
-            completedValue >= 1 &&
-
-            interimValue >= 2 &&
-
-            groupValue >= 1
-
+            sourceStatus === "Started" ||
+            sourceStatus === "Completed"
         ) {
-
-            completed++;
-
-        }
-
-
-        // Yet To Start
-
-        else if (
-
-            completedValue === 0 &&
-
-            interimValue === 0 &&
-
-            groupValue === 0
-
-        ) {
-
-            yetToStart++;
-
-        }
-
-
-        // Started
-
-        else {
-
             started++;
+        } else if (sourceStatus === "Yet To Start") {
+            yetToStart++;
+        } else {
+            /*
+             * Safe fallback for records without a source Status.
+             */
+            const activityStarted =
+                completedValue >= 1 ||
+                interimValue >= 1 ||
+                groupValue >= 1;
 
+            if (activityStarted) {
+                started++;
+            } else {
+                yetToStart++;
+            }
+        }
+
+        if (isCompleted) {
+            completed++;
         }
 
     });
-
 
     document.getElementById("startedStudents").innerHTML =
         started;
@@ -465,7 +478,6 @@ function updateDashboard() {
 
     document.getElementById("completedStudents").innerHTML =
         completed;
-
 
     loadMentorSummary();
 
@@ -507,8 +519,7 @@ function loadMentorSummary() {
 
             mentors[mentor] = {
 
-                department:
-                    student["Mentor Department"] || "",
+                department: String(student["Department"] ?? "").trim(),
 
                 total: 0,
 
@@ -522,6 +533,11 @@ function loadMentorSummary() {
 
 
         mentors[mentor].total++;
+
+        const studentDepartment = String(student["Department"] ?? "").trim();
+        if (studentDepartment && !mentors[mentor].department) {
+            mentors[mentor].department = studentDepartment;
+        }
 
 
         // Completed
@@ -569,6 +585,18 @@ function loadMentorSummary() {
     });
 
 
+    Object.keys(mentors).forEach(mentor => {
+        if (!mentors[mentor].department) {
+            const matchingStudent = filteredData.find(student =>
+                (student["Mentor Name"] || "No Mentor").trim() === mentor &&
+                (student["Department"] || "").trim() !== ""
+            );
+            if (matchingStudent) {
+                mentors[mentor].department = matchingStudent["Department"];
+            }
+        }
+    });
+
     Object.keys(mentors)
 
         .sort()
@@ -581,7 +609,12 @@ function loadMentorSummary() {
 
                     <td>
 
-                        <a href="CCM-Students.html?mentor=${encodeURIComponent(mentor)}&campus=${encodeURIComponent(allData[0]?.Campus || '')}"
+                        <a href="CCM-Students.html?mentor=${encodeURIComponent(mentor)}&campus=${encodeURIComponent(
+                               allData[0]?.Campus === "BLR" ? "Bangalore" :
+                               allData[0]?.Campus === "HYD" ? "Hyderabad" :
+                               allData[0]?.Campus === "VSP" || allData[0]?.Campus === "VIZAG" ? "Vizag" :
+                               allData[0]?.Campus || ""
+                           )}"
                            target="_blank">
 
                             ${mentor}
@@ -781,45 +814,65 @@ function getStudentStatus(student) {
     const groupValue =
         Number(student["Group"]) || 0;
 
+    /*
+     * CCM FINAL STATUS RULE
+     *
+     * Started:
+     *   JSON Status = Started OR Completed
+     *
+     * Yet To Start:
+     *   JSON Status = Yet To Start
+     *
+     * Completed:
+     *   Completed >= 1 AND Interim >= 2 AND Group >= 1
+     *
+     * Completed is included inside Started.
+     */
 
-    if (
+    const sourceStatus =
+        String(
+            student["Status "] ??
+            student["Status"] ??
+            ""
+        ).trim();
 
+    const isCompleted =
         completedValue >= 1 &&
-
         interimValue >= 2 &&
+        groupValue >= 1;
 
-        groupValue >= 1
-
-    ) {
-
+    if (isCompleted) {
         return "Completed";
-
     }
-
 
     if (
-
-        completedValue === 0 &&
-
-        interimValue === 0 &&
-
-        groupValue === 0
-
+        sourceStatus === "Started" ||
+        sourceStatus === "Completed"
     ) {
-
-        return "Yet To Start";
-
+        return "Started";
     }
 
+    if (sourceStatus === "Yet To Start") {
+        return "Yet To Start";
+    }
 
-    return "Started";
+    /*
+     * Safe fallback only when Status is unavailable.
+     */
+    if (
+        completedValue >= 1 ||
+        interimValue >= 1 ||
+        groupValue >= 1
+    ) {
+        return "Started";
+    }
 
+    return "Yet To Start";
 }
 
 
 // ========================================
-// Graph Data
-// ========================================
+// Graph Data/ ========================================
 
 function getGraphData(column) {
 
@@ -858,13 +911,20 @@ function getGraphData(column) {
             getStudentStatus(student);
 
 
+        /*
+         * Graph rule:
+         * Started includes Completed because Completed is a subset
+         * of Started. Therefore only Yet To Start is excluded from
+         * the Started count.
+         */
+
         if (status === "Yet To Start") {
 
             result[category].yetToStart++;
 
         }
 
-        else if (status === "Started") {
+        else {
 
             result[category].started++;
 
@@ -1514,3 +1574,15 @@ function exportMentorSummary() {
     );
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
