@@ -1,0 +1,2919 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCM - In Details Information</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f8;
+    color:#263238;
+}
+
+.container{
+    max-width:1600px;
+    margin:auto;
+    padding:24px;
+}
+
+/* HEADER */
+
+.header{
+    background:#007367;
+    color:#fff;
+    padding:20px 24px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.header h2{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+    font-size:14px;
+    opacity:.92;
+}
+
+/* THREE TABS */
+
+.main-tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:3px solid #007367;
+    margin-bottom:20px;
+}
+
+.main-tab{
+    border:1px solid #ccd6d9;
+    border-bottom:0;
+    background:#e9eeee;
+    color:#455a64;
+    padding:12px 28px;
+    font-weight:bold;
+    font-size:14px;
+    cursor:pointer;
+    border-radius:7px 7px 0 0;
+}
+
+.main-tab:hover{
+    background:#dce8e6;
+}
+
+.main-tab.active{
+    background:#007367;
+    color:#fff;
+    border-color:#007367;
+}
+
+.tab-content{
+    display:none;
+}
+
+.tab-content.active{
+    display:block;
+}
+
+/* VIZAG LABEL */
+
+.campus-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#fff;
+    border-radius:9px;
+    padding:15px 18px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.campus-heading-title{
+    color:#007367;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.campus-badge{
+    background:#e0f2f1;
+    color:#00695c;
+    padding:7px 16px;
+    border-radius:18px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+/* KPI */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.card{
+    background:#fff;
+    padding:17px;
+    border-radius:9px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.card-title{
+    font-size:13px;
+    color:#607d8b;
+}
+
+.card-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#007367;
+    margin-top:6px;
+}
+
+/* FILTERS */
+
+.filters{
+    background:#fff;
+    padding:19px;
+    border-radius:9px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.filters h3{
+    color:#007367;
+    margin:0 0 16px;
+    font-size:18px;
+}
+
+.filter-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+}
+
+label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+select,
+input{
+    width:100%;
+    padding:9px 10px;
+    border:1px solid #ccd6d9;
+    border-radius:6px;
+    background:#fff;
+    font-size:13px;
+}
+
+.filter-actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+button{
+    border:0;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#007367;
+    color:#fff;
+    padding:9px 18px;
+}
+
+.secondary{
+    background:#e8eeee;
+    color:#263238;
+    padding:9px 18px;
+}
+
+/* TABLE */
+
+.table-container{
+    background:#fff;
+    padding:17px;
+    border-radius:9px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    overflow-x:auto;
+    margin-bottom:20px;
+}
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:13px;
+}
+
+.table-title{
+    font-size:18px;
+    font-weight:bold;
+    color:#007367;
+}
+
+.record-count{
+    font-size:13px;
+    color:#607d8b;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+th{
+    background:#007367;
+    color:#fff;
+    padding:10px;
+    white-space:nowrap;
+    text-align:left;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #e4e8e9;
+    white-space:nowrap;
+}
+
+tbody tr:hover{
+    background:#f1f7f6;
+}
+
+/* CLICKABLE NAMES */
+
+.student-link,
+.mentor-link{
+    color:#007367;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+.student-link:hover,
+.mentor-link:hover{
+    color:#004d45;
+}
+
+/* STATUS */
+
+.status{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:14px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.started{
+    background:#e0f2f1;
+    color:#00695c;
+}
+
+.yet{
+    background:#fff3e0;
+    color:#e65100;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+    color:#007367;
+    font-size:20px;
+    margin:24px 0 13px;
+}
+
+/* MEETING CARDS */
+
+.meeting-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.meeting-card{
+    background:#fff;
+    border-radius:9px;
+    padding:17px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    border-left:5px solid #007367;
+}
+
+.meeting-label{
+    font-size:13px;
+    color:#607d8b;
+    line-height:1.4;
+}
+
+.meeting-value{
+    font-size:28px;
+    font-weight:bold;
+    color:#007367;
+    margin-top:7px;
+}
+
+/* GRAPH */
+
+.charts-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.chart-card{
+    background:#fff;
+    border-radius:9px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.chart-card h3{
+    margin:0 0 15px;
+    color:#007367;
+    font-size:17px;
+}
+
+.chart{
+    min-height:290px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    gap:14px;
+    padding:25px 15px 38px;
+    border-left:1px solid #cfd8dc;
+    border-bottom:1px solid #cfd8dc;
+}
+
+.bar-wrap{
+    flex:1;
+    height:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    min-width:50px;
+}
+
+.bar{
+    width:65%;
+    max-width:65px;
+    background:#007367;
+    border-radius:5px 5px 0 0;
+    min-height:4px;
+    position:relative;
+}
+
+.bar-value{
+    position:absolute;
+    top:-21px;
+    width:100%;
+    text-align:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.bar-label{
+    margin-top:9px;
+    font-size:11px;
+    text-align:center;
+    color:#455a64;
+    word-break:break-word;
+}
+
+/* STATUS GRAPH */
+
+.status-chart{
+    display:flex;
+    height:38px;
+    border-radius:7px;
+    overflow:hidden;
+    margin:28px 0 18px;
+}
+
+.status-segment{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status-started{
+    background:#007367;
+}
+
+.status-yet{
+    background:#ef6c00;
+}
+
+.legend{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    font-size:12px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.legend-box{
+    width:12px;
+    height:12px;
+    border-radius:2px;
+}
+
+.legend-started{
+    background:#007367;
+}
+
+.legend-yet{
+    background:#ef6c00;
+}
+
+/* MENTOR SUMMARY */
+
+.mentor-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+/* MENTOR DETAIL PANEL */
+
+.detail-panel{
+    display:none;
+    background:#fff;
+    border-radius:9px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.detail-panel.show{
+    display:block;
+}
+
+.detail-panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.detail-panel-header h3{
+    color:#007367;
+    margin:0;
+}
+
+.back-button{
+    background:#e8eeee;
+    color:#263238;
+    padding:8px 15px;
+}
+
+/* MODALS */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:1000;
+    padding:25px;
+    overflow-y:auto;
+}
+
+.modal.show{
+    display:block;
+}
+
+.modal-box{
+    max-width:1050px;
+    margin:20px auto;
+    background:#fff;
+    border-radius:11px;
+    overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+}
+
+.modal-header{
+    background:#007367;
+    color:#fff;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h2{
+    margin:0;
+    font-size:20px;
+}
+
+.close{
+    background:transparent;
+    color:#fff;
+    font-size:27px;
+    padding:0 5px;
+}
+
+.detail-body{
+    padding:22px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    border:1px solid #e0e6e8;
+    border-radius:7px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.detail-row{
+    display:grid;
+    grid-template-columns:42% 58%;
+    border-bottom:1px solid #e0e6e8;
+}
+
+.detail-row:nth-child(odd){
+    background:#f8fafb;
+}
+
+.detail-label{
+    padding:10px;
+    font-weight:bold;
+    font-size:12px;
+    color:#546e7a;
+}
+
+.detail-value{
+    padding:10px;
+    font-size:13px;
+    border-left:1px solid #e0e6e8;
+}
+
+.modal-meetings{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.modal-meeting{
+    background:#f4f8f7;
+    padding:13px;
+    border-radius:7px;
+    text-align:center;
+}
+
+.modal-meeting span{
+    font-size:11px;
+    color:#607d8b;
+}
+
+.modal-meeting strong{
+    display:block;
+    color:#007367;
+    font-size:23px;
+    margin-top:5px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .filter-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .summary,
+    .meeting-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .charts-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    .container{
+        padding:12px;
+    }
+
+    .filter-grid{
+        grid-template-columns:1fr;
+    }
+
+    .summary,
+    .meeting-grid,
+    .mentor-summary{
+        grid-template-columns:1fr;
+    }
+
+    .detail-grid{
+        grid-template-columns:1fr;
+    }
+
+    .modal-meetings{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .main-tabs{
+        overflow-x:auto;
+    }
+
+    .main-tab{
+        white-space:nowrap;
+    }
+
+    .campus-heading{
+        align-items:flex-start;
+        gap:10px;
+        flex-direction:column;
+    }
+}
+
+/* ===== DATA PULSE ZESTY VISUAL LAYER ===== */
+
+:root{
+    --dp-teal:#007367;
+    --dp-teal-dark:#005b52;
+    --dp-teal-light:#e6f5f2;
+    --dp-bg:#f4f8f7;
+    --dp-border:#d8e5e2;
+    --dp-shadow:0 5px 18px rgba(0,83,76,.09);
+    --dp-shadow-hover:0 10px 26px rgba(0,83,76,.16);
+}
+
+/* PAGE */
+
+body{
+    background:
+        radial-gradient(circle at 92% 0%,rgba(0,115,103,.08),transparent 28%),
+        linear-gradient(180deg,#f8fbfa 0%,#f2f7f6 100%);
+}
+
+.container{
+    padding:28px;
+}
+
+/* HEADER */
+
+.header{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#00685d,#007d70 55%,#005d53);
+    border-radius:16px;
+    box-shadow:0 10px 28px rgba(0,115,103,.20);
+}
+
+.header:after{
+    content:"";
+    position:absolute;
+    width:230px;
+    height:230px;
+    right:-80px;
+    top:-120px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    pointer-events:none;
+}
+
+.header h2{
+    position:relative;
+    z-index:1;
+    font-size:27px;
+    letter-spacing:.2px;
+}
+
+.header p{
+    position:relative;
+    z-index:1;
+}
+
+/* TABS */
+
+.main-tabs{
+    gap:7px;
+    border-bottom:2px solid #b9d7d2;
+}
+
+.main-tab{
+    transition:all .2s ease;
+}
+
+.main-tab:hover{
+    color:var(--dp-teal);
+    background:#e4efed;
+    transform:translateY(-2px);
+}
+
+.main-tab.active{
+    background:linear-gradient(135deg,#007367,#008879);
+    box-shadow:0 -4px 14px rgba(0,115,103,.12);
+}
+
+/* CAMPUS */
+
+.campus-heading{
+    border:1px solid var(--dp-border);
+    border-radius:14px;
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.campus-heading:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--dp-shadow-hover);
+}
+
+.campus-badge{
+    background:linear-gradient(135deg,#e5f5f2,#d5eeea);
+    border:1px solid #c5e4df;
+}
+
+/* KPI CARDS */
+
+.card{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--dp-border);
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.card:before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:linear-gradient(180deg,#007367,#36a99c);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--dp-shadow-hover);
+}
+
+.card-value{
+    font-size:30px;
+}
+
+/* FILTER PANEL */
+
+.filters{
+    border:1px solid var(--dp-border);
+    box-shadow:var(--dp-shadow);
+}
+
+select,
+input{
+    transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+
+select:focus,
+input:focus{
+    border-color:#42a99c;
+    box-shadow:0 0 0 3px rgba(0,115,103,.10);
+    outline:none;
+}
+
+/* BUTTONS */
+
+.primary{
+    background:linear-gradient(135deg,#007367,#008879);
+    box-shadow:0 4px 12px rgba(0,115,103,.18);
+    transition:all .2s ease;
+}
+
+.primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 7px 16px rgba(0,115,103,.24);
+}
+
+.secondary{
+    transition:all .2s ease;
+}
+
+.secondary:hover{
+    transform:translateY(-1px);
+}
+
+/* TABLES */
+
+.table-container{
+    border:1px solid var(--dp-border);
+    box-shadow:var(--dp-shadow);
+}
+
+th{
+    background:linear-gradient(135deg,#007367,#008274);
+    font-size:12px;
+}
+
+tbody tr{
+    transition:background .15s ease,transform .15s ease;
+}
+
+tbody tr:hover{
+    background:#eef8f5;
+}
+
+/* LINKS */
+
+.student-link,
+.mentor-link{
+    text-decoration:none;
+    border-bottom:1px dashed #67aaa2;
+}
+
+.student-link:hover,
+.mentor-link:hover{
+    color:#004d45;
+}
+
+/* STATUS */
+
+.status{
+    border:1px solid transparent;
+}
+
+.started{
+    border-color:#c5e6df;
+}
+
+.yet{
+    border-color:#f1d5aa;
+}
+
+/* SECTION TITLES */
+
+.section-title{
+    position:relative;
+    padding-left:12px;
+}
+
+.section-title:before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:3px;
+    bottom:3px;
+    width:4px;
+    border-radius:4px;
+    background:var(--dp-teal);
+}
+
+/* MEETING CARDS */
+
+.meeting-card{
+    border:1px solid var(--dp-border);
+    border-left:5px solid var(--dp-teal);
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.meeting-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--dp-shadow-hover);
+}
+
+/* CHART CARDS */
+
+.chart-card{
+    border:1px solid var(--dp-border);
+    box-shadow:var(--dp-shadow);
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.chart-card:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--dp-shadow-hover);
+}
+
+.bar{
+    background:linear-gradient(180deg,#009383,#007367);
+    box-shadow:0 -2px 8px rgba(0,115,103,.10);
+}
+
+.status-chart{
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+}
+
+.status-started,
+.legend-started{
+    background:#007367;
+}
+
+.status-yet,
+.legend-yet{
+    background:#ef7a19;
+}
+
+/* MENTOR SUMMARY */
+
+.mentor-summary .card{
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.mentor-summary .card:hover{
+    transform:translateY(-4px);
+}
+
+/* DETAIL PANEL */
+
+.detail-panel{
+    border:1px solid var(--dp-border);
+    box-shadow:var(--dp-shadow);
+}
+
+/* MODAL */
+
+.modal{
+    background:rgba(12,38,35,.62);
+    backdrop-filter:blur(3px);
+}
+
+.modal-box{
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 18px 50px rgba(0,0,0,.28);
+}
+
+.modal-header{
+    background:linear-gradient(135deg,#00685d,#008274);
+}
+
+.close{
+    transition:transform .2s ease,opacity .2s ease;
+}
+
+.close:hover{
+    transform:rotate(90deg);
+    opacity:.8;
+}
+
+.detail-grid{
+    border-color:#d9e5e3;
+}
+
+.detail-row:nth-child(odd){
+    background:#f4f9f8;
+}
+
+.modal-meeting{
+    border:1px solid #dce9e6;
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.modal-meeting:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,83,76,.09);
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#edf4f2;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#9ac7c0;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#6daaa1;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+    .container{
+        padding:14px;
+    }
+
+    .header{
+        border-radius:12px;
+    }
+
+    .header h2{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+    <h2>CCM – In Details Information</h2>
+    <p>Detailed student, mentor and graphical CCM information</p>
+</div>
+
+
+<!-- THREE TABS -->
+
+<div class="main-tabs">
+
+    <button class="main-tab active"
+            onclick="openTab('studentsTab',this)">
+        Students
+    </button>
+
+    <button class="main-tab"
+            onclick="openTab('mentorsTab',this)">
+        Mentors
+    </button>
+
+    <button class="main-tab"
+            onclick="openTab('graphsTab',this)">
+        Graphical Representations
+    </button>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- STUDENTS TAB -->
+<!-- ===================================================== -->
+
+<div id="studentsTab" class="tab-content active">
+
+<div class="campus-heading">
+
+    <div class="campus-heading-title">
+        Student Information
+    </div>
+
+    <div class="campus-badge">
+        VIZAG
+    </div>
+
+</div>
+
+
+<!-- STUDENT KPI -->
+
+<div class="summary">
+
+    <div class="card">
+        <div class="card-title">Total Students</div>
+        <div class="card-value" id="totalStudents">0</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Started</div>
+        <div class="card-value" id="startedStudents">0</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Yet To Start</div>
+        <div class="card-value" id="yetStudents">0</div>
+    </div>
+
+</div>
+
+
+<!-- STUDENT FILTERS -->
+
+<div class="filters">
+
+<h3>Student Filters</h3>
+
+<div class="filter-grid">
+
+<div>
+<label>Pass Out Year</label>
+<select id="studentYearFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Years</option>
+</select>
+</div>
+
+<div>
+<label>Program / Course</label>
+<select id="studentCourseFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Programs / Courses</option>
+</select>
+</div>
+
+<div>
+<label>School</label>
+<select id="studentSchoolFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Schools</option>
+</select>
+</div>
+
+<div>
+<label>Department</label>
+<select id="studentDepartmentFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Departments</option>
+</select>
+</div>
+
+<div>
+<label>Mentor</label>
+<select id="studentMentorFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Mentors</option>
+</select>
+</div>
+
+<div>
+<label>Meeting Status</label>
+<select id="studentStatusFilter"
+        onchange="applyStudentFilters()">
+<option value="ALL">All Status</option>
+<option value="Started">Started</option>
+<option value="Yet To Start">Yet To Start</option>
+</select>
+</div>
+
+<div>
+<label>Student Search</label>
+<input id="studentSearch"
+       placeholder="Enter student name..."
+       oninput="applyStudentFilters()">
+</div>
+
+</div>
+
+<div class="filter-actions">
+
+<button class="primary"
+        onclick="applyStudentFilters()">
+Apply Filters
+</button>
+
+<button class="secondary"
+        onclick="clearStudentFilters()">
+Clear Filters
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STUDENT TABLE -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<div class="table-title">
+VIZAG Student Details
+</div>
+
+<div class="record-count"
+     id="studentRecordCount">
+Showing 0 records
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>S.No</th>
+<th>Student Name</th>
+<th>Pass Out Year</th>
+<th>Degree</th>
+<th>School</th>
+<th>Program / Course</th>
+<th>Department</th>
+<th>Mentor</th>
+<th>Completed</th>
+<th>Interim</th>
+<th>Group</th>
+<th>Meeting Status</th>
+</tr>
+
+</thead>
+
+<tbody id="studentTableBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- MENTORS TAB -->
+<!-- ===================================================== -->
+
+<div id="mentorsTab" class="tab-content">
+
+<div class="campus-heading">
+
+<div class="campus-heading-title">
+Mentor Information
+</div>
+
+<div class="campus-badge">
+VIZAG
+</div>
+
+</div>
+
+
+<!-- MENTOR KPI -->
+
+<div class="mentor-summary">
+
+<div class="card">
+<div class="card-title">Total Mentors</div>
+<div class="card-value" id="totalMentors">4</div>
+</div>
+
+<div class="card">
+<div class="card-title">Students Under Mentors</div>
+<div class="card-value" id="mentorStudentCount">10</div>
+</div>
+
+<div class="card">
+<div class="card-title">Total Meetings</div>
+<div class="card-value" id="mentorMeetingCount">55</div>
+</div>
+
+</div>
+
+
+<!-- SAME FILTERS AS STUDENTS -->
+
+<div class="filters">
+
+<h3>Mentor Filters</h3>
+
+<div class="filter-grid">
+
+<div>
+<label>Pass Out Year</label>
+<select id="mentorYearFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Years</option>
+</select>
+</div>
+
+<div>
+<label>Program / Course</label>
+<select id="mentorCourseFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Programs / Courses</option>
+</select>
+</div>
+
+<div>
+<label>School</label>
+<select id="mentorSchoolFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Schools</option>
+</select>
+</div>
+
+<div>
+<label>Department</label>
+<select id="mentorDepartmentFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Departments</option>
+</select>
+</div>
+
+<div>
+<label>Mentor</label>
+<select id="mentorNameFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Mentors</option>
+</select>
+</div>
+
+<div>
+<label>Meeting Status</label>
+<select id="mentorStatusFilter"
+        onchange="applyMentorFilters()">
+<option value="ALL">All Status</option>
+<option value="Started">Started</option>
+<option value="Yet To Start">Yet To Start</option>
+</select>
+</div>
+
+<div>
+<label>Student Search</label>
+<input id="mentorStudentSearch"
+       placeholder="Search student..."
+       oninput="applyMentorFilters()">
+</div>
+
+</div>
+
+<div class="filter-actions">
+
+<button class="primary"
+        onclick="applyMentorFilters()">
+Apply Filters
+</button>
+
+<button class="secondary"
+        onclick="clearMentorFilters()">
+Clear Filters
+</button>
+
+</div>
+
+</div>
+
+
+<!-- MENTOR TABLE -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<div class="table-title">
+VIZAG Mentor Details
+</div>
+
+<div class="record-count"
+     id="mentorRecordCount">
+Showing 0 mentors
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>S.No</th>
+<th>Mentor Name</th>
+<th>Students</th>
+<th>Comprehensive Initiated</th>
+<th>Comprehensive Completed</th>
+<th>Group Meetings</th>
+<th>Interim Meetings</th>
+<th>Started</th>
+<th>Yet To Start</th>
+</tr>
+
+</thead>
+
+<tbody id="mentorTableBody"></tbody>
+
+</table>
+
+</div>
+
+
+<!-- CLICKED MENTOR STUDENTS -->
+
+<div id="mentorDetailPanel"
+     class="detail-panel">
+
+<div class="detail-panel-header">
+
+<h3 id="selectedMentorTitle">
+Mentor Students
+</h3>
+
+<button class="back-button"
+        onclick="closeMentorDetails()">
+Close
+</button>
+
+</div>
+
+<div class="meeting-grid"
+     style="margin-bottom:18px">
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+Comprehensive Meetings (Initiated)
+</div>
+
+<div class="meeting-value"
+     id="selectedMentorInitiated">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+Comprehensive Meetings (Completed)
+</div>
+
+<div class="meeting-value"
+     id="selectedMentorCompleted">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+Group Meetings
+</div>
+
+<div class="meeting-value"
+     id="selectedMentorGroup">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+Interim Meetings
+</div>
+
+<div class="meeting-value"
+     id="selectedMentorInterim">
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="table-container"
+     style="box-shadow:none;border:1px solid #e0e6e8">
+
+<div class="table-header">
+
+<div class="table-title">
+Students Under This Mentor
+</div>
+
+<div class="record-count"
+     id="selectedMentorStudentCount">
+0 students
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>S.No</th>
+<th>Student Name</th>
+<th>Pass Out Year</th>
+<th>Program / Course</th>
+<th>Department</th>
+<th>Completed</th>
+<th>Interim</th>
+<th>Group</th>
+<th>Meeting Status</th>
+</tr>
+
+</thead>
+
+<tbody id="selectedMentorStudents"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- GRAPHICAL REPRESENTATIONS -->
+<!-- ===================================================== -->
+
+<div id="graphsTab" class="tab-content">
+
+<div class="campus-heading">
+
+<div class="campus-heading-title">
+Graphical Representations
+</div>
+
+<div class="campus-badge">
+VIZAG
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+Meeting Analytics
+</h2>
+
+<div class="meeting-grid">
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+No. of Comprehensive Meetings (Initiated)
+</div>
+
+<div class="meeting-value"
+     id="graphInitiated">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+No. of Comprehensive Meetings (Completed)
+</div>
+
+<div class="meeting-value"
+     id="graphCompleted">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+No. of Group Meetings
+</div>
+
+<div class="meeting-value"
+     id="graphGroup">
+0
+</div>
+
+</div>
+
+<div class="meeting-card">
+
+<div class="meeting-label">
+No. of Interim Meetings
+</div>
+
+<div class="meeting-value"
+     id="graphInterim">
+0
+</div>
+
+</div>
+
+</div>
+
+
+<div class="charts-grid"
+     style="margin-top:18px">
+
+<div class="chart-card">
+
+<h3>
+Pass-Out Year-wise Meeting Information
+</h3>
+
+<div class="chart"
+     id="graphYearChart">
+</div>
+
+</div>
+
+
+<div class="chart-card">
+
+<h3>
+Program / Course-wise Meeting Information
+</h3>
+
+<div class="chart"
+     id="graphCourseChart">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="chart-card">
+
+<h3>
+Started vs Yet To Start
+</h3>
+
+<div class="status-chart">
+
+<div class="status-segment status-started"
+     id="graphStartedBar">
+Started
+</div>
+
+<div class="status-segment status-yet"
+     id="graphYetBar">
+Yet To Start
+</div>
+
+</div>
+
+<div class="legend">
+
+<div class="legend-item">
+
+<span class="legend-box legend-started"></span>
+
+<span id="graphStartedLegend">
+Started: 0
+</span>
+
+</div>
+
+<div class="legend-item">
+
+<span class="legend-box legend-yet"></span>
+
+<span id="graphYetLegend">
+Yet To Start: 0
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- STUDENT MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal"
+     id="studentModal"
+     onclick="closeStudentModalOutside(event)">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2 id="modalStudentName">
+Student Full Details
+</h2>
+
+<button class="close"
+        onclick="closeStudentModal()">
+×
+</button>
+
+</div>
+
+<div class="detail-body">
+
+<div class="detail-grid"
+     id="studentDetailGrid">
+</div>
+
+<h3 style="color:#007367">
+Student Meeting Information
+</h3>
+
+<div class="modal-meetings">
+
+<div class="modal-meeting">
+
+<span>
+Comprehensive Initiated
+</span>
+
+<strong id="modalInitiated">
+0
+</strong>
+
+</div>
+
+<div class="modal-meeting">
+
+<span>
+Comprehensive Completed
+</span>
+
+<strong id="modalCompleted">
+0
+</strong>
+
+</div>
+
+<div class="modal-meeting">
+
+<span>
+Group Meetings
+</span>
+
+<strong id="modalGroup">
+0
+</strong>
+
+</div>
+
+<div class="modal-meeting">
+
+<span>
+Interim Meetings
+</span>
+
+<strong id="modalInterim">
+0
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   VIZAG DUMMY DATA
+   ========================================================= */
+
+const students=[
+
+{
+name:"A BHAVYA SHREE",
+passOutYear:"2027",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"CSE",
+mentor:"Choudari Lakshmi",
+completed:1,
+interim:2,
+group:1,
+comprehensiveInitiated:3,
+comprehensiveCompleted:2,
+extraColumn:"Demo Value A"
+},
+
+{
+name:"A HARINETHA KEERTHANA",
+passOutYear:"2027",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"ECE",
+mentor:"Santosh Kumar Velagala",
+completed:0,
+interim:1,
+group:0,
+comprehensiveInitiated:2,
+comprehensiveCompleted:1,
+extraColumn:"Demo Value B"
+},
+
+{
+name:"A MOHAN REDDY",
+passOutYear:"2028",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"EEE",
+mentor:"Chalamalasetty Sai Pratheek",
+completed:0,
+interim:0,
+group:0,
+comprehensiveInitiated:0,
+comprehensiveCompleted:0,
+extraColumn:"Demo Value C"
+},
+
+{
+name:"KIRAN KUMAR",
+passOutYear:"2029",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"CSE",
+mentor:"Choudari Lakshmi",
+completed:1,
+interim:2,
+group:1,
+comprehensiveInitiated:3,
+comprehensiveCompleted:2,
+extraColumn:"Demo Value D"
+},
+
+{
+name:"DIVYA SRI",
+passOutYear:"2028",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"ECE",
+mentor:"Santosh Kumar Velagala",
+completed:0,
+interim:0,
+group:0,
+comprehensiveInitiated:0,
+comprehensiveCompleted:0,
+extraColumn:"Demo Value E"
+},
+
+{
+name:"ROHIT VARMA",
+passOutYear:"2029",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"Mechanical",
+mentor:"Chalamalasetty Sai Pratheek",
+completed:1,
+interim:2,
+group:1,
+comprehensiveInitiated:4,
+comprehensiveCompleted:3,
+extraColumn:"Demo Value F"
+},
+
+{
+name:"SNEHA REDDY",
+passOutYear:"2028",
+degree:"M.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"M.Tech",
+department:"CSE",
+mentor:"Choudari Lakshmi",
+completed:0,
+interim:1,
+group:0,
+comprehensiveInitiated:1,
+comprehensiveCompleted:1,
+extraColumn:"Demo Value G"
+},
+
+{
+name:"ADITYA KRISHNA",
+passOutYear:"2027",
+degree:"B.Tech",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Technology",
+course:"B.Tech",
+department:"EEE",
+mentor:"Santosh Kumar Velagala",
+completed:1,
+interim:2,
+group:2,
+comprehensiveInitiated:4,
+comprehensiveCompleted:3,
+extraColumn:"Demo Value H"
+},
+
+{
+name:"POOJA NAIR",
+passOutYear:"2029",
+degree:"MBA",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Business",
+course:"MBA",
+department:"Management",
+mentor:"Jyothimon C",
+completed:0,
+interim:1,
+group:0,
+comprehensiveInitiated:1,
+comprehensiveCompleted:1,
+extraColumn:"Demo Value I"
+},
+
+{
+name:"VIVEK REDDY",
+passOutYear:"2028",
+degree:"MBA",
+university:"GITAM University",
+campus:"VIZAG",
+school:"GITAM School of Business",
+course:"MBA",
+department:"Management",
+mentor:"Jyothimon C",
+completed:1,
+interim:2,
+group:1,
+comprehensiveInitiated:3,
+comprehensiveCompleted:2,
+extraColumn:"Demo Value J"
+}
+
+];
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function getStatus(student){
+
+const started=
+Number(student.completed)>=1 ||
+Number(student.interim)>=1 ||
+Number(student.group)>0;
+
+if(started){
+return"Started";
+}
+
+return"Yet To Start";
+}
+
+
+/* =========================================================
+   TAB HANDLING
+   ========================================================= */
+
+function openTab(tabId,button){
+
+document.querySelectorAll(".tab-content")
+.forEach(tab=>tab.classList.remove("active"));
+
+document.getElementById(tabId)
+.classList.add("active");
+
+document.querySelectorAll(".main-tab")
+.forEach(btn=>btn.classList.remove("active"));
+
+button.classList.add("active");
+
+if(tabId==="mentorsTab"){
+renderMentors();
+}
+
+if(tabId==="graphsTab"){
+renderGraphs();
+}
+
+}
+
+
+/* =========================================================
+   FILTER INITIALIZATION
+   ========================================================= */
+
+function populateSelect(id,key){
+
+const select=document.getElementById(id);
+
+const values=[...new Set(
+students.map(student=>student[key])
+)]
+.filter(Boolean)
+.sort();
+
+values.forEach(value=>{
+
+const option=document.createElement("option");
+
+option.value=value;
+option.textContent=value;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function initializeFilters(){
+
+populateSelect("studentYearFilter","passOutYear");
+populateSelect("studentCourseFilter","course");
+populateSelect("studentSchoolFilter","school");
+populateSelect("studentDepartmentFilter","department");
+populateSelect("studentMentorFilter","mentor");
+
+populateSelect("mentorYearFilter","passOutYear");
+populateSelect("mentorCourseFilter","course");
+populateSelect("mentorSchoolFilter","school");
+populateSelect("mentorDepartmentFilter","department");
+populateSelect("mentorNameFilter","mentor");
+
+}
+
+
+/* =========================================================
+   STUDENTS
+   ========================================================= */
+
+let filteredStudents=[...students];
+
+
+function applyStudentFilters(){
+
+const year=
+document.getElementById("studentYearFilter").value;
+
+const course=
+document.getElementById("studentCourseFilter").value;
+
+const school=
+document.getElementById("studentSchoolFilter").value;
+
+const department=
+document.getElementById("studentDepartmentFilter").value;
+
+const mentor=
+document.getElementById("studentMentorFilter").value;
+
+const status=
+document.getElementById("studentStatusFilter").value;
+
+const search=
+document.getElementById("studentSearch")
+.value
+.toLowerCase()
+.trim();
+
+filteredStudents=students.filter(student=>{
+
+const actualStatus=getStatus(student);
+
+return(
+
+(year==="ALL" ||
+student.passOutYear===year)
+
+&&
+
+(course==="ALL" ||
+student.course===course)
+
+&&
+
+(school==="ALL" ||
+student.school===school)
+
+&&
+
+(department==="ALL" ||
+student.department===department)
+
+&&
+
+(mentor==="ALL" ||
+student.mentor===mentor)
+
+&&
+
+(status==="ALL" ||
+actualStatus===status)
+
+&&
+
+(!search ||
+student.name.toLowerCase().includes(search))
+
+);
+
+});
+
+renderStudents();
+
+}
+
+
+function renderStudents(){
+
+const tbody=
+document.getElementById("studentTableBody");
+
+tbody.innerHTML="";
+
+filteredStudents.forEach((student,index)=>{
+
+const status=getStatus(student);
+
+const tr=document.createElement("tr");
+
+tr.innerHTML=`
+
+<td>${index+1}</td>
+
+<td>
+<span class="student-link"
+onclick="openStudent(${students.indexOf(student)})">
+${student.name}
+</span>
+</td>
+
+<td>${student.passOutYear}</td>
+
+<td>${student.degree}</td>
+
+<td>${student.school}</td>
+
+<td>${student.course}</td>
+
+<td>${student.department}</td>
+
+<td>${student.mentor}</td>
+
+<td>${student.completed}</td>
+
+<td>${student.interim}</td>
+
+<td>${student.group}</td>
+
+<td>
+<span class="status ${
+status==="Started"?"started":"yet"
+}">
+${status}
+</span>
+</td>
+
+`;
+
+tbody.appendChild(tr);
+
+});
+
+updateStudentKPIs();
+
+document.getElementById("studentRecordCount")
+.textContent=
+`Showing ${filteredStudents.length} records`;
+
+}
+
+
+function updateStudentKPIs(){
+
+const total=filteredStudents.length;
+
+const started=filteredStudents.filter(
+s=>getStatus(s)==="Started"
+).length;
+
+const yet=filteredStudents.filter(
+s=>getStatus(s)==="Yet To Start"
+).length;
+
+const completedMeetings=
+filteredStudents.reduce(
+(sum,s)=>
+sum+
+Number(s.comprehensiveCompleted||0)
+,0
+);
+
+document.getElementById("totalStudents")
+.textContent=total;
+
+document.getElementById("startedStudents")
+.textContent=started;
+
+document.getElementById("yetStudents")
+.textContent=yet;
+
+document.getElementById("completedMeetings")
+.textContent=completedMeetings;
+
+}
+
+
+function clearStudentFilters(){
+
+document.getElementById("studentYearFilter").value="ALL";
+document.getElementById("studentCourseFilter").value="ALL";
+document.getElementById("studentSchoolFilter").value="ALL";
+document.getElementById("studentDepartmentFilter").value="ALL";
+document.getElementById("studentMentorFilter").value="ALL";
+document.getElementById("studentStatusFilter").value="ALL";
+document.getElementById("studentSearch").value="";
+
+applyStudentFilters();
+
+}
+
+
+/* =========================================================
+   MENTORS
+   ========================================================= */
+
+let filteredMentorStudents=[...students];
+
+
+function applyMentorFilters(){
+
+const year=
+document.getElementById("mentorYearFilter").value;
+
+const course=
+document.getElementById("mentorCourseFilter").value;
+
+const school=
+document.getElementById("mentorSchoolFilter").value;
+
+const department=
+document.getElementById("mentorDepartmentFilter").value;
+
+const mentor=
+document.getElementById("mentorNameFilter").value;
+
+const status=
+document.getElementById("mentorStatusFilter").value;
+
+const search=
+document.getElementById("mentorStudentSearch")
+.value
+.toLowerCase()
+.trim();
+
+filteredMentorStudents=students.filter(student=>{
+
+const actualStatus=getStatus(student);
+
+return(
+
+(year==="ALL" ||
+student.passOutYear===year)
+
+&&
+
+(course==="ALL" ||
+student.course===course)
+
+&&
+
+(school==="ALL" ||
+student.school===school)
+
+&&
+
+(department==="ALL" ||
+student.department===department)
+
+&&
+
+(mentor==="ALL" ||
+student.mentor===mentor)
+
+&&
+
+(status==="ALL" ||
+actualStatus===status)
+
+&&
+
+(!search ||
+student.name.toLowerCase().includes(search))
+
+);
+
+});
+
+renderMentors();
+
+}
+
+
+function renderMentors(){
+
+const mentorMap={};
+
+filteredMentorStudents.forEach(student=>{
+
+if(!mentorMap[student.mentor]){
+
+mentorMap[student.mentor]={
+name:student.mentor,
+students:0,
+initiated:0,
+completed:0,
+group:0,
+interim:0,
+started:0,
+yet:0
+};
+
+}
+
+const mentor=mentorMap[student.mentor];
+
+mentor.students++;
+
+mentor.initiated+=
+Number(student.comprehensiveInitiated||0);
+
+mentor.completed+=
+Number(student.comprehensiveCompleted||0);
+
+mentor.group+=
+Number(student.group||0);
+
+mentor.interim+=
+Number(student.interim||0);
+
+if(getStatus(student)==="Started"){
+mentor.started++;
+}else{
+mentor.yet++;
+}
+
+});
+
+const mentors=Object.values(mentorMap);
+
+const tbody=
+document.getElementById("mentorTableBody");
+
+tbody.innerHTML="";
+
+mentors.forEach((mentor,index)=>{
+
+const tr=document.createElement("tr");
+
+tr.innerHTML=`
+
+<td>${index+1}</td>
+
+<td>
+<span class="mentor-link"
+onclick="openMentor('${escapeQuotes(mentor.name)}')">
+${mentor.name}
+</span>
+</td>
+
+<td>${mentor.students}</td>
+
+<td>${mentor.initiated}</td>
+
+<td>${mentor.completed}</td>
+
+<td>${mentor.group}</td>
+
+<td>${mentor.interim}</td>
+
+<td>${mentor.started}</td>
+
+<td>${mentor.yet}</td>
+
+`;
+
+tbody.appendChild(tr);
+
+});
+
+/* BOSS DEMO KPI VALUES */
+document.getElementById("totalMentors")
+.textContent="4";
+
+document.getElementById("mentorStudentCount")
+.textContent="10";
+
+document.getElementById("mentorMeetingCount")
+.textContent="55";
+
+document.getElementById("mentorRecordCount")
+.textContent=
+`Showing ${mentors.length} mentors`;
+
+}
+
+
+function escapeQuotes(value){
+
+return value
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
+}
+
+
+/* =========================================================
+   MENTOR → ALL STUDENTS
+   ========================================================= */
+
+function openMentor(mentorName){
+
+const mentorStudents=
+filteredMentorStudents.filter(
+student=>student.mentor===mentorName
+);
+
+document.getElementById("selectedMentorTitle")
+.textContent=
+mentorName+" — Students";
+
+const initiated=
+mentorStudents.reduce(
+(sum,s)=>
+sum+
+Number(s.comprehensiveInitiated||0)
+,0
+);
+
+const completed=
+mentorStudents.reduce(
+(sum,s)=>
+sum+
+Number(s.comprehensiveCompleted||0)
+,0
+);
+
+const group=
+mentorStudents.reduce(
+(sum,s)=>
+sum+
+Number(s.group||0)
+,0
+);
+
+const interim=
+mentorStudents.reduce(
+(sum,s)=>
+sum+
+Number(s.interim||0)
+,0
+);
+
+document.getElementById("selectedMentorInitiated")
+.textContent=initiated;
+
+document.getElementById("selectedMentorCompleted")
+.textContent=completed;
+
+document.getElementById("selectedMentorGroup")
+.textContent=group;
+
+document.getElementById("selectedMentorInterim")
+.textContent=interim;
+
+document.getElementById("selectedMentorStudentCount")
+.textContent=
+`${mentorStudents.length} students`;
+
+const tbody=
+document.getElementById("selectedMentorStudents");
+
+tbody.innerHTML="";
+
+mentorStudents.forEach((student,index)=>{
+
+const status=getStatus(student);
+
+const tr=document.createElement("tr");
+
+tr.innerHTML=`
+
+<td>${index+1}</td>
+
+<td>
+<span class="student-link"
+onclick="openStudent(${students.indexOf(student)})">
+${student.name}
+</span>
+</td>
+
+<td>${student.passOutYear}</td>
+
+<td>${student.course}</td>
+
+<td>${student.department}</td>
+
+<td>${student.completed}</td>
+
+<td>${student.interim}</td>
+
+<td>${student.group}</td>
+
+<td>
+<span class="status ${
+status==="Started"?"started":"yet"
+}">
+${status}
+</span>
+</td>
+
+`;
+
+tbody.appendChild(tr);
+
+});
+
+document.getElementById("mentorDetailPanel")
+.classList.add("show");
+
+document.getElementById("mentorDetailPanel")
+.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
+
+
+function closeMentorDetails(){
+
+document.getElementById("mentorDetailPanel")
+.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   GRAPHS
+   ========================================================= */
+
+function renderGraphs(){
+
+const data=students;
+
+
+/* MEETING TOTALS */
+
+const initiated=data.reduce(
+(sum,s)=>
+sum+
+Number(s.comprehensiveInitiated||0)
+,0
+);
+
+const completed=data.reduce(
+(sum,s)=>
+sum+
+Number(s.comprehensiveCompleted||0)
+,0
+);
+
+const group=data.reduce(
+(sum,s)=>
+sum+
+Number(s.group||0)
+,0
+);
+
+const interim=data.reduce(
+(sum,s)=>
+sum+
+Number(s.interim||0)
+,0
+);
+
+document.getElementById("graphInitiated")
+.textContent=initiated;
+
+document.getElementById("graphCompleted")
+.textContent=completed;
+
+document.getElementById("graphGroup")
+.textContent=group;
+
+document.getElementById("graphInterim")
+.textContent=interim;
+
+
+/* YEAR */
+
+const yearData={};
+
+data.forEach(student=>{
+
+if(!yearData[student.passOutYear]){
+yearData[student.passOutYear]=0;
+}
+
+yearData[student.passOutYear]+=
+Number(student.comprehensiveInitiated||0)+
+Number(student.comprehensiveCompleted||0)+
+Number(student.group||0)+
+Number(student.interim||0);
+
+});
+
+renderBars(
+"graphYearChart",
+yearData
+);
+
+
+/* COURSE */
+
+const courseData={};
+
+data.forEach(student=>{
+
+if(!courseData[student.course]){
+courseData[student.course]=0;
+}
+
+courseData[student.course]+=
+Number(student.comprehensiveInitiated||0)+
+Number(student.comprehensiveCompleted||0)+
+Number(student.group||0)+
+Number(student.interim||0);
+
+});
+
+renderBars(
+"graphCourseChart",
+courseData
+);
+
+
+/* STARTED / YET */
+
+const started=data.filter(
+s=>getStatus(s)==="Started"
+).length;
+
+const yet=data.filter(
+s=>getStatus(s)==="Yet To Start"
+).length;
+
+const total=started+yet;
+
+const startedWidth=
+total ? started/total*100 : 0;
+
+const yetWidth=
+total ? yet/total*100 : 0;
+
+document.getElementById("graphStartedBar")
+.style.width=startedWidth+"%";
+
+document.getElementById("graphYetBar")
+.style.width=yetWidth+"%";
+
+document.getElementById("graphStartedBar")
+.textContent=
+started ? "Started" : "";
+
+document.getElementById("graphYetBar")
+.textContent=
+yet ? "Yet To Start" : "";
+
+document.getElementById("graphStartedLegend")
+.textContent=
+"Started: "+started;
+
+document.getElementById("graphYetLegend")
+.textContent=
+"Yet To Start: "+yet;
+
+}
+
+
+function renderBars(containerId,data){
+
+const container=
+document.getElementById(containerId);
+
+container.innerHTML="";
+
+const values=Object.values(data);
+
+const max=Math.max(...values,1);
+
+Object.entries(data).forEach(
+([label,value])=>{
+
+const wrap=
+document.createElement("div");
+
+wrap.className="bar-wrap";
+
+const bar=
+document.createElement("div");
+
+bar.className="bar";
+
+bar.style.height=
+Math.max(
+(value/max)*200,
+4
+)+"px";
+
+const valueLabel=
+document.createElement("div");
+
+valueLabel.className="bar-value";
+
+valueLabel.textContent=value;
+
+const labelEl=
+document.createElement("div");
+
+labelEl.className="bar-label";
+
+labelEl.textContent=label;
+
+bar.appendChild(valueLabel);
+
+wrap.appendChild(bar);
+
+wrap.appendChild(labelEl);
+
+container.appendChild(wrap);
+
+});
+
+if(!Object.keys(data).length){
+
+container.innerHTML=
+'<div style="margin:auto;color:#607d8b">No data available</div>';
+
+}
+
+}
+
+
+/* =========================================================
+   STUDENT MODAL
+   ========================================================= */
+
+function openStudent(index){
+
+const student=students[index];
+
+document.getElementById("modalStudentName")
+.textContent=
+student.name+" — Full Details";
+
+const fields=[
+
+["Student Name",student.name],
+["Pass Out Year",student.passOutYear],
+["Degree",student.degree],
+["University",student.university],
+["Campus",student.campus],
+["School",student.school],
+["Course / Program",student.course],
+["Department",student.department],
+["Mentor Name",student.mentor],
+["Completed",student.completed],
+["Interim",student.interim],
+["Group",student.group],
+["Meeting Status",getStatus(student)],
+["Additional Column",student.extraColumn]
+
+];
+
+const grid=
+document.getElementById("studentDetailGrid");
+
+grid.innerHTML="";
+
+fields.forEach(([label,value])=>{
+
+const row=
+document.createElement("div");
+
+row.className="detail-row";
+
+row.innerHTML=`
+
+<div class="detail-label">
+${label}
+</div>
+
+<div class="detail-value">
+${value ?? ""}
+</div>
+
+`;
+
+grid.appendChild(row);
+
+});
+
+document.getElementById("modalInitiated")
+.textContent=
+student.comprehensiveInitiated;
+
+document.getElementById("modalCompleted")
+.textContent=
+student.comprehensiveCompleted;
+
+document.getElementById("modalGroup")
+.textContent=
+student.group;
+
+document.getElementById("modalInterim")
+.textContent=
+student.interim;
+
+document.getElementById("studentModal")
+.classList.add("show");
+
+}
+
+
+function closeStudentModal(){
+
+document.getElementById("studentModal")
+.classList.remove("show");
+
+}
+
+
+function closeStudentModalOutside(event){
+
+if(event.target.id==="studentModal"){
+closeStudentModal();
+}
+
+}
+
+
+document.addEventListener(
+"keydown",
+event=>{
+
+if(event.key==="Escape"){
+closeStudentModal();
+}
+
+}
+);
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+initializeFilters();
+
+applyStudentFilters();
+
+applyMentorFilters();
+
+renderGraphs();
+
+</script>
+
+</body>
+</html>
+
+
+
