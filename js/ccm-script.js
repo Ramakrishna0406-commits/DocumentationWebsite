@@ -34,6 +34,16 @@ function showCampusSelection() {
 
             const campus = this.getAttribute("data-campus");
 
+            if (campus === "Vizag") {
+
+                window.location.href = "CCM-In-Details-Demo.html";
+
+                return;
+
+            }
+
+            
+
             loadCampusData(campus);
 
         });
@@ -1574,6 +1584,7 @@ function exportMentorSummary() {
     );
 
 }
+
 
 
 
